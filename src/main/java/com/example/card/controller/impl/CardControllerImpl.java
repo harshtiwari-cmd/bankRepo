@@ -1,0 +1,33 @@
+package com.example.card.controller.impl;
+
+import com.example.card.constrants.mapper.CardMapper;
+import com.example.card.constrants.model.CardRequest;
+import com.example.card.constrants.model.CardResponse;
+import com.example.card.controller.CardController;
+import com.example.card.services.CardValidationService;
+import com.example.card.services.StaticResponseService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CardControllerImpl implements CardController {
+    private final CardValidationService validationService;
+    private final StaticResponseService staticResponseService;
+    private final CardMapper cardMapper;
+
+    public CardControllerImpl(CardValidationService validationService,
+                              StaticResponseService staticResponseService,
+                              CardMapper cardMapper) {
+        this.validationService = validationService;
+        this.staticResponseService = staticResponseService;
+        this.cardMapper = cardMapper;
+    }
+
+    @Override
+    public ResponseEntity<CardResponse> validateCard(CardRequest request) {
+        if (!validationService.validate(request)) {
+            return ResponseEntity.badRequest().body(staticResponseService.getFailureResponse());
+        }
+        return ResponseEntity.ok(staticResponseService.getSuccessResponse());
+    }
+}
