@@ -1,0 +1,13 @@
+{
+  "bankName": "Edge Bank",
+  "bankBranchName": "Null Branch",
+  "branchNumber": "000",
+  "description": "Branch with some nulls",
+  "bankBranchType": "RETAIL",
+  "countryName": "India",
+  "coordinates": null,
+  "openTime": "10:00",
+  "closeTime": "16:00",
+  "holidayCalendar": null,
+  "weeklyHolidays": null
+}
