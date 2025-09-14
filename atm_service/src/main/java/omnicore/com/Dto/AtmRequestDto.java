@@ -22,13 +22,13 @@ public class AtmRequestDto {
     private Double latitude;
     private Double longitude;
 
-    @ElementCollection
+
     private List<String> supportedLanguages;
 
-    @ElementCollection
+
     private List<String> atmServices;
 
-    @ElementCollection
+
     private List<String> supportedCurrencies;
 
     private Integer minimumPossibleAmount;

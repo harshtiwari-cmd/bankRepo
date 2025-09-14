@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 //import static org.mockito.ArgumentMatchers.any;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -32,13 +34,15 @@ public class AtmServiceTest {
                 .atmId("AB123456")
                 .branchId("402519")
                 .siteName("central mall")
+               .supportedLanguages(List.of("en", "hi"))
+                .supportedCurrencies(List.of("INR"))
                 .townName("Hyderabad")
                 .country("IN")
                 .openTime("08:00")
                 .build();
 
         AtmEntity saved=AtmEntity.builder()
-                .id(1L)
+                .id(3L)
                 .atmId("AB123456")
                 .branchId("402519")
                 .siteName("central mall")
