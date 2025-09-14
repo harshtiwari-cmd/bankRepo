@@ -2,7 +2,6 @@ package com.example.card.controller.impl;
 
 
 
-import com.example.card.controller.KioskController;
 import com.example.card.dto.HolidayCalendarDTO;
 import com.example.card.dto.KioskRequestDTO;
 import com.example.card.dto.KioskResponseDTO;
@@ -25,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(KioskController.class)
-public class KioskControllerImplTest {
+public class KioskControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

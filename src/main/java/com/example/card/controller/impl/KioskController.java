@@ -1,6 +1,5 @@
 package com.example.card.controller.impl;
 
-import com.example.card.controller.KioskController;
 import com.example.card.dto.KioskRequestDTO;
 import com.example.card.dto.KioskResponseDTO;
 import com.example.card.services.KioskService;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/kiosk")
-public class KioskControllerImpl implements KioskController {
+public class KioskController {
 
     private final KioskService service;
 
-    public KioskControllerImpl(KioskService service) {
+    public KioskController(KioskService service) {
         this.service = service;
     }
 
