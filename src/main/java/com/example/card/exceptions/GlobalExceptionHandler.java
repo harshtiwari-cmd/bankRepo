@@ -1,6 +1,7 @@
 package com.example.card.exceptions;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -49,5 +51,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         error.put("error", errorMsg);
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConfigDataResourceNotFoundException.class)
+    public ResponseEntity<String> handelNotFound(ConfigDataResourceNotFoundException ex)
+    {
+        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
