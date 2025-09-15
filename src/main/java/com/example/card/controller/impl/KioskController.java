@@ -6,10 +6,9 @@ import com.example.card.services.KioskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/kiosk")
@@ -27,4 +26,18 @@ public class KioskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(kiosk1);
     }
 
+    @GetMapping
+    public ResponseEntity<List<KioskResponseDTO>> getKiosk() {
+        try {
+            List<KioskResponseDTO> kiosks = service.getKiosk();
+
+            if (kiosks.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.ok(kiosks);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
 }
