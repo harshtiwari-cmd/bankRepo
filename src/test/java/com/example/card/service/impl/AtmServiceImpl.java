@@ -1,4 +1,4 @@
-package com.example.card.controller.impl;
+package com.example.card.service.impl;
 
 import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.entity.AtmEntity;
