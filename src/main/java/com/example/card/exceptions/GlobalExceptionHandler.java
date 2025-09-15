@@ -1,6 +1,7 @@
 package com.example.card.exceptions;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
