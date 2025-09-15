@@ -2,29 +2,26 @@ package com.example.card.controller.impl;
 
 import com.example.card.dto.BankDetailsDto;
 import com.example.card.entity.BankDetailsEntity;
+import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-
 public class BankDetailsControllerImplTest {
-
 
     @Mock
     private BankDetailsService bankDetailsService;
 
     @InjectMocks
-    private BankDetailsControllerImpl contrlr;
+    private BankDetailsControllerImpl controller;
 
     @BeforeEach
     void setup() {
@@ -35,24 +32,24 @@ public class BankDetailsControllerImplTest {
     void testSaveBankDetails_success() {
         // Given
         BankDetailsDto dto = new BankDetailsDto();
-        dto.setMail("test@example.com");
+        dto.setMail("sbi@example.com");
         dto.setContact(1234567890L);
-        dto.setAddress("Test Bank");
+        dto.setAddress("Bhubaneswar");
 
         BankDetailsEntity entity = new BankDetailsEntity();
-        entity.setMail("test@example.com");
+        entity.setMail("sbi@example.com");
         entity.setContact(1234567890L);
-        entity.setAddress("Test Bank");
+        entity.setAddress("Bhubaneswar");
 
         when(bankDetailsService.createBankDetails(dto)).thenReturn(entity);
 
         // When
-        ResponseEntity<BankDetailsEntity> response = contrlr.sa(dto);
+        ResponseEntity<BankDetailsEntity> response = controller.saveBankDetails(dto);
 
         // Then
         assertEquals(201, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertEquals("test@example.com", response.getBody().getMail());
+        assertEquals("sbi@example.com", response.getBody().getMail());
 
         verify(bankDetailsService, times(1)).createBankDetails(dto);
     }
