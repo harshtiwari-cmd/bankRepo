@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Entity
 public class ServiceBooking {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serviceId;
@@ -19,8 +18,6 @@ public class ServiceBooking {
     private String serviceName;
     private String description;
     private boolean isActive;
-    private String location;
-    private String durationMinutes;
-    private List<String> availableDays;
+    private String screenId;
 
 }
