@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -49,5 +50,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         error.put("error", errorMsg);
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(KioskAlreadyExistsException.class)
+    protected ResponseEntity<String> handleKioskWithBranchIdAlreadyExitsException(KioskAlreadyExistsException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
