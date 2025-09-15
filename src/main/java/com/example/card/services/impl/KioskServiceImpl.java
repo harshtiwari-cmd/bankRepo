@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class KioskServiceImpl implements KioskService {
 
@@ -42,6 +45,12 @@ public class KioskServiceImpl implements KioskService {
         Kiosk save = kioskRepository.save(kiosk);
         return kioskMapper.toDto(save);
     }
-
+    @Override
+    public List<KioskResponseDTO> getKiosk() {
+        return kioskRepository.findAll()
+                .stream()
+                .map(kioskMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
 }
