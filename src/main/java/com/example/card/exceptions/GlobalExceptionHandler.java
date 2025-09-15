@@ -53,9 +53,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ConfigDataResourceNotFoundException.class)
-    public ResponseEntity<String> handelNotFound(ConfigDataResourceNotFoundException ex)
-    {
-        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(KioskAlreadyExistsException.class)
+    protected ResponseEntity<String> handleKioskWithBranchIdAlreadyExitsException(KioskAlreadyExistsException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
