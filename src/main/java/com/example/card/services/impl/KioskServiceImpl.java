@@ -7,19 +7,18 @@ import com.example.card.dto.KioskResponseDTO;
 import com.example.card.repository.KioskRepository;
 import com.example.card.services.KioskService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KioskServiceImpl implements KioskService {
 
+    @Autowired
     private  KioskRepository kioskRepository;
 
+    @Autowired
     private KioskMapper kioskMapper;
 
-    public KioskServiceImpl(KioskRepository kioskRepository, KioskMapper kioskMapper) {
-        this.kioskRepository = kioskRepository;
-        this.kioskMapper = kioskMapper;
-    }
 
     public KioskServiceImpl() {
     }
