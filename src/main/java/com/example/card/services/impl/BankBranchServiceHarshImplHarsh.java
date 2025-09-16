@@ -7,12 +7,16 @@ import com.example.card.constrants.mapper.BankBranchHarshMapper;
 import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
 import com.example.card.entity.BankBranchHarsh;
+import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.repository.BankBranchRepositoryHarsh;
 import com.example.card.services.BankBranchServiceHarsh;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,5 +67,36 @@ public class BankBranchServiceHarshImplHarsh implements BankBranchServiceHarsh {
 
         BankBranchHarsh saved = repository.save(entity);
         return BankBranchHarshMapper.toDTO(saved);
+    }
+    @Override
+    public boolean isBranchOpen(Long branchId, LocalDateTime dateTime) {
+        BankBranchHarshDTO branch = getBranchById(branchId);
+
+        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
+        if (branch.getWeeklyHolidays().stream()
+                .anyMatch(holiday -> holiday.equalsIgnoreCase(dayOfWeek.name()))) {
+            return false;
+        }
+
+        boolean isSpecialHoliday = branch.getHolidayCalendar().stream()
+                .anyMatch(h -> h.getDate().equals(dateTime.toLocalDate().toString()));
+        if (isSpecialHoliday) {
+            return false;
+        }
+
+        LocalTime open = LocalTime.parse(branch.getOpenTime());
+        LocalTime close = LocalTime.parse(branch.getCloseTime());
+        LocalTime time = dateTime.toLocalTime();
+
+        if (time.isBefore(open) || time.isAfter(close)) {
+            return false;
+        }
+
+        return true;
+    }
+    public BankBranchHarshDTO getBranchById(Long branchId) {
+        BankBranchHarsh entity = repository.findById(branchId)
+                .orElseThrow(() -> new ResourceNotFoundException("Branch with ID " + branchId + " not found"));
+        return BankBranchHarshMapper.toDTO(entity);
     }
 }
