@@ -1,15 +1,16 @@
 package com.example.card.controller.impl;
 
 import com.example.card.constrants.dto.BankBranchHarshDTO;
+import com.example.card.constrants.dto.BranchValidateRequest;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
+import com.example.card.exceptions.BranchClosedException;
+import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankBranchServiceHarsh;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,7 @@ public class BankBranchImplHarsh {
         }
     }
     @PostMapping("/branches")
-    public ResponseEntity<BankBranchHarshDTO> addBranch(CreateBankHarshBranchDTO createDTO) {
+    public ResponseEntity<BankBranchHarshDTO> addBranch(@RequestBody CreateBankHarshBranchDTO createDTO) {
         try {
             BankBranchHarshDTO savedBranch = bankBranchServiceHarsh.createBankBranch(createDTO);
             return ResponseEntity.ok(savedBranch);
@@ -42,4 +43,16 @@ public class BankBranchImplHarsh {
             return ResponseEntity.status(500).build();
         }
     }
+    @PostMapping("/branches/{id}/validate")
+    public ResponseEntity<Boolean> validateBranchOpen(
+            @PathVariable Long id,
+            @RequestBody BranchValidateRequest request) {
+
+        boolean open = bankBranchServiceHarsh.isBranchOpen(id, request.getDateTime());
+        if (!open) {
+            throw new BranchClosedException("Branch is closed on the requested date/time.");
+        }
+        return ResponseEntity.ok(true);
+    }
+
 }
