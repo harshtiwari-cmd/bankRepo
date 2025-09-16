@@ -18,7 +18,7 @@ public class BankDetailsControllerImpl  {
         this.bankDetailsService = bankDetailsService;
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<String> saveBankDetails(@RequestParam String bankId, @RequestBody   BankDetailsDto dto) throws ResourceNotFoundException {
         dto.setBankId(bankId);
          BankDetailsEntity saved=  bankDetailsService.createBankDetails(dto);
