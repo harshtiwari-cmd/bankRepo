@@ -1,9 +1,9 @@
 package com.example.card.services.impl;
 
+import com.example.card.constrants.dto.KioskRequestDTO;
+import com.example.card.constrants.dto.KioskResponseDTO;
 import com.example.card.constrants.mapper.KioskMapper;
 import com.example.card.constrants.model.Kiosk;
-import com.example.card.dto.KioskRequestDTO;
-import com.example.card.dto.KioskResponseDTO;
 import com.example.card.exceptions.KioskAlreadyExistsException;
 import com.example.card.repository.KioskRepository;
 import com.example.card.services.KioskService;

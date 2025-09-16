@@ -6,28 +6,30 @@ import com.example.card.constrants.model.CardResponse;
 import com.example.card.controller.CardController;
 import com.example.card.services.CardValidationService;
 import com.example.card.services.StaticResponseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CardControllerImpl implements CardController {
-    private final CardValidationService validationService;
-    private final StaticResponseService staticResponseService;
-    private final CardMapper cardMapper;
 
-    public CardControllerImpl(CardValidationService validationService,
-                              StaticResponseService staticResponseService,
-                              CardMapper cardMapper) {
+    private CardValidationService validationService;
+
+    private StaticResponseService staticResponseService;
+
+    private CardMapper cardMapper;
+
+    public CardControllerImpl(CardValidationService validationService,StaticResponseService staticResponseService, CardMapper cardMapper) {
         this.validationService = validationService;
         this.staticResponseService = staticResponseService;
         this.cardMapper = cardMapper;
     }
 
     @Override
-    public ResponseEntity<CardResponse> validateCard(CardRequest request) {
-        if (!validationService.validate(request)) {
-            return ResponseEntity.badRequest().body(staticResponseService.getFailureResponse());
+    public ResponseEntity<CardResponse> validateCard(final CardRequest request) {
+        if (!this.validationService.validate(request)) {
+            return ResponseEntity.badRequest().body(this.staticResponseService.getFailureResponse());
         }
-        return ResponseEntity.ok(staticResponseService.getSuccessResponse());
+        return ResponseEntity.ok(this.staticResponseService.getSuccessResponse());
     }
 }
