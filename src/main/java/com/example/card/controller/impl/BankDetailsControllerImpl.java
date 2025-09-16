@@ -6,10 +6,7 @@ import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/bank-details/api")
 @RestController
@@ -21,8 +18,10 @@ public class BankDetailsControllerImpl  {
         this.bankDetailsService = bankDetailsService;
     }
 
-    @PostMapping
-    public ResponseEntity<BankDetailsEntity> saveBankDetails(@RequestBody BankDetailsDto dto) throws ResourceNotFoundException {
-        return new ResponseEntity<>(bankDetailsService.createBankDetails(dto), HttpStatus.CREATED);
+    @PostMapping("/save")
+    public ResponseEntity<String> saveBankDetails(@RequestParam String bankId, @RequestBody   BankDetailsDto dto) throws ResourceNotFoundException {
+        dto.setBankId(bankId);
+         BankDetailsEntity saved=  bankDetailsService.createBankDetails(dto);
+        return ResponseEntity.ok("bank details saved for bankId :"+saved.getBankId());
     }
 }

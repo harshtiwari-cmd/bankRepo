@@ -24,6 +24,7 @@ public class BankDetailsImpl implements BankDetailsService {
         }
 
         BankDetailsEntity entity=new BankDetailsEntity();
+        entity.setBankId(dto.getBankId());
          entity.setMail(dto.getMail());
          entity.setContact(dto.getContact());
          entity.setAddress(dto.getAddress());
