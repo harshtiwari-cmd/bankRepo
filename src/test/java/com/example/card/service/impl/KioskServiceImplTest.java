@@ -64,25 +64,31 @@ public class KioskServiceImplTest {
                 .build();
     }
 
-//    @Test
-//    public void kioskSaveTest() {
-//
-//
-//        Kiosk savedKiosik = new Kiosk();
-//
-//        Mockito.when(kioskMapper.toEntity(requestDTO)).thenReturn(kiosk);
-//        Mockito.when(repository.save(kiosk)).thenReturn(savedKiosik);
-//        Mockito.when(kioskMapper.toDto(savedKiosik)).thenReturn(responseDTO);
-//
-//        KioskResponseDTO result = service.createKiosk(requestDTO);
-//
-//        Assertions.assertNotNull(result);
-//        Assertions.assertEquals(responseDTO, result);
-//        Assertions.assertEquals(responseDTO.getKioskId(), result.getKioskId());
-//        Mockito.verify(kioskMapper).toDto(savedKiosik);
-//        Mockito.verify(repository).save(kiosk);
-//
-//    }
+    @Test
+    public void kioskSaveTest() {
+
+
+        Kiosk kiosk = new Kiosk();
+        Kiosk savedKiosk = new Kiosk();
+
+        KioskResponseDTO responseDTO = new KioskResponseDTO();
+               responseDTO.setKioskId("KX001");
+               responseDTO.setBranchId("BX002");
+               responseDTO.setName("DownTime Services");
+
+        Mockito.when(kioskMapper.toEntity(requestDTO)).thenReturn(kiosk);
+        Mockito.when(repository.save(kiosk)).thenReturn(savedKiosk);
+        Mockito.when(kioskMapper.toDto(savedKiosk)).thenReturn(responseDTO);
+
+        KioskResponseDTO result = service.createKiosk(requestDTO);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(responseDTO, result);
+        Assertions.assertEquals(responseDTO.getKioskId(), result.getKioskId());
+        Mockito.verify(kioskMapper).toDto(kiosk);
+        Mockito.verify(repository).save(kiosk);
+
+    }
 
     @Test
     public void createKiosk_shouldThrow_NullPointerException() {
