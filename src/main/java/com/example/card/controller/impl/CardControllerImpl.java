@@ -4,9 +4,12 @@ import com.example.card.constrants.mapper.CardMapper;
 import com.example.card.constrants.model.CardRequest;
 import com.example.card.constrants.model.CardResponse;
 import com.example.card.controller.CardController;
+import com.example.card.exceptions.BusinessException;
 import com.example.card.services.CardValidationService;
 import com.example.card.services.StaticResponseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,10 +27,13 @@ public class CardControllerImpl implements CardController {
     }
 
     @Override
-    public ResponseEntity<CardResponse> validateCard(CardRequest request) {
+
+    public ResponseEntity<CardResponse> validateCard(@RequestBody CardRequest request) {
         if (!validationService.validate(request)) {
             return ResponseEntity.badRequest().body(staticResponseService.getFailureResponse());
         }
         return ResponseEntity.ok(staticResponseService.getSuccessResponse());
     }
+
+
 }

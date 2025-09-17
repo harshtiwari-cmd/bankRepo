@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/card")
 public interface CardController {
     @PostMapping("/validate")
-    ResponseEntity<CardResponse> validateCard(@Valid @RequestBody CardRequest request);
+    ResponseEntity<CardResponse> validateCard(@RequestBody CardRequest request);
 }

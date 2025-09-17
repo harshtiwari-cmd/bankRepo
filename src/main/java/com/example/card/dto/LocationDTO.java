@@ -13,4 +13,6 @@ public class LocationDTO {
 
     @Valid
     private GeoLocationDTO geoLocation;
+
+
 }
