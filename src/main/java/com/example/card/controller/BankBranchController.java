@@ -1,7 +1,7 @@
 package com.example.card.controller;
 
 import com.example.card.constrants.dto.BankBranchDTO;
-import com.example.card.constrants.dto.CreateBankBranchDTO;
+import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,5 +13,5 @@ public interface BankBranchController {
     ResponseEntity<List<BankBranchDTO>> getAllBranches();
 
     @PostMapping("/branches")
-    ResponseEntity<BankBranchDTO> addBranch(@RequestBody CreateBankBranchDTO createDTO);
+    ResponseEntity<BankBranchDTO> addBranch(@RequestBody CreateBankHarshBranchDTO createDTO);
 }

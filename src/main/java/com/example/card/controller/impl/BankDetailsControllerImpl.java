@@ -1,12 +1,10 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.BankBranchHarshDTO;
 import com.example.card.dto.BankDetailsDto;
 import com.example.card.dto.BankDetailsResponseDto;
 import com.example.card.entity.BankDetailsEntity;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankDetailsService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

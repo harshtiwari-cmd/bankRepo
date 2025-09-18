@@ -1,14 +1,14 @@
 package com.example.card.constrants.mapper;
 
 import com.example.card.constrants.dto.BankBranchDTO;
-import com.example.card.constrants.dto.CoordinatesDTO;
-import com.example.card.constrants.dto.HolidayDTO;
-import com.example.card.entity.BankBranch;
+import com.example.card.constrants.dto.CoordinatesHarshDTO;
+import com.example.card.constrants.dto.HolidayHarshDTO;
+import com.example.card.entity.BankBranchHarsh;
 
 import java.util.stream.Collectors;
 
 public class BankBranchMapper {
-    public static BankBranchDTO toDTO(BankBranch entity) {
+    public static BankBranchDTO toDTO(BankBranchHarsh entity) {
         if (entity == null) return null;
 
         BankBranchDTO dto = new BankBranchDTO();
@@ -26,16 +26,16 @@ public class BankBranchMapper {
         dto.setCloseTime(entity.getCloseTime());
 
         if (entity.getCoordinates() != null) {
-            CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
-            coordinatesDTO.setLatitude(entity.getCoordinates().getLatitude());
-            coordinatesDTO.setLongitude(entity.getCoordinates().getLongitude());
-            dto.setCoordinates(coordinatesDTO);
+            CoordinatesHarshDTO coordinatesHarshDTO = new CoordinatesHarshDTO();
+            coordinatesHarshDTO.setLatitude(entity.getCoordinates().getLatitude());
+            coordinatesHarshDTO.setLongitude(entity.getCoordinates().getLongitude());
+            dto.setCoordinates(coordinatesHarshDTO);
         }
 
         dto.setHolidayCalendar(entity.getHolidayCalendar()
                 .stream()
                 .map(h -> {
-                    HolidayDTO hdto = new HolidayDTO();
+                    HolidayHarshDTO hdto = new HolidayHarshDTO();
                     hdto.setDate(h.getDate());
                     hdto.setName(h.getName());
                     hdto.setType(h.getType());
