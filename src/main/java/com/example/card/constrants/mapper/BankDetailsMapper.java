@@ -3,6 +3,7 @@ package com.example.card.constrants.mapper;
 
 
 import com.example.card.dto.BankDetailsDto;
+import com.example.card.dto.BankDetailsResponseDto;
 import com.example.card.entity.BankDetailsEntity;
 import org.mapstruct.Mapper;
 
@@ -10,5 +11,5 @@ import org.mapstruct.Mapper;
 public interface BankDetailsMapper {
     BankDetailsEntity toEntity(BankDetailsDto requestDTO);
 
-    BankDetailsDto toDto(BankDetailsEntity entity);
+    BankDetailsResponseDto toDto(BankDetailsEntity entity);
 }
