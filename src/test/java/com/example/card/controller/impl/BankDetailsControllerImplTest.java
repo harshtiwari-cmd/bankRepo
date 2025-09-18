@@ -34,13 +34,11 @@ public class BankDetailsControllerImplTest {
         BankDetailsDto dto = new BankDetailsDto();
         dto.setMail("sbi@example.com");
         dto.setContact(1234567890L);
-        dto.setAddress("Bhubaneswar");
         dto.setBankId("SBI001");
 
         BankDetailsEntity entity = new BankDetailsEntity();
         entity.setMail("sbi@example.com");
         entity.setContact(1234567890L);
-        entity.setAddress("Bhubaneswar");
         entity.setBankId("SBI001");
 
         when(bankDetailsService.createBankDetails(dto)).thenReturn(entity);
