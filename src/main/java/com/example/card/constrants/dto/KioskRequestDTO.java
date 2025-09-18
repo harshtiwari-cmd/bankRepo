@@ -13,6 +13,7 @@ import java.util.List;
 
 public class KioskRequestDTO {
 
+    @NotBlank(message = "kiosk id should not be blank")
     private String kioskId;
 
     @NotBlank(message = "branch id should not be blank")

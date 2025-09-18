@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 public class CardRequest {
     @NotBlank(message = "Card number cannot be blank")
     @Pattern(regexp = "\\d{16}", message = "Card number must be 16 digits")

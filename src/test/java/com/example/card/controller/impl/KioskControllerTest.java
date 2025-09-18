@@ -4,7 +4,6 @@ package com.example.card.controller.impl;
 import com.example.card.constrants.dto.*;
 import com.example.card.exceptions.KioskAlreadyExistsException;
 import com.example.card.services.KioskService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,36 +40,34 @@ public class KioskControllerTest {
     @BeforeEach
     public void setUp() {
 
-        GeoLocationDTO geoLocation = GeoLocationDTO.builder()
-                .latitude(34.3023F)
-                .longitude(75.8577F)
-                .build();
+        GeoLocationDTO geoLocation = new GeoLocationDTO();
+        geoLocation.setLatitude(34.3023F);
+        geoLocation.setLongitude(75.8577F);
 
-        LocationDTO location = LocationDTO.builder()
-                .streetName("MG Road")
-                .townName("Indore")
-                .country("India")
-                .postCode("452001")
-                .geoLocation(geoLocation)
-                .build();
+        LocationDTO location = new LocationDTO();
+        location.setStreetName("MG Road");
+        location.setTownName("Indore");
+        location.setCountry("India");
+        location.setPostCode("452001");
+        location.setGeoLocation(geoLocation);
 
-        HolidayCalendarDTO holiday1 = HolidayCalendarDTO.builder()
-                .date("10-05-2025")
-                .name("Saturday")
-                .build();
+        HolidayCalendarDTO holiday1 = new HolidayCalendarDTO();
+        holiday1.setDate("10-05-2025");
+        holiday1.setName("Saturday");
 
-        requestDTO = KioskRequestDTO.builder()
-                .kioskId("K001")
-                .branchId("B001")
-                .name("Main Kiosk")
-                .description("Primary branch kiosk")
-                .location(location)
-                .kioskServices(List.of("AccountOpening", "MoneyTransfer"))
-                .openTime("09:00")
-                .closeTime("18:00")
-                .holidayCalendar(List.of(holiday1))
-                .weeklyHolidays(List.of("Sunday"))
-                .build();
+        KioskRequestDTO kioskRequestDTO = new KioskRequestDTO();
+        kioskRequestDTO.setKioskId("K001");
+        kioskRequestDTO.setBranchId("B001");
+        kioskRequestDTO.setName("Main Kiosk");
+        kioskRequestDTO.setDescription("Primary branch kiosk");
+        kioskRequestDTO.setLocation(location);
+        kioskRequestDTO.setKioskServices(List.of("AccountOpening", "MoneyTransfer"));
+        kioskRequestDTO.setOpenTime("09:00");
+        kioskRequestDTO.setCloseTime("18:00");
+        kioskRequestDTO.setHolidayCalendar(List.of(holiday1));
+        kioskRequestDTO.setWeeklyHolidays(List.of("Sunday"));
+
+        requestDTO = kioskRequestDTO;
     }
 
 
