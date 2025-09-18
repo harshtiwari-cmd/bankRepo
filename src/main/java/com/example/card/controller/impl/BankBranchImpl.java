@@ -1,11 +1,11 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.BankBranchHarshDTO;
+import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.BranchValidateRequest;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
 import com.example.card.exceptions.BranchClosedException;
-import com.example.card.services.BankBranchServiceHarsh;
-import jakarta.validation.Valid;
+
+import com.example.card.services.BankBranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class BankBranchImplHarsh {
+public class BankBranchImpl {
 
     @Autowired
-    private BankBranchServiceHarsh bankBranchServiceHarsh;
+    private BankBranchService bankBranchService;
 
     @GetMapping("/branches")
-    public ResponseEntity<List<BankBranchHarshDTO>> getAllBranches() {
+    public ResponseEntity<List<BankBranchDTO>> getAllBranches() {
         try {
-            final List<BankBranchHarshDTO> branches = this.bankBranchServiceHarsh.getAllBranches();
+            List<BankBranchDTO> branches = bankBranchService.getAllBranches();
 
             if (branches.isEmpty()) {
                 return ResponseEntity.noContent().build();
@@ -34,10 +34,10 @@ public class BankBranchImplHarsh {
         }
     }
     @PostMapping("/branches")
-    public ResponseEntity<BankBranchHarshDTO> addBranch(@RequestBody @Valid final CreateBankHarshBranchDTO createDTO) {
 
+    public ResponseEntity<BankBranchDTO> addBranch(@RequestBody CreateBankHarshBranchDTO createDTO) {
         try {
-            final BankBranchHarshDTO savedBranch = this.bankBranchServiceHarsh.createBankBranch(createDTO);
+            BankBranchDTO savedBranch = bankBranchService.createBankBranch(createDTO);
             return ResponseEntity.ok(savedBranch);
         } catch (final Exception e) {
             return ResponseEntity.status(500).build();
@@ -48,7 +48,7 @@ public class BankBranchImplHarsh {
             @PathVariable final Long id,
             @RequestBody final BranchValidateRequest request) {
 
-        final boolean open = this.bankBranchServiceHarsh.isBranchOpen(id, request.getDateTime());
+        boolean open = bankBranchService.isBranchOpen(id, request.getDateTime());
         if (!open) {
             throw new BranchClosedException("Branch is closed on the requested date/time.");
         }

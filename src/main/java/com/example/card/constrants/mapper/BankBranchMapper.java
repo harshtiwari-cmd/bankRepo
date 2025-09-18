@@ -1,17 +1,17 @@
 package com.example.card.constrants.mapper;
 
-import com.example.card.constrants.dto.BankBranchHarshDTO;
+import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.CoordinatesHarshDTO;
 import com.example.card.constrants.dto.HolidayHarshDTO;
 import com.example.card.entity.BankBranchHarsh;
 
 import java.util.stream.Collectors;
 
-public class BankBranchHarshMapper {
-    public static BankBranchHarshDTO toDTO(BankBranchHarsh entity) {
+public class BankBranchMapper {
+    public static BankBranchDTO toDTO(BankBranchHarsh entity) {
         if (entity == null) return null;
 
-        BankBranchHarshDTO dto = new BankBranchHarshDTO();
+        BankBranchDTO dto = new BankBranchDTO();
         dto.setId(entity.getId());
         dto.setBankName(entity.getBankName());
         dto.setBankBranchName(entity.getBankBranchName());

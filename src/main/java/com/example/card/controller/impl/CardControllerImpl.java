@@ -6,8 +6,9 @@ import com.example.card.constrants.model.CardResponse;
 import com.example.card.controller.CardController;
 import com.example.card.services.CardValidationService;
 import com.example.card.services.StaticResponseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,10 +27,13 @@ public class CardControllerImpl implements CardController {
     }
 
     @Override
-    public ResponseEntity<CardResponse> validateCard(final CardRequest request) {
-        if (!this.validationService.validate(request)) {
-            return ResponseEntity.badRequest().body(this.staticResponseService.getFailureResponse());
+
+    public ResponseEntity<CardResponse> validateCard(@RequestBody @Valid CardRequest request) {
+        if (!validationService.validate(request)) {
+            return ResponseEntity.badRequest().body(staticResponseService.getFailureResponse());
         }
         return ResponseEntity.ok(this.staticResponseService.getSuccessResponse());
     }
+
+
 }

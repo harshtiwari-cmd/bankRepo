@@ -1,10 +1,10 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.BankBranchHarshDTO;
+import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
 import com.example.card.constrants.dto.CoordinatesHarshDTO;
 import com.example.card.constrants.dto.HolidayHarshDTO;
-import com.example.card.services.BankBranchServiceHarsh;
+import com.example.card.services.BankBranchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,45 +23,45 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BankBranchHarshImplHarshTest {
+class BankBranchImplTest {
 
     @Mock
-    private BankBranchServiceHarsh bankBranchServiceHarsh;
+    private BankBranchService bankBranchService;
 
     @InjectMocks
-    private BankBranchImplHarsh bankBranchImplHarsh;
+    private BankBranchImpl bankBranchImpl;
 
-    private BankBranchHarshDTO sampleBankBranchHarshDTO;
+    private BankBranchDTO sampleBankBranchDTO;
     private CreateBankHarshBranchDTO sampleCreateBankHarshBranchDTO;
 
     @BeforeEach
     void setUp() {
         // Setup sample BankBranchDTO
-        sampleBankBranchHarshDTO = new BankBranchHarshDTO();
-        sampleBankBranchHarshDTO.setId(1L);
-        sampleBankBranchHarshDTO.setBankName("Test Bank");
-        sampleBankBranchHarshDTO.setBankBranchName("Main Branch");
-        sampleBankBranchHarshDTO.setBranchNumber("BR001");
-        sampleBankBranchHarshDTO.setDescription("Main branch description");
-        sampleBankBranchHarshDTO.setBankBranchType("Main");
-        sampleBankBranchHarshDTO.setCountryName("USA");
-        sampleBankBranchHarshDTO.setOpenTime("09:00");
-        sampleBankBranchHarshDTO.setCloseTime("17:00");
-        sampleBankBranchHarshDTO.setAddress("123 Main St");
-        sampleBankBranchHarshDTO.setLocation("New York");
-        sampleBankBranchHarshDTO.setContact("555-0123");
+        sampleBankBranchDTO = new BankBranchDTO();
+        sampleBankBranchDTO.setId(1L);
+        sampleBankBranchDTO.setBankName("Test Bank");
+        sampleBankBranchDTO.setBankBranchName("Main Branch");
+        sampleBankBranchDTO.setBranchNumber("BR001");
+        sampleBankBranchDTO.setDescription("Main branch description");
+        sampleBankBranchDTO.setBankBranchType("Main");
+        sampleBankBranchDTO.setCountryName("USA");
+        sampleBankBranchDTO.setOpenTime("09:00");
+        sampleBankBranchDTO.setCloseTime("17:00");
+        sampleBankBranchDTO.setAddress("123 Main St");
+        sampleBankBranchDTO.setLocation("New York");
+        sampleBankBranchDTO.setContact("555-0123");
 
         CoordinatesHarshDTO coordinatesHarshDTO = new CoordinatesHarshDTO();
         coordinatesHarshDTO.setLatitude(40.7128);
         coordinatesHarshDTO.setLongitude(-74.0060);
-        sampleBankBranchHarshDTO.setCoordinates(coordinatesHarshDTO);
+        sampleBankBranchDTO.setCoordinates(coordinatesHarshDTO);
 
         HolidayHarshDTO holidayHarshDTO = new HolidayHarshDTO();
         holidayHarshDTO.setDate("2024-01-01");
         holidayHarshDTO.setName("New Year");
         holidayHarshDTO.setType("Public");
-        sampleBankBranchHarshDTO.setHolidayCalendar(Arrays.asList(holidayHarshDTO));
-        sampleBankBranchHarshDTO.setWeeklyHolidays(Arrays.asList("Sunday"));
+        sampleBankBranchDTO.setHolidayCalendar(Arrays.asList(holidayHarshDTO));
+        sampleBankBranchDTO.setWeeklyHolidays(Arrays.asList("Sunday"));
 
         // Setup sample CreateBankBranchDTO
         sampleCreateBankHarshBranchDTO = new CreateBankHarshBranchDTO();
@@ -93,127 +93,127 @@ class BankBranchHarshImplHarshTest {
     @Test
     void getAllBranches_WithEmptyList_ReturnsNoContent() {
         // Given
-        when(bankBranchServiceHarsh.getAllBranches()).thenReturn(Collections.emptyList());
+        when(bankBranchService.getAllBranches()).thenReturn(Collections.emptyList());
 
         // When
-        ResponseEntity<List<BankBranchHarshDTO>> response = bankBranchImplHarsh.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
 
         // Then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).getAllBranches();
+        verify(bankBranchService, times(1)).getAllBranches();
     }
 
     @Test
     void getAllBranches_WithBranches_ReturnsOkWithBranches() {
         // Given
-        List<BankBranchHarshDTO> branches = Arrays.asList(sampleBankBranchHarshDTO);
-        when(bankBranchServiceHarsh.getAllBranches()).thenReturn(branches);
+        List<BankBranchDTO> branches = Arrays.asList(sampleBankBranchDTO);
+        when(bankBranchService.getAllBranches()).thenReturn(branches);
 
         // When
-        ResponseEntity<List<BankBranchHarshDTO>> response = bankBranchImplHarsh.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody().get(0));
-        verify(bankBranchServiceHarsh, times(1)).getAllBranches();
+        assertEquals(sampleBankBranchDTO, response.getBody().get(0));
+        verify(bankBranchService, times(1)).getAllBranches();
     }
 
     @Test
     void getAllBranches_WithMultipleBranches_ReturnsOkWithAllBranches() {
         // Given
-        BankBranchHarshDTO branch2 = new BankBranchHarshDTO();
+        BankBranchDTO branch2 = new BankBranchDTO();
         branch2.setId(2L);
         branch2.setBankName("Test Bank 2");
         branch2.setBankBranchName("Branch 2");
         branch2.setBranchNumber("BR002");
 
-        List<BankBranchHarshDTO> branches = Arrays.asList(sampleBankBranchHarshDTO, branch2);
-        when(bankBranchServiceHarsh.getAllBranches()).thenReturn(branches);
+        List<BankBranchDTO> branches = Arrays.asList(sampleBankBranchDTO, branch2);
+        when(bankBranchService.getAllBranches()).thenReturn(branches);
 
         // When
-        ResponseEntity<List<BankBranchHarshDTO>> response = bankBranchImplHarsh.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(2, response.getBody().size());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody().get(0));
+        assertEquals(sampleBankBranchDTO, response.getBody().get(0));
         assertEquals(branch2, response.getBody().get(1));
-        verify(bankBranchServiceHarsh, times(1)).getAllBranches();
+        verify(bankBranchService, times(1)).getAllBranches();
     }
 
     @Test
     void getAllBranches_WhenServiceThrowsException_ReturnsInternalServerError() {
         // Given
-        when(bankBranchServiceHarsh.getAllBranches()).thenThrow(new RuntimeException("Database error"));
+        when(bankBranchService.getAllBranches()).thenThrow(new RuntimeException("Database error"));
 
         // When
-        ResponseEntity<List<BankBranchHarshDTO>> response = bankBranchImplHarsh.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).getAllBranches();
+        verify(bankBranchService, times(1)).getAllBranches();
     }
 
     @Test
     void getAllBranches_WhenServiceThrowsIllegalArgumentException_ReturnsInternalServerError() {
         // Given
-        when(bankBranchServiceHarsh.getAllBranches()).thenThrow(new IllegalArgumentException("Invalid argument"));
+        when(bankBranchService.getAllBranches()).thenThrow(new IllegalArgumentException("Invalid argument"));
 
         // When
-        ResponseEntity<List<BankBranchHarshDTO>> response = bankBranchImplHarsh.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).getAllBranches();
+        verify(bankBranchService, times(1)).getAllBranches();
     }
 
     @Test
     void getAllBranches_WhenServiceThrowsNullPointerException_ReturnsInternalServerError() {
         // Given
-        when(bankBranchServiceHarsh.getAllBranches()).thenThrow(new NullPointerException("Null pointer"));
+        when(bankBranchService.getAllBranches()).thenThrow(new NullPointerException("Null pointer"));
 
         // When
-        ResponseEntity<List<BankBranchHarshDTO>> response = bankBranchImplHarsh.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).getAllBranches();
+        verify(bankBranchService, times(1)).getAllBranches();
     }
 
     @Test
     void addBranch_WithValidCreateDTO_ReturnsOkWithSavedBranch() {
         // Given
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchHarshDTO);
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        assertEquals(sampleBankBranchDTO, response.getBody());
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WithNullCreateDTO_ReturnsInternalServerError() {
         // Given
-        when(bankBranchServiceHarsh.createBankBranch(null)).thenThrow(new IllegalArgumentException("DTO cannot be null"));
+        when(bankBranchService.createBankBranch(null)).thenThrow(new IllegalArgumentException("DTO cannot be null"));
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(null);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(null);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(null);
+        verify(bankBranchService, times(1)).createBankBranch(null);
     }
 
     @Test
@@ -222,130 +222,130 @@ class BankBranchHarshImplHarshTest {
         CreateBankHarshBranchDTO incompleteDTO = new CreateBankHarshBranchDTO();
         incompleteDTO.setBankName("Test Bank");
         // Missing other required fields
-        when(bankBranchServiceHarsh.createBankBranch(incompleteDTO))
+        when(bankBranchService.createBankBranch(incompleteDTO))
                 .thenThrow(new IllegalArgumentException("Required fields are missing"));
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(incompleteDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(incompleteDTO);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(incompleteDTO);
+        verify(bankBranchService, times(1)).createBankBranch(incompleteDTO);
     }
 
     @Test
     void addBranch_WhenServiceThrowsRuntimeException_ReturnsInternalServerError() {
         // Given
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO))
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO))
                 .thenThrow(new RuntimeException("Database connection error"));
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WhenServiceThrowsDataAccessException_ReturnsInternalServerError() {
         // Given
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO))
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO))
                 .thenThrow(new RuntimeException("Data access exception"));
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNull(response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WithCreateDTOHavingNullCoordinates_ReturnsOk() {
         // Given
         sampleCreateBankHarshBranchDTO.setCoordinates(null);
-        sampleBankBranchHarshDTO.setCoordinates(null);
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchHarshDTO);
+        sampleBankBranchDTO.setCoordinates(null);
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        assertEquals(sampleBankBranchDTO, response.getBody());
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WithCreateDTOHavingNullHolidayCalendar_ReturnsOk() {
         // Given
         sampleCreateBankHarshBranchDTO.setHolidayCalendar(null);
-        sampleBankBranchHarshDTO.setHolidayCalendar(null);
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchHarshDTO);
+        sampleBankBranchDTO.setHolidayCalendar(null);
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        assertEquals(sampleBankBranchDTO, response.getBody());
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WithCreateDTOHavingEmptyHolidayCalendar_ReturnsOk() {
         // Given
         sampleCreateBankHarshBranchDTO.setHolidayCalendar(new ArrayList<>());
-        sampleBankBranchHarshDTO.setHolidayCalendar(new ArrayList<>());
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchHarshDTO);
+        sampleBankBranchDTO.setHolidayCalendar(new ArrayList<>());
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        assertEquals(sampleBankBranchDTO, response.getBody());
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WithCreateDTOHavingNullWeeklyHolidays_ReturnsOk() {
         // Given
         sampleCreateBankHarshBranchDTO.setWeeklyHolidays(null);
-        sampleBankBranchHarshDTO.setWeeklyHolidays(null);
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchHarshDTO);
+        sampleBankBranchDTO.setWeeklyHolidays(null);
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        assertEquals(sampleBankBranchDTO, response.getBody());
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 
     @Test
     void addBranch_WithCreateDTOHavingEmptyWeeklyHolidays_ReturnsOk() {
         // Given
         sampleCreateBankHarshBranchDTO.setWeeklyHolidays(new ArrayList<>());
-        sampleBankBranchHarshDTO.setWeeklyHolidays(new ArrayList<>());
-        when(bankBranchServiceHarsh.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchHarshDTO);
+        sampleBankBranchDTO.setWeeklyHolidays(new ArrayList<>());
+        when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchHarshDTO> response = bankBranchImplHarsh.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(sampleBankBranchHarshDTO, response.getBody());
-        verify(bankBranchServiceHarsh, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
+        assertEquals(sampleBankBranchDTO, response.getBody());
+        verify(bankBranchService, times(1)).createBankBranch(sampleCreateBankHarshBranchDTO);
     }
 }

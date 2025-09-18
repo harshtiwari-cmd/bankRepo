@@ -1,15 +1,15 @@
 package com.example.card.services.impl;
 
 
-import com.example.card.constrants.dto.BankBranchHarshDTO;
+import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
-import com.example.card.constrants.mapper.BankBranchHarshMapper;
+import com.example.card.constrants.mapper.BankBranchMapper;
 import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
 import com.example.card.entity.BankBranchHarsh;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.repository.BankBranchRepositoryHarsh;
-import com.example.card.services.BankBranchServiceHarsh;
+import com.example.card.services.BankBranchService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,20 +22,20 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class BankBranchServiceHarshImplHarsh implements BankBranchServiceHarsh {
+public class BankBranchServiceImpl implements BankBranchService {
 
     @Autowired
     private BankBranchRepositoryHarsh repository;
 
     @Override
-    public List<BankBranchHarshDTO> getAllBranches() {
+    public List<BankBranchDTO> getAllBranches() {
         return repository.findAll()
                 .stream()
-                .map(BankBranchHarshMapper::toDTO)
+                .map(BankBranchMapper::toDTO)
                 .collect(Collectors.toList());
     }
     @Override
-    public BankBranchHarshDTO createBankBranch(CreateBankHarshBranchDTO dto) {
+    public BankBranchDTO createBankBranch(CreateBankHarshBranchDTO dto) {
         BankBranchHarsh entity = new BankBranchHarsh();
 
         entity.setBankName(dto.getBankName());
@@ -66,11 +66,11 @@ public class BankBranchServiceHarshImplHarsh implements BankBranchServiceHarsh {
         entity.setWeeklyHolidayList(dto.getWeeklyHolidays());
 
         BankBranchHarsh saved = repository.save(entity);
-        return BankBranchHarshMapper.toDTO(saved);
+        return BankBranchMapper.toDTO(saved);
     }
     @Override
     public boolean isBranchOpen(Long branchId, LocalDateTime dateTime) {
-        BankBranchHarshDTO branch = getBranchById(branchId);
+        BankBranchDTO branch = getBranchById(branchId);
 
         DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
         if (branch.getWeeklyHolidays().stream()
@@ -94,9 +94,9 @@ public class BankBranchServiceHarshImplHarsh implements BankBranchServiceHarsh {
 
         return true;
     }
-    public BankBranchHarshDTO getBranchById(Long branchId) {
+    public BankBranchDTO getBranchById(Long branchId) {
         BankBranchHarsh entity = repository.findById(branchId)
                 .orElseThrow(() -> new ResourceNotFoundException("Branch with ID " + branchId + " not found"));
-        return BankBranchHarshMapper.toDTO(entity);
+        return BankBranchMapper.toDTO(entity);
     }
 }

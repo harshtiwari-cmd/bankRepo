@@ -1,15 +1,15 @@
 package com.example.card.service.impl;
 
-import com.example.card.constrants.dto.BankBranchHarshDTO;
-import com.example.card.constrants.dto.CoordinatesHarshDTO;
+import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
+import com.example.card.constrants.dto.CoordinatesHarshDTO;
 import com.example.card.constrants.dto.HolidayHarshDTO;
-import com.example.card.constrants.mapper.BankBranchHarshMapper;
+import com.example.card.constrants.mapper.BankBranchMapper;
 import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
 import com.example.card.entity.BankBranchHarsh;
 import com.example.card.repository.BankBranchRepositoryHarsh;
-import com.example.card.services.impl.BankBranchServiceHarshImplHarsh;
+import com.example.card.services.impl.BankBranchServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,17 +28,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BankBranchHarshServiceImplTest {
+class BankBranchServiceImplTest {
 
     @Mock
     private BankBranchRepositoryHarsh repository;
 
     @InjectMocks
-    private BankBranchServiceHarshImplHarsh bankBranchService;
+    private BankBranchServiceImpl bankBranchService;
 
     private CreateBankHarshBranchDTO sampleCreateDTO;
     private BankBranchHarsh sampleBankBranchHarsh;
-    private BankBranchHarshDTO sampleBankBranchHarshDTO;
+    private BankBranchDTO sampleBankBranchDTO;
 
     @BeforeEach
     void setUp() {
@@ -91,31 +91,31 @@ class BankBranchHarshServiceImplTest {
         sampleBankBranchHarsh.setWeeklyHolidayList(Arrays.asList("Sunday"));
 
         // Setup sample BankBranchDTO
-        sampleBankBranchHarshDTO = new BankBranchHarshDTO();
-        sampleBankBranchHarshDTO.setId(1L);
-        sampleBankBranchHarshDTO.setBankName("Test Bank");
-        sampleBankBranchHarshDTO.setBankBranchName("Main Branch");
-        sampleBankBranchHarshDTO.setBranchNumber("BR001");
-        sampleBankBranchHarshDTO.setDescription("Main branch description");
-        sampleBankBranchHarshDTO.setBankBranchType("Main");
-        sampleBankBranchHarshDTO.setCountryName("USA");
-        sampleBankBranchHarshDTO.setOpenTime("09:00");
-        sampleBankBranchHarshDTO.setCloseTime("17:00");
-        sampleBankBranchHarshDTO.setAddress("123 Main St");
-        sampleBankBranchHarshDTO.setLocation("New York");
-        sampleBankBranchHarshDTO.setContact("555-0123");
+        sampleBankBranchDTO = new BankBranchDTO();
+        sampleBankBranchDTO.setId(1L);
+        sampleBankBranchDTO.setBankName("Test Bank");
+        sampleBankBranchDTO.setBankBranchName("Main Branch");
+        sampleBankBranchDTO.setBranchNumber("BR001");
+        sampleBankBranchDTO.setDescription("Main branch description");
+        sampleBankBranchDTO.setBankBranchType("Main");
+        sampleBankBranchDTO.setCountryName("USA");
+        sampleBankBranchDTO.setOpenTime("09:00");
+        sampleBankBranchDTO.setCloseTime("17:00");
+        sampleBankBranchDTO.setAddress("123 Main St");
+        sampleBankBranchDTO.setLocation("New York");
+        sampleBankBranchDTO.setContact("555-0123");
 
         CoordinatesHarshDTO dtoCoordinates = new CoordinatesHarshDTO();
         dtoCoordinates.setLatitude(40.7128);
         dtoCoordinates.setLongitude(-74.0060);
-        sampleBankBranchHarshDTO.setCoordinates(dtoCoordinates);
+        sampleBankBranchDTO.setCoordinates(dtoCoordinates);
 
         HolidayHarshDTO dtoHoliday = new HolidayHarshDTO();
         dtoHoliday.setDate("2024-01-01");
         dtoHoliday.setName("New Year");
         dtoHoliday.setType("Public");
-        sampleBankBranchHarshDTO.setHolidayCalendar(Arrays.asList(dtoHoliday));
-        sampleBankBranchHarshDTO.setWeeklyHolidays(Arrays.asList("Sunday"));
+        sampleBankBranchDTO.setHolidayCalendar(Arrays.asList(dtoHoliday));
+        sampleBankBranchDTO.setWeeklyHolidays(Arrays.asList("Sunday"));
     }
 
     @Test
@@ -123,12 +123,12 @@ class BankBranchHarshServiceImplTest {
         // Given
         when(repository.findAll()).thenReturn(Collections.emptyList());
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(any(BankBranchHarsh.class)))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(any(BankBranchHarsh.class)))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            List<BankBranchHarshDTO> result = bankBranchService.getAllBranches();
+            List<BankBranchDTO> result = bankBranchService.getAllBranches();
 
             // Then
             assertNotNull(result);
@@ -143,19 +143,19 @@ class BankBranchHarshServiceImplTest {
         List<BankBranchHarsh> branches = Arrays.asList(sampleBankBranchHarsh);
         when(repository.findAll()).thenReturn(branches);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            List<BankBranchHarshDTO> result = bankBranchService.getAllBranches();
+            List<BankBranchDTO> result = bankBranchService.getAllBranches();
 
             // Then
             assertNotNull(result);
             assertEquals(1, result.size());
-            assertEquals(sampleBankBranchHarshDTO, result.get(0));
+            assertEquals(sampleBankBranchDTO, result.get(0));
             verify(repository, times(1)).findAll();
-            mockedMapper.verify(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh), times(1));
+            mockedMapper.verify(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh), times(1));
         }
     }
 
@@ -168,7 +168,7 @@ class BankBranchHarshServiceImplTest {
         branch2.setBankBranchName("Branch 2");
         branch2.setBranchNumber("BR002");
 
-        BankBranchHarshDTO dto2 = new BankBranchHarshDTO();
+        BankBranchDTO dto2 = new BankBranchDTO();
         dto2.setId(2L);
         dto2.setBankName("Test Bank 2");
         dto2.setBankBranchName("Branch 2");
@@ -177,23 +177,23 @@ class BankBranchHarshServiceImplTest {
         List<BankBranchHarsh> branches = Arrays.asList(sampleBankBranchHarsh, branch2);
         when(repository.findAll()).thenReturn(branches);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh))
-                    .thenReturn(sampleBankBranchHarshDTO);
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(branch2))
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh))
+                    .thenReturn(sampleBankBranchDTO);
+            mockedMapper.when(() -> BankBranchMapper.toDTO(branch2))
                     .thenReturn(dto2);
 
             // When
-            List<BankBranchHarshDTO> result = bankBranchService.getAllBranches();
+            List<BankBranchDTO> result = bankBranchService.getAllBranches();
 
             // Then
             assertNotNull(result);
             assertEquals(2, result.size());
-            assertEquals(sampleBankBranchHarshDTO, result.get(0));
+            assertEquals(sampleBankBranchDTO, result.get(0));
             assertEquals(dto2, result.get(1));
             verify(repository, times(1)).findAll();
-            mockedMapper.verify(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh), times(1));
-            mockedMapper.verify(() -> BankBranchHarshMapper.toDTO(branch2), times(1));
+            mockedMapper.verify(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh), times(1));
+            mockedMapper.verify(() -> BankBranchMapper.toDTO(branch2), times(1));
         }
     }
 
@@ -203,19 +203,19 @@ class BankBranchHarshServiceImplTest {
         List<BankBranchHarsh> branches = Arrays.asList(sampleBankBranchHarsh);
         when(repository.findAll()).thenReturn(branches);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh))
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh))
                     .thenReturn(null);
 
             // When
-            List<BankBranchHarshDTO> result = bankBranchService.getAllBranches();
+            List<BankBranchDTO> result = bankBranchService.getAllBranches();
 
             // Then
             assertNotNull(result);
             assertEquals(1, result.size());
             assertNull(result.get(0));
             verify(repository, times(1)).findAll();
-            mockedMapper.verify(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh), times(1));
+            mockedMapper.verify(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh), times(1));
         }
     }
 
@@ -224,18 +224,18 @@ class BankBranchHarshServiceImplTest {
         // Given
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(sampleBankBranchHarsh);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
-            mockedMapper.verify(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh), times(1));
+            mockedMapper.verify(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh), times(1));
         }
     }
 
@@ -262,16 +262,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -299,16 +299,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -336,16 +336,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -373,16 +373,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -410,16 +410,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -461,16 +461,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -499,16 +499,16 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(expectedBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(expectedBranch))
-                    .thenReturn(sampleBankBranchHarshDTO);
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(expectedBranch))
+                    .thenReturn(sampleBankBranchDTO);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(sampleCreateDTO);
 
             // Then
             assertNotNull(result);
-            assertEquals(sampleBankBranchHarshDTO, result);
+            assertEquals(sampleBankBranchDTO, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
         }
     }
@@ -549,7 +549,7 @@ class BankBranchHarshServiceImplTest {
         minimalBranch.setHolidayCalendar(null);
         minimalBranch.setWeeklyHolidayList(null);
 
-        BankBranchHarshDTO minimalDTO_result = new BankBranchHarshDTO();
+        BankBranchDTO minimalDTO_result = new BankBranchDTO();
         minimalDTO_result.setId(2L);
         minimalDTO_result.setBankName("Minimal Bank");
         minimalDTO_result.setBankBranchName("Minimal Branch");
@@ -568,18 +568,18 @@ class BankBranchHarshServiceImplTest {
 
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(minimalBranch);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(minimalBranch))
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(minimalBranch))
                     .thenReturn(minimalDTO_result);
 
             // When
-            BankBranchHarshDTO result = bankBranchService.createBankBranch(minimalDTO);
+            BankBranchDTO result = bankBranchService.createBankBranch(minimalDTO);
 
             // Then
             assertNotNull(result);
             assertEquals(minimalDTO_result, result);
             verify(repository, times(1)).save(any(BankBranchHarsh.class));
-            mockedMapper.verify(() -> BankBranchHarshMapper.toDTO(minimalBranch), times(1));
+            mockedMapper.verify(() -> BankBranchMapper.toDTO(minimalBranch), times(1));
         }
     }
 
@@ -615,8 +615,8 @@ class BankBranchHarshServiceImplTest {
         // Given
         when(repository.save(any(BankBranchHarsh.class))).thenReturn(sampleBankBranchHarsh);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh))
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh))
                     .thenThrow(new RuntimeException("Mapper error"));
 
             // When & Then
@@ -634,8 +634,8 @@ class BankBranchHarshServiceImplTest {
         List<BankBranchHarsh> branches = Arrays.asList(sampleBankBranchHarsh);
         when(repository.findAll()).thenReturn(branches);
 
-        try (MockedStatic<BankBranchHarshMapper> mockedMapper = mockStatic(BankBranchHarshMapper.class)) {
-            mockedMapper.when(() -> BankBranchHarshMapper.toDTO(sampleBankBranchHarsh))
+        try (MockedStatic<BankBranchMapper> mockedMapper = mockStatic(BankBranchMapper.class)) {
+            mockedMapper.when(() -> BankBranchMapper.toDTO(sampleBankBranchHarsh))
                     .thenThrow(new RuntimeException("Mapper error"));
 
             // When & Then

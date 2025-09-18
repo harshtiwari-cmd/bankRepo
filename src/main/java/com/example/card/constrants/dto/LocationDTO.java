@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class LocationDTO {
 
     @NotBlank(message = "Street Name must not be blank")

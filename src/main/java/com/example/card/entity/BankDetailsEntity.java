@@ -24,7 +24,7 @@ public class BankDetailsEntity {
     @Column
     private Long contact;
     @Column
-    private String address;
+    private String internationalContact;
 
 
 
