@@ -15,12 +15,12 @@ public class BankBranchDTO {
     private String description;
     private String bankBranchType;
     private String countryName;
-    private CoordinatesDTO coordinates;
+    private CoordinatesHarshDTO coordinates;
     private String openTime;
     private String address;
     private String location;
     private String contact;
     private String closeTime;
-    private List<HolidayDTO> holidayCalendar;
+    private List<HolidayHarshDTO> holidayCalendar;
     private List<String> weeklyHolidays;
 }
