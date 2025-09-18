@@ -4,6 +4,7 @@ import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.constrants.dto.AtmResponseDto;
 import com.example.card.controller.AtmController;
 import com.example.card.services.AtmService;
+import jakarta.validation.Valid;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,8 @@ public class AtmControllerImpl implements AtmController {
     }
 
     @PostMapping
-    public ResponseEntity<AtmResponseDto> registerAtm(@RequestBody AtmRequestDto atmRequestDto)  throws ConfigDataResourceNotFoundException
+    public ResponseEntity<AtmResponseDto> registerAtm(@RequestBody @Valid AtmRequestDto atmRequestDto)  throws ConfigDataResourceNotFoundException
     {
-
         return  ResponseEntity.ok(iAtmService.registerAtm(atmRequestDto));
     }
 }

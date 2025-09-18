@@ -1,9 +1,9 @@
 package com.example.card.services.impl;
 
+import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+import com.example.card.constrants.dto.ServiceBookingResponseDTO;
 import com.example.card.constrants.mapper.ServiceMapper;
-import com.example.card.dto.KioskResponseDTO;
-import com.example.card.dto.ServiceBookingRequestDTO;
-import com.example.card.dto.ServiceBookingResponseDTO;
+
 import com.example.card.entity.ServiceBooking;
 import com.example.card.repository.ServiceBookingRepository;
 import com.example.card.services.ServiceBookingService;

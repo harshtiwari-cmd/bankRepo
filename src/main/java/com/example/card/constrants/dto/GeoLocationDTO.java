@@ -1,14 +1,16 @@
 package com.example.card.constrants.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
-public class CoordinatesHarshDTO {
+@Data
+public class GeoLocationDTO {
+
+
     @NotNull(message = "Latitude should not be null")
-    private double latitude;
+    private Float latitude;
     @NotNull(message = "Longitude should not be null")
-    private double longitude;
+    private Float longitude;
 }
+

@@ -1,7 +1,8 @@
 package com.example.card.controller;
 
-import com.example.card.dto.ServiceBookingRequestDTO;
-import com.example.card.dto.ServiceBookingResponseDTO;
+
+import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+import com.example.card.constrants.dto.ServiceBookingResponseDTO;
 import com.example.card.services.ServiceBookingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

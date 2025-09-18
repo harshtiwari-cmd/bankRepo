@@ -4,6 +4,7 @@ import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.BranchValidateRequest;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
 import com.example.card.exceptions.BranchClosedException;
+
 import com.example.card.services.BankBranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,23 +29,24 @@ public class BankBranchImpl {
             }
 
             return ResponseEntity.ok(branches);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return ResponseEntity.status(500).build();
         }
     }
     @PostMapping("/branches")
+
     public ResponseEntity<BankBranchDTO> addBranch(@RequestBody CreateBankHarshBranchDTO createDTO) {
         try {
             BankBranchDTO savedBranch = bankBranchService.createBankBranch(createDTO);
             return ResponseEntity.ok(savedBranch);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return ResponseEntity.status(500).build();
         }
     }
     @PostMapping("/branches/{id}/validate")
     public ResponseEntity<Boolean> validateBranchOpen(
-            @PathVariable Long id,
-            @RequestBody BranchValidateRequest request) {
+            @PathVariable final Long id,
+            @RequestBody final BranchValidateRequest request) {
 
         boolean open = bankBranchService.isBranchOpen(id, request.getDateTime());
         if (!open) {

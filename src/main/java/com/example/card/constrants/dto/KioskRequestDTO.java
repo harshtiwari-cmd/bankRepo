@@ -1,15 +1,19 @@
-package com.example.card.dto;
+package com.example.card.constrants.dto;
+
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+
 public class KioskRequestDTO {
 
+    @NotBlank(message = "kiosk id should not be blank")
     private String kioskId;
 
     @NotBlank(message = "branch id should not be blank")
@@ -31,8 +35,8 @@ public class KioskRequestDTO {
     private String closeTime;
 
 
-    @Valid
-    private List<HolidayCalendarDTO> holidayCalendar;
+    @NotEmpty
+    private List< @Valid HolidayCalendarDTO> holidayCalendar;
 
     private List<String> weeklyHolidays;
 

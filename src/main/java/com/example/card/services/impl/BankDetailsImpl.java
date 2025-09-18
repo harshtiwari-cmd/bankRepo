@@ -3,7 +3,6 @@ package com.example.card.services.impl;
 import com.example.card.constrants.mapper.BankDetailsMapper;
 import com.example.card.dto.BankDetailsDto;
 import com.example.card.dto.BankDetailsResponseDto;
-import com.example.card.dto.KioskResponseDTO;
 import com.example.card.entity.BankDetailsEntity;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.repository.BankDetailsRepository;
