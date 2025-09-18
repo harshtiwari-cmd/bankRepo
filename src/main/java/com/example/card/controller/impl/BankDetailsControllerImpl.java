@@ -2,6 +2,7 @@ package com.example.card.controller.impl;
 
 import com.example.card.constrants.dto.BankBranchHarshDTO;
 import com.example.card.dto.BankDetailsDto;
+import com.example.card.dto.BankDetailsResponseDto;
 import com.example.card.entity.BankDetailsEntity;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankDetailsService;
@@ -28,9 +29,9 @@ public class BankDetailsControllerImpl  {
         return ResponseEntity.ok("bank details saved for bankId :"+saved.getBankId());
     }
     @GetMapping
-    public ResponseEntity<List<BankDetailsDto>> getBankDetails(@RequestParam String bankId) {
+    public ResponseEntity<List<BankDetailsResponseDto>> getBankDetails(@RequestParam String bankId) {
         try {
-            List<BankDetailsDto> branches = bankDetailsService.getbankDetails(bankId);
+            List<BankDetailsResponseDto> branches = bankDetailsService.getbankDetails(bankId);
 
             if (branches.isEmpty()) {
                 return ResponseEntity.noContent().build();

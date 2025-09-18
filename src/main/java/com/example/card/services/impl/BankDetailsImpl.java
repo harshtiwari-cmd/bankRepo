@@ -2,6 +2,7 @@ package com.example.card.services.impl;
 
 import com.example.card.constrants.mapper.BankDetailsMapper;
 import com.example.card.dto.BankDetailsDto;
+import com.example.card.dto.BankDetailsResponseDto;
 import com.example.card.dto.KioskResponseDTO;
 import com.example.card.entity.BankDetailsEntity;
 import com.example.card.exceptions.ResourceNotFoundException;
@@ -34,14 +35,14 @@ public class BankDetailsImpl implements BankDetailsService {
         entity.setBankId(dto.getBankId());
          entity.setMail(dto.getMail());
          entity.setContact(dto.getContact());
-         entity.setAddress(dto.getAddress());
+         entity.setInternationalContact(dto.getInternationalContact());
 
          return repository.save(entity);
 
     }
 
     @Override
-    public List<BankDetailsDto> getbankDetails(String bankId) {
+    public List<BankDetailsResponseDto> getbankDetails(String bankId) {
         return repository.findByBankId(bankId)
                 .stream()
                 .map(bankDetailsMapper::toDto)
