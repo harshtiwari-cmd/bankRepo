@@ -1,4 +1,4 @@
-package com.example.card.services.impl;
+package com.example.card.service.impl;
 
 import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
@@ -9,6 +9,7 @@ import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
 import com.example.card.constrants.entity.BankBranchHarsh;
 import com.example.card.repository.BankBranchRepositoryHarsh;
+import com.example.card.services.impl.BankBranchServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
