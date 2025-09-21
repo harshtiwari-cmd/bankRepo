@@ -23,6 +23,8 @@ public class KioskRequestDTO {
     @Valid
     private LocationDTO location;
 
+    private CoordinatesDTO coordinates;
+
     @NotEmpty
     private List<String> kioskServices;
 

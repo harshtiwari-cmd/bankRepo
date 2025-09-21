@@ -12,6 +12,7 @@ public class KioskResponseDTO {
     private String name;
     private String description;
     private LocationDTO location;
+    private CoordinatesDTO coordinates;
     private List<String> kioskServices;
     private String openTime;
     private String closeTime;

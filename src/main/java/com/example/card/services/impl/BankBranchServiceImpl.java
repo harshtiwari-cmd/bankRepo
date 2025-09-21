@@ -8,7 +8,7 @@ import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
 import com.example.card.constrants.entity.BankBranchHarsh;
 import com.example.card.exceptions.ResourceNotFoundException;
-import com.example.card.repository.BankBranchRepositoryHarsh;
+import com.example.card.repository.BankBranchRepository;
 import com.example.card.services.BankBranchService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class BankBranchServiceImpl implements BankBranchService {
 
     @Autowired
-    private BankBranchRepositoryHarsh repository;
+    private BankBranchRepository repository;
 
     @Override
     public List<BankBranchDTO> getAllBranches() {
