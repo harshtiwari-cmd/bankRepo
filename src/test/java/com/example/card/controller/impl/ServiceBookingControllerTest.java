@@ -7,6 +7,7 @@ import com.example.card.services.ServiceBookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -99,7 +100,7 @@ public class ServiceBookingControllerTest {
                 .screenId("screen123")
                 .build();
 
-        Mockito.when(this.service.getServiceByScreenId("screen123"))
+        Mockito.when(this.service.getServiceByScreenId())
                 .thenReturn(Arrays.asList(this.responseDTO, dto1, dto2));
 
         this.mockMvc.perform(get("/service-booking")
@@ -110,12 +111,12 @@ public class ServiceBookingControllerTest {
     }
 
     @Test
-    public void shouldReturnBadRequestWhenScreenIdIsMissing() throws Exception {
+    public void shouldReturnNoContentWhenScreenIdIsMissing() throws Exception {
         this.mockMvc.perform(get("/service-booking")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.details").value("Missing required parameter: screenId"));
+                .andExpect(status().isNoContent());
 
+        Mockito.verify(service, Mockito.times(1)).getServiceByScreenId();
     }
 
     @Test
