@@ -1,4 +1,4 @@
-package com.example.card.entity;
+package com.example.card.constrants.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -2,15 +2,15 @@ package com.example.card.controller.impl;
 
 import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.constrants.dto.AtmResponseDto;
+import com.example.card.constrants.dto.BankBranchDTO;
 import com.example.card.controller.AtmController;
 import com.example.card.services.AtmService;
 import jakarta.validation.Valid;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/atms")
@@ -26,5 +26,20 @@ public class AtmControllerImpl implements AtmController {
     public ResponseEntity<AtmResponseDto> registerAtm(@RequestBody @Valid AtmRequestDto atmRequestDto)  throws ConfigDataResourceNotFoundException
     {
         return  ResponseEntity.ok(iAtmService.registerAtm(atmRequestDto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AtmResponseDto>> getAllBranches() {
+        try {
+            List<AtmResponseDto> atms = iAtmService.getAtm();
+
+            if (atms.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.ok(atms);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 }

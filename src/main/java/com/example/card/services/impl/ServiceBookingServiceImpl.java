@@ -1,10 +1,9 @@
 package com.example.card.services.impl;
 
+import com.example.card.constrants.mapper.ServiceMapper;
 import com.example.card.constrants.dto.ServiceBookingRequestDTO;
 import com.example.card.constrants.dto.ServiceBookingResponseDTO;
-import com.example.card.constrants.mapper.ServiceMapper;
-
-import com.example.card.entity.ServiceBooking;
+import com.example.card.constrants.entity.ServiceBooking;
 import com.example.card.repository.ServiceBookingRepository;
 import com.example.card.services.ServiceBookingService;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,8 @@ public class ServiceBookingServiceImpl implements ServiceBookingService {
     }
 
     @Override
-    public List<ServiceBookingResponseDTO> getServiceByScreenId(String screenId) {
-        return repository.findByScreenId(screenId)
+    public List<ServiceBookingResponseDTO> getServiceByScreenId() {
+        return repository.findAll()
                 .stream()
                 .map(serviceMapper::toDto)
                 .collect(Collectors.toList());

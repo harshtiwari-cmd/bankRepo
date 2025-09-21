@@ -2,18 +2,25 @@ package com.example.card.services.impl;
 
 import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.constrants.dto.AtmResponseDto;
-import com.example.card.entity.AtmEntity;
+import com.example.card.constrants.mapper.AtmMapper;
+import com.example.card.constrants.entity.AtmEntity;
 import com.example.card.repository.Atm_Repo;
 import com.example.card.services.AtmService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AtmServiceImpl implements AtmService {
 
     private final Atm_Repo atmRepo;
+    private final AtmMapper atmMapper;
 
-    public AtmServiceImpl(Atm_Repo atmRepo) {
+    public AtmServiceImpl(Atm_Repo atmRepo,AtmMapper atmMapper) {
+
         this.atmRepo = atmRepo;
+        this.atmMapper = atmMapper;
     }
 
 
@@ -37,7 +44,6 @@ public class AtmServiceImpl implements AtmService {
                 .openTime(requestDto.getOpenTime())
                 .build();
         AtmEntity saved= atmRepo.save(atmEntity);
-        System.out.println("Test log from Ashish to trigger PR");
 
 
         return AtmResponseDto.builder()
@@ -51,5 +57,11 @@ public class AtmServiceImpl implements AtmService {
 
     }
 
-
+    @Override
+    public List<AtmResponseDto> getAtm() {
+        return atmRepo.findAll()
+                .stream()
+                .map(atmMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

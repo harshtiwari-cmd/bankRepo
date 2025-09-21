@@ -1,16 +1,10 @@
 package com.example.card.constrants.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
+import jakarta.validation.constraints.*;
 
 @Data
-@Builder
 public class ServiceBookingRequestDTO {
     @NotBlank(message = "Service name must not be blank")
     private String serviceName;

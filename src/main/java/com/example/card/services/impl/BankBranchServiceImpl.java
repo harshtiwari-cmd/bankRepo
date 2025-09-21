@@ -6,7 +6,7 @@ import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
 import com.example.card.constrants.mapper.BankBranchMapper;
 import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
-import com.example.card.entity.BankBranchHarsh;
+import com.example.card.constrants.entity.BankBranchHarsh;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.repository.BankBranchRepositoryHarsh;
 import com.example.card.services.BankBranchService;
@@ -98,5 +98,19 @@ public class BankBranchServiceImpl implements BankBranchService {
         BankBranchHarsh entity = repository.findById(branchId)
                 .orElseThrow(() -> new ResourceNotFoundException("Branch with ID " + branchId + " not found"));
         return BankBranchMapper.toDTO(entity);
+    }
+
+    public List<BankBranchDTO> getAllBranchesWithStatus() {
+        List<BankBranchDTO> branches = getAllBranches();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return branches.stream()
+                .filter(b -> b.getOpenTime() != null && b.getCloseTime() != null)
+                .peek(b -> {
+                    boolean open = isBranchOpen(b.getId(), now);
+                    b.setStatus(open ? "Open" : "Closed");
+                })
+                .collect(Collectors.toList());
     }
 }

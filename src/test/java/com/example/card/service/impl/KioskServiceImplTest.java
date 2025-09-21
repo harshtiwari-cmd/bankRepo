@@ -1,8 +1,12 @@
 package com.example.card.service.impl;
 
-import com.example.card.constrants.dto.*;
 import com.example.card.constrants.mapper.KioskMapper;
 import com.example.card.constrants.model.Kiosk;
+
+import com.example.card.constrants.dto.GeoLocationDTO;
+import com.example.card.constrants.dto.KioskRequestDTO;
+import com.example.card.constrants.dto.KioskResponseDTO;
+import com.example.card.constrants.dto.LocationDTO;
 import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
 import com.example.card.services.impl.KioskServiceImpl;
@@ -25,7 +29,6 @@ class KioskServiceImplTest {
 
     @InjectMocks
     private KioskServiceImpl service;
-
 
     private KioskRequestDTO baseRequest;
 

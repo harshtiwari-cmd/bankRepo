@@ -1,7 +1,7 @@
 package com.example.card.services.impl;
 
-import com.example.card.dto.FXRateDto;
-import com.example.card.entity.FxRate;
+import com.example.card.constrants.dto.FXRateDto;
+import com.example.card.constrants.entity.FxRate;
 import com.example.card.repository.FxRateRepo;
 import com.example.card.services.FXRateService;
 import org.springframework.stereotype.Service;

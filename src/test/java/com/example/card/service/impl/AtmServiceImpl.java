@@ -1,7 +1,7 @@
 package com.example.card.service.impl;
 
 import com.example.card.constrants.dto.AtmRequestDto;
-import com.example.card.entity.AtmEntity;
+import com.example.card.constrants.entity.AtmEntity;
 import com.example.card.repository.Atm_Repo;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ServiceBookingService {
 
-    ServiceBookingResponseDTO createService(ServiceBookingRequestDTO serviceBooking, String serviceId);
-    List<ServiceBookingResponseDTO> getServiceByScreenId(String screenId);
+    ServiceBookingResponseDTO createService(ServiceBookingRequestDTO serviceBooking,String serviceId);
+    List<ServiceBookingResponseDTO> getServiceByScreenId();
 }
