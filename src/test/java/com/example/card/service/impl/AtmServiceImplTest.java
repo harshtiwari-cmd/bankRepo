@@ -1,10 +1,12 @@
 package com.example.card.service.impl;
 
 
+
 import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.constrants.dto.AtmResponseDto;
 import com.example.card.constrants.entity.AtmEntity;
 import com.example.card.constrants.mapper.AtmMapper;
+import com.example.card.constrants.model.Coordinates;
 import com.example.card.repository.Atm_Repo;
 import com.example.card.services.impl.AtmServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,32 +39,40 @@ public class AtmServiceImplTest {
     private AtmEntity savedEntity;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
+        Coordinates coordinates = new Coordinates(12.9716, 77.5946);
+
         requestDto = AtmRequestDto.builder()
-                .atmId("ATM001")
-                .branchId("BR123")
-                .siteName("City Center")
-                .streetName("Main Street")
-                .townName("Delhi")
+                .atmId("AB123456")
+                .branchId("402519")
+                .siteName("central mall")
+                .streetName("panjagutta road")
+                .townName("Hyderabad")
                 .country("IN")
-                .postCode("110001")
-                .latitude(28.6139)
-                .longitude(77.2090)
-                .atmServices(List.of("cash-withdrawal"))
-                .supportedLanguages(List.of("en", "hi"))
-                .supportedCurrencies(List.of("INR", "USD"))
+                .postCode("560038")
+                .coordinates(new Coordinates(12.97878, 77.9999))
+                .supportedLanguages(List.of("en", "hi","or"))
+                .atmServices(List.of("cashWithdrawal", "MiniStateMent"))
+                .supportedCurrencies(List.of("INR"))
                 .minimumPossibleAmount(100)
-                .openTime("09:00")
+                .openTime("08:00")
                 .build();
 
         savedEntity = AtmEntity.builder()
                 .id(1L)
-                .atmId("ATM001")
-                .branchId("BR123")
-                .siteName("City Center")
-                .townName("Delhi")
+                .atmId("ATM123")
+                .branchId("BR001")
+                .siteName("Mall")
+                .streetName("Main Street")
+                .townName("Bangalore")
                 .country("IN")
-                .openTime("09:00")
+                .postCode("560001")
+                .coordinates(coordinates)
+                .supportedLanguages("en,hi")
+                .atmServices(List.of("cash-withdrawal", "balance-enquiry"))
+                .supportedCurrencies("INR")
+                .minimumPossibleAmount(100)
+                .openTime("08:00")
                 .build();
     }
 
@@ -70,28 +80,29 @@ public class AtmServiceImplTest {
     void testRegisterAtm_success() {
         when(atmRepo.save(any())).thenReturn(savedEntity);
 
-        var response = atmService.registerAtm(requestDto);
+        AtmResponseDto response = atmService.registerAtm(requestDto);
 
         assertNotNull(response);
-        assertEquals("ATM001", response.getAtmId());
-        assertEquals("BR123", response.getBranchId());
-        assertEquals("Delhi", response.getTownName());
+        assertEquals("ATM123", response.getAtmId());
+        assertEquals("BR001", response.getBranchId());
+        assertEquals("Bangalore", response.getTownName());
+        assertEquals("IN", response.getCountry());
+        assertEquals("08:00", response.getOpenTime());
     }
 
     @Test
-    void testGetAtm_withData() {
-        AtmEntity entity = AtmEntity.builder()
-                .atmId("ATM123")
-                .branchId("BR456")
-                .build();
-
+    void testGetAtm_returnsData() {
         AtmResponseDto dto = AtmResponseDto.builder()
                 .atmId("ATM123")
-                .branchId("BR456")
+                .branchId("BR001")
+                .siteName("Mall")
+                .townName("Bangalore")
+                .country("IN")
+                .openTime("08:00")
                 .build();
 
-        when(atmRepo.findAll()).thenReturn(List.of(entity));
-        when(atmMapper.toDto(entity)).thenReturn(dto);
+        when(atmRepo.findAll()).thenReturn(List.of(savedEntity));
+        when(atmMapper.toDto(savedEntity)).thenReturn(dto);
 
         List<AtmResponseDto> result = atmService.getAtm();
 
@@ -101,7 +112,7 @@ public class AtmServiceImplTest {
     }
 
     @Test
-    void testGetAtm_emptyList() {
+    void testGetAtm_returnsEmptyList() {
         when(atmRepo.findAll()).thenReturn(Collections.emptyList());
 
         List<AtmResponseDto> result = atmService.getAtm();

@@ -4,6 +4,8 @@ import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.constrants.dto.AtmResponseDto;
 import com.example.card.constrants.mapper.AtmMapper;
 import com.example.card.constrants.entity.AtmEntity;
+import com.example.card.constrants.model.Coordinates;
+import com.example.card.constrants.model.GeoLocation;
 import com.example.card.repository.Atm_Repo;
 import com.example.card.services.AtmService;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class AtmServiceImpl implements AtmService {
 
     @Override
     public AtmResponseDto registerAtm(AtmRequestDto requestDto) {
+        Coordinates coordinates = requestDto.getCoordinates();
         AtmEntity atmEntity=     AtmEntity.builder().
                 atmId(requestDto.getAtmId())
                 .branchId(requestDto.getBranchId())
@@ -35,8 +38,7 @@ public class AtmServiceImpl implements AtmService {
                 .townName(requestDto.getTownName())
                 .country(requestDto.getCountry())
                 .postCode(requestDto.getPostCode())
-                .latitude(requestDto.getLatitude())
-                .longitude(requestDto.getLongitude())
+                .coordinates(coordinates)
                 .supportedLanguages(String.join(",",requestDto.getSupportedLanguages()))
                 .atmServices(requestDto.getAtmServices())
                 .supportedCurrencies(String.join(",",    requestDto.getSupportedCurrencies()))
