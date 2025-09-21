@@ -1,7 +1,6 @@
 package com.example.card.controller;
 
-import com.example.card.dto.FXRateDto;
-import com.example.card.entity.FxRate;
+import com.example.card.constrants.dto.FXRateDto;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.FXRateService;
 import org.springframework.http.HttpStatus;

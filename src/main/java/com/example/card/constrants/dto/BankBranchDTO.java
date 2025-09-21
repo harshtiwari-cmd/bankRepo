@@ -1,5 +1,6 @@
 package com.example.card.constrants.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +24,6 @@ public class BankBranchDTO {
     private String closeTime;
     private List<HolidayHarshDTO> holidayCalendar;
     private List<String> weeklyHolidays;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String status;
 }

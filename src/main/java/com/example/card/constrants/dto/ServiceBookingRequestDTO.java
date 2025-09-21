@@ -1,11 +1,8 @@
-package com.example.card.dto;
+package com.example.card.constrants.dto;
 
 import lombok.Data;
-
-import java.util.List;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
 
 @Data
 public class ServiceBookingRequestDTO {

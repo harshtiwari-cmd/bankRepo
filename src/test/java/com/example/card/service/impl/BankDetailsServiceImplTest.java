@@ -1,18 +1,14 @@
 package com.example.card.service.impl;
 
-import com.example.card.dto.BankDetailsDto;
-import com.example.card.entity.BankDetailsEntity;
+import com.example.card.constrants.dto.BankDetailsDto;
+import com.example.card.constrants.entity.BankDetailsEntity;
 import com.example.card.repository.BankDetailsRepository;
-import com.example.card.services.BankDetailsService;
 import com.example.card.services.impl.BankDetailsImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

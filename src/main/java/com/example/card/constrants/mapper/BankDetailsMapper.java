@@ -2,9 +2,9 @@ package com.example.card.constrants.mapper;
 
 
 
-import com.example.card.dto.BankDetailsDto;
-import com.example.card.dto.BankDetailsResponseDto;
-import com.example.card.entity.BankDetailsEntity;
+import com.example.card.constrants.dto.BankDetailsDto;
+import com.example.card.constrants.dto.BankDetailsResponseDto;
+import com.example.card.constrants.entity.BankDetailsEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

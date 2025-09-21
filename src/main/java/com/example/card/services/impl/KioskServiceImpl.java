@@ -2,14 +2,17 @@ package com.example.card.services.impl;
 
 import com.example.card.constrants.mapper.KioskMapper;
 import com.example.card.constrants.model.Kiosk;
-import com.example.card.dto.KioskRequestDTO;
-import com.example.card.dto.KioskResponseDTO;
+import com.example.card.constrants.dto.KioskRequestDTO;
+import com.example.card.constrants.dto.KioskResponseDTO;
 import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
 import com.example.card.services.KioskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -137,5 +140,13 @@ public class KioskServiceImpl implements KioskService {
 
         Kiosk saved = kioskRepository.save(kiosk);
         return kioskMapper.toDto(saved);
+    }
+
+    @Override
+    public List<KioskResponseDTO> getKiosk() {
+        return kioskRepository.findAll()
+                .stream()
+                .map(kioskMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

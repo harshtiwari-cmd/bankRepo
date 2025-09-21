@@ -1,8 +1,8 @@
 package com.example.card.controller.impl;
 
-import com.example.card.dto.BankDetailsDto;
-import com.example.card.dto.BankDetailsResponseDto;
-import com.example.card.entity.BankDetailsEntity;
+import com.example.card.constrants.dto.BankDetailsDto;
+import com.example.card.constrants.dto.BankDetailsResponseDto;
+import com.example.card.constrants.entity.BankDetailsEntity;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankDetailsService;
 import org.springframework.http.ResponseEntity;

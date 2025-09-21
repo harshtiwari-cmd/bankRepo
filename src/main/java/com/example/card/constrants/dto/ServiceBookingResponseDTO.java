@@ -1,8 +1,6 @@
-package com.example.card.dto;
+package com.example.card.constrants.dto;
 
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ServiceBookingResponseDTO {

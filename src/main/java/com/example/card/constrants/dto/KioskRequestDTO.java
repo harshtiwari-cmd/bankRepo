@@ -1,4 +1,4 @@
-package com.example.card.dto;
+package com.example.card.constrants.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

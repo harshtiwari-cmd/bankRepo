@@ -1,7 +1,7 @@
-package com.example.card.entity;
+package com.example.card.constrants.entity;
 
-import com.example.card.constrants.model.Coordinates;
-import com.example.card.constrants.model.Holiday;
+import com.example.card.constrants.model.CoordinatesHarsh;
+import com.example.card.constrants.model.HolidayHarsh;
 import jakarta.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 @Entity
 @Table(name = "bank_branches")
-public class BankBranch {
+public class BankBranchHarsh {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class BankBranch {
     private String countryName;
 
     @Embedded
-    private Coordinates coordinates;
+    private CoordinatesHarsh coordinatesHarsh;
 
     private String openTime;
     private String closeTime;
@@ -39,7 +39,7 @@ public class BankBranch {
 
 
     @Transient
-    public List<Holiday> getHolidayCalendar() {
+    public List<HolidayHarsh> getHolidayCalendar() {
         if (holidayDates == null || holidayDates.isEmpty()) return Collections.emptyList();
 
         String[] dates = holidayDates.split(",");
@@ -47,23 +47,23 @@ public class BankBranch {
         String[] types = holidayTypes != null ? holidayTypes.split(",") : new String[dates.length];
 
         return IntStream.range(0, dates.length)
-                .mapToObj(i -> new Holiday(
+                .mapToObj(i -> new HolidayHarsh(
                         dates[i].trim(),
                         i < names.length ? names[i].trim() : "",
                         i < types.length ? types[i].trim() : ""))
                 .collect(Collectors.toList());
     }
 
-    public void setHolidayCalendar(List<Holiday> holidays) {
-        if (holidays == null || holidays.isEmpty()) {
+    public void setHolidayCalendar(List<HolidayHarsh> holidayHarshes) {
+        if (holidayHarshes == null || holidayHarshes.isEmpty()) {
             holidayDates = "";
             holidayNames = "";
             holidayTypes = "";
             return;
         }
-        holidayDates = holidays.stream().map(Holiday::getDate).collect(Collectors.joining(","));
-        holidayNames = holidays.stream().map(Holiday::getName).collect(Collectors.joining(","));
-        holidayTypes = holidays.stream().map(Holiday::getType).collect(Collectors.joining(","));
+        holidayDates = holidayHarshes.stream().map(HolidayHarsh::getDate).collect(Collectors.joining(","));
+        holidayNames = holidayHarshes.stream().map(HolidayHarsh::getName).collect(Collectors.joining(","));
+        holidayTypes = holidayHarshes.stream().map(HolidayHarsh::getType).collect(Collectors.joining(","));
     }
 
 
@@ -105,8 +105,8 @@ public class BankBranch {
     public String getCountryName() { return countryName; }
     public void setCountryName(String countryName) { this.countryName = countryName; }
 
-    public Coordinates getCoordinates() { return coordinates; }
-    public void setCoordinates(Coordinates coordinates) { this.coordinates = coordinates; }
+    public CoordinatesHarsh getCoordinates() { return coordinatesHarsh; }
+    public void setCoordinates(CoordinatesHarsh coordinatesHarsh) { this.coordinatesHarsh = coordinatesHarsh; }
 
     public String getOpenTime() { return openTime; }
     public void setOpenTime(String openTime) { this.openTime = openTime; }

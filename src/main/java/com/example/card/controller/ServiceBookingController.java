@@ -1,7 +1,7 @@
 package com.example.card.controller;
 
-import com.example.card.dto.ServiceBookingRequestDTO;
-import com.example.card.dto.ServiceBookingResponseDTO;
+import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+import com.example.card.constrants.dto.ServiceBookingResponseDTO;
 import com.example.card.services.ServiceBookingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,9 +29,9 @@ public class ServiceBookingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ServiceBookingResponseDTO>> getService(@RequestParam String screenId) {
+    public ResponseEntity<List<ServiceBookingResponseDTO>> getService() {
         try {
-            List<ServiceBookingResponseDTO> services = service.getServiceByScreenId(screenId);
+            List<ServiceBookingResponseDTO> services = service.getServiceByScreenId();
 
             if (services.isEmpty()) {
                 return ResponseEntity.noContent().build();

@@ -3,10 +3,10 @@ package com.example.card.service.impl;
 import com.example.card.constrants.mapper.KioskMapper;
 import com.example.card.constrants.model.Kiosk;
 
-import com.example.card.dto.GeoLocationDTO;
-import com.example.card.dto.KioskRequestDTO;
-import com.example.card.dto.KioskResponseDTO;
-import com.example.card.dto.LocationDTO;
+import com.example.card.constrants.dto.GeoLocationDTO;
+import com.example.card.constrants.dto.KioskRequestDTO;
+import com.example.card.constrants.dto.KioskResponseDTO;
+import com.example.card.constrants.dto.LocationDTO;
 import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
 import com.example.card.services.impl.KioskServiceImpl;
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
