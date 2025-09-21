@@ -99,7 +99,7 @@ public class ServiceBookingControllerTest {
                 .screenId("screen123")
                 .build();
 
-        Mockito.when(this.service.getServiceByScreenId("screen123"))
+        Mockito.when(this.service.getServiceByScreenId())
                 .thenReturn(Arrays.asList(this.responseDTO, dto1, dto2));
 
         this.mockMvc.perform(get("/service-booking")

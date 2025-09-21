@@ -1,10 +1,12 @@
 package com.example.card.constrants.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import jakarta.validation.constraints.*;
 
 @Data
+@Builder
 public class ServiceBookingRequestDTO {
     @NotBlank(message = "Service name must not be blank")
     private String serviceName;

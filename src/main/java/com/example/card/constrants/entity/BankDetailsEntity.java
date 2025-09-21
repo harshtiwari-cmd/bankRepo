@@ -15,10 +15,8 @@ public class BankDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-
     @Column
-    private String bankId;
-
+    private String name;
     @Column
     private String mail;
     @Column
