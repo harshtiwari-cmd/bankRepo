@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface BankDetailsService {
     BankDetailsEntity createBankDetails(BankDetailsDto dto);
-    List<BankDetailsResponseDto> getbankDetails(String bankId);
+    BankDetailsResponseDto getbankDetails();
 }

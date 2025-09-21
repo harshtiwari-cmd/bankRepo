@@ -1,5 +1,8 @@
 package com.example.card.constrants.dto;
 
+import com.example.card.constrants.model.Coordinates;
+import com.example.card.constrants.model.GeoLocation;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,15 +30,14 @@ public class AtmRequestDto {
     private String country;
     @NotBlank(message = "Post Code is required")
     private String postCode;
-    @NotNull(message = "Latitude should not null")
-    private Double latitude;
-    @NotNull(message = "Longitude should not null")
-    private Double longitude;
+
+    @Valid
+    @NotNull(message = "GeoLocation is required")
+    private Coordinates coordinates;
 
 
     @NotEmpty(message = "Supported Language must not be empty")
     private List<@NotBlank(message = "Language must not be blank") String> supportedLanguages;
-
 
     @NotEmpty(message = "ATM services must not be empty")
     private List<@NotBlank(message = "Service must not be blank") String> atmServices;

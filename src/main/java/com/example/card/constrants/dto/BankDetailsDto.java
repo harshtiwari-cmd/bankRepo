@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BankDetailsDto {
 
-
-    @NotNull(message = "bank_Id should not be null")
-    private String bankId;
+    @NotNull(message = "name should not be null")
+    private String name;
 
     @Email(message = "email should not be empty")
     private String mail;

@@ -31,7 +31,8 @@ public class BankDetailsImpl implements BankDetailsService {
         }
 
         BankDetailsEntity entity=new BankDetailsEntity();
-        entity.setBankId(dto.getBankId());
+
+        entity.setName(dto.getName());
          entity.setMail(dto.getMail());
          entity.setContact(dto.getContact());
          entity.setInternationalContact(dto.getInternationalContact());
@@ -41,11 +42,11 @@ public class BankDetailsImpl implements BankDetailsService {
     }
 
     @Override
-    public List<BankDetailsResponseDto> getbankDetails(String bankId) {
-        return repository.findByBankId(bankId)
-                .stream()
-                .map(bankDetailsMapper::toDto)
-                .collect(Collectors.toList());
+    public BankDetailsResponseDto getbankDetails() {
+      BankDetailsEntity entity= repository.findTopBy();
+      return  new BankDetailsResponseDto(entity.getName(), entity.getMail(), entity.getContact(), entity.getInternationalContact());
+
     }
+
 
 }

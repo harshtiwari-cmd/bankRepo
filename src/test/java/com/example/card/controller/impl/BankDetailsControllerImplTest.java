@@ -34,17 +34,17 @@ public class BankDetailsControllerImplTest {
         BankDetailsDto dto = new BankDetailsDto();
         dto.setMail("sbi@example.com");
         dto.setContact(1234567890L);
-        dto.setBankId("SBI001");
+
 
         BankDetailsEntity entity = new BankDetailsEntity();
         entity.setMail("sbi@example.com");
         entity.setContact(1234567890L);
-        entity.setBankId("SBI001");
+
 
         when(bankDetailsService.createBankDetails(dto)).thenReturn(entity);
 
 
-        ResponseEntity<String> response = controller.saveBankDetails("SBI001", dto);
+        ResponseEntity<String> response = controller.saveBankDetails( dto);
 
 
         assertEquals(200, response.getStatusCodeValue());
@@ -59,7 +59,7 @@ public class BankDetailsControllerImplTest {
     void testSaveBankDetails_throwsResourceNotFoundException() {
         // Given
         BankDetailsDto dto = new BankDetailsDto();
-        dto.setBankId("SBI001"); // optional but consistent
+
 
         when(bankDetailsService.createBankDetails(dto))
                 .thenThrow(new ResourceNotFoundException("Email is required"));
@@ -67,7 +67,7 @@ public class BankDetailsControllerImplTest {
         // When + Then
         ResourceNotFoundException thrown = assertThrows(
                 ResourceNotFoundException.class,
-                () -> controller.saveBankDetails("SBI001", dto)
+                () -> controller.saveBankDetails( dto)
         );
 
         assertEquals("Email is required", thrown.getMessage());

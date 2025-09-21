@@ -1,5 +1,7 @@
 package com.example.card.constrants.entity;
 
+import com.example.card.constrants.model.Coordinates;
+import com.example.card.constrants.model.GeoLocation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +28,9 @@ public class AtmEntity {
     private String townName;
     private String country;
     private String postCode;
-    private Double latitude;
-    private Double longitude;
+
+    @Embedded
+    private Coordinates coordinates;
 
 
     private String supportedLanguages;

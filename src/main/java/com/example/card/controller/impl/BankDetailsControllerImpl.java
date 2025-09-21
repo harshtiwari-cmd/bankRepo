@@ -5,6 +5,7 @@ import com.example.card.constrants.dto.BankDetailsResponseDto;
 import com.example.card.constrants.entity.BankDetailsEntity;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.BankDetailsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,23 +22,15 @@ public class BankDetailsControllerImpl  {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveBankDetails(@RequestParam String bankId, @RequestBody   BankDetailsDto dto) throws ResourceNotFoundException {
-        dto.setBankId(bankId);
-         BankDetailsEntity saved=  bankDetailsService.createBankDetails(dto);
-        return ResponseEntity.ok("bank details saved for bankId :"+saved.getBankId());
+    public ResponseEntity<String> saveBankDetails( @RequestBody  BankDetailsDto dto) throws ResourceNotFoundException {
+
+        String  saved=  bankDetailsService.createBankDetails(dto).getName();
+        return new ResponseEntity<String>("bank detail saved with name:"+saved,HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<BankDetailsResponseDto>> getBankDetails(@RequestParam String bankId) {
-        try {
-            List<BankDetailsResponseDto> branches = bankDetailsService.getbankDetails(bankId);
+    public ResponseEntity<BankDetailsResponseDto> getBankDetails() {
+       return new ResponseEntity<>(bankDetailsService.getbankDetails(),HttpStatus.CREATED);
 
-            if (branches.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
 
-            return ResponseEntity.ok(branches);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build();
-        }
     }
 }

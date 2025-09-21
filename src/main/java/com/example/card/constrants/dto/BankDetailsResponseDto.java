@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankDetailsResponseDto {
+
+    @NotNull(message = "name should not be null")
+    private String name;
     @Email(message = "email should not be empty")
     private String mail;
     @NotNull(message = "contact should not be null")
