@@ -11,7 +11,6 @@ public interface KioskRepository extends JpaRepository<Kiosk, Long> {
 
     boolean existsByName(@NotBlank(message = "name should not be blank") String name);
 
-
-    boolean existsByLocationGeoLocationLatitudeAndLocationGeoLocationLongitude(Float latitude, Float longitude);
+//    boolean existsByLocationGeoLocationLatitudeAndLocationGeoLocationLongitude(Float latitude, Float longitude);
 
 }

@@ -11,8 +11,4 @@ public class LocationDTO {
     private String country;
     private String postCode;
 
-    @Valid
-    private GeoLocationDTO geoLocation;
-
-
 }

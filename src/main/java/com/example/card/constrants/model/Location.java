@@ -16,7 +16,5 @@ public class Location {
     private String country;
     private String postCode;
 
-    @Embedded
-    private GeoLocation geoLocation;
 }
 

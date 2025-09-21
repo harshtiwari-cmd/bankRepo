@@ -18,6 +18,9 @@ public class Kiosk {
     @Embedded
     private Location location;
 
+    @Embedded
+    private Coordinates coordinates;
+
     @ElementCollection
     @CollectionTable(name = "kiosk_services", joinColumns = @JoinColumn(name = "kiosk_id"))
     @Column(name = "services")

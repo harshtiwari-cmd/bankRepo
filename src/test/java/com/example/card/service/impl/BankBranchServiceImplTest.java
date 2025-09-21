@@ -8,7 +8,7 @@ import com.example.card.constrants.mapper.BankBranchMapper;
 import com.example.card.constrants.model.CoordinatesHarsh;
 import com.example.card.constrants.model.HolidayHarsh;
 import com.example.card.constrants.entity.BankBranchHarsh;
-import com.example.card.repository.BankBranchRepositoryHarsh;
+import com.example.card.repository.BankBranchRepository;
 import com.example.card.services.impl.BankBranchServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 class BankBranchServiceImplTest {
 
     @Mock
-    private BankBranchRepositoryHarsh repository;
+    private BankBranchRepository repository;
 
     @InjectMocks
     private BankBranchServiceImpl bankBranchService;

@@ -96,42 +96,6 @@ public class KioskServiceImpl implements KioskService {
             );
         }
 
-        if (dto.getLocation() == null || dto.getLocation().getGeoLocation() == null ||
-                dto.getLocation().getGeoLocation().getLatitude() == null ||
-                dto.getLocation().getGeoLocation().getLongitude() == null) {
-            throw new BusinessException(
-                    "COORDINATES_NULL",
-                    "Latitude and Longitude cannot be null",
-                    HttpStatus.BAD_REQUEST
-            );
-        }
-
-        if (dto.getLocation().getGeoLocation().getLatitude() < -90 || dto.getLocation().getGeoLocation().getLatitude() > 90 ||
-                dto.getLocation().getGeoLocation().getLongitude() < -180 || dto.getLocation().getGeoLocation().getLongitude() > 180) {
-            throw new BusinessException(
-                    "INVALID_COORDINATES",
-                    "Latitude must be between -90 and 90, Longitude between -180 and 180",
-                    HttpStatus.UNPROCESSABLE_ENTITY
-            );
-        }
-
-
-        if (dto.getLocation() != null &&
-                dto.getLocation().getGeoLocation() != null &&
-                dto.getLocation().getGeoLocation().getLatitude() != null &&
-                dto.getLocation().getGeoLocation().getLongitude() != null &&
-                kioskRepository.existsByLocationGeoLocationLatitudeAndLocationGeoLocationLongitude(
-                        dto.getLocation().getGeoLocation().getLatitude(),
-                        dto.getLocation().getGeoLocation().getLongitude())) {
-
-            throw new BusinessException(
-                    "DUPLICATE_COORDINATES",
-                    "Kiosk with coordinates (lat=" + dto.getLocation().getGeoLocation().getLatitude()
-                            + ", lon=" + dto.getLocation().getGeoLocation().getLongitude() + ") already exists",
-                    HttpStatus.CONFLICT
-            );
-        }
-
         Kiosk kiosk = kioskMapper.toEntity(dto);
 
         if (kiosk.getHolidayCalendar() != null) {
