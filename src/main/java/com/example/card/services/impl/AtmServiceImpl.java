@@ -2,10 +2,10 @@ package com.example.card.services.impl;
 
 import com.example.card.constrants.dto.AtmRequestDto;
 import com.example.card.constrants.dto.AtmResponseDto;
+import com.example.card.constrants.dto.CoordinatesDTO;
 import com.example.card.constrants.mapper.AtmMapper;
 import com.example.card.constrants.entity.AtmEntity;
 import com.example.card.constrants.model.Coordinates;
-import com.example.card.constrants.model.GeoLocation;
 import com.example.card.repository.Atm_Repo;
 import com.example.card.services.AtmService;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public AtmResponseDto registerAtm(AtmRequestDto requestDto) {
         Coordinates coordinates = requestDto.getCoordinates();
-        AtmEntity atmEntity=     AtmEntity.builder().
+        AtmEntity atmEntity = AtmEntity.builder().
                 atmId(requestDto.getAtmId())
                 .branchId(requestDto.getBranchId())
                 .siteName(requestDto.getSiteName())
@@ -39,14 +39,13 @@ public class AtmServiceImpl implements AtmService {
                 .country(requestDto.getCountry())
                 .postCode(requestDto.getPostCode())
                 .coordinates(coordinates)
-                .supportedLanguages(String.join(",",requestDto.getSupportedLanguages()))
+                .supportedLanguages(String.join(",", requestDto.getSupportedLanguages()))
                 .atmServices(requestDto.getAtmServices())
-                .supportedCurrencies(String.join(",",    requestDto.getSupportedCurrencies()))
+                .supportedCurrencies(String.join(",", requestDto.getSupportedCurrencies()))
                 .minimumPossibleAmount(requestDto.getMinimumPossibleAmount())
                 .openTime(requestDto.getOpenTime())
                 .build();
-        AtmEntity saved= atmRepo.save(atmEntity);
-
+        AtmEntity saved = atmRepo.save(atmEntity);
 
         return AtmResponseDto.builder()
                 .id(saved.getId())
@@ -55,8 +54,14 @@ public class AtmServiceImpl implements AtmService {
                 .siteName(saved.getSiteName())
                 .townName(saved.getTownName())
                 .country(saved.getCountry())
-                .openTime(saved.getOpenTime()).build();
-
+                .openTime(saved.getOpenTime())
+                .coordinates(
+                        CoordinatesDTO.builder()
+                                .latitude(saved.getCoordinates().getLatitude())
+                                .longitude(saved.getCoordinates().getLongitude())
+                                .build()
+                )
+                .build();
     }
 
     @Override
