@@ -40,7 +40,8 @@ public class LocateUs {
             List<KioskResponseDTO> kiosks = kioskService.getKiosk();
 
             if (branches.isEmpty() && atms.isEmpty() && kiosks.isEmpty()) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
             }
 
             List<Map<String, List<?>>> data = new ArrayList<>();
