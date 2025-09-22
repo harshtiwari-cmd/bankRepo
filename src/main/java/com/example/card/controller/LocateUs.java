@@ -2,10 +2,7 @@ package com.example.card.controller;
 
 
 
-import com.example.card.constrants.dto.AtmResponseDto;
-import com.example.card.constrants.dto.BankBranchDTO;
-import com.example.card.constrants.dto.LocateUsResponse;
-import com.example.card.constrants.dto.KioskResponseDTO;
+import com.example.card.constrants.dto.*;
 import com.example.card.services.impl.AtmServiceImpl;
 import com.example.card.services.impl.BankBranchServiceImpl;
 import com.example.card.services.impl.KioskServiceImpl;
@@ -36,7 +33,7 @@ public class LocateUs {
     }
 
     @GetMapping
-    public ResponseEntity<LocateUsResponse> getService() {
+    public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService() {
         try {
             List<BankBranchDTO> branches = branchService.getAllBranchesWithStatus();
             List<AtmResponseDto> atms = atmService.getAtm();
@@ -51,9 +48,13 @@ public class LocateUs {
             data.add(Collections.singletonMap("atms", atms));
             data.add(Collections.singletonMap("kiosks", kiosks));
 
-            return ResponseEntity.ok(new LocateUsResponse(data));
+            GenericResponse<List<Map<String, List<?>>>> response =
+                    new GenericResponse<>(new Status("000000", "SUCCESS"), data);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
         }
     }
 }

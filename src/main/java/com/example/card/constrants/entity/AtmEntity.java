@@ -1,7 +1,6 @@
 package com.example.card.constrants.entity;
 
 import com.example.card.constrants.model.Coordinates;
-import com.example.card.constrants.model.GeoLocation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

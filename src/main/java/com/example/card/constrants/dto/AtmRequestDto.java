@@ -1,7 +1,6 @@
 package com.example.card.constrants.dto;
 
 import com.example.card.constrants.model.Coordinates;
-import com.example.card.constrants.model.GeoLocation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,7 @@ public class AtmRequestDto {
     private String postCode;
 
     @Valid
-    @NotNull(message = "GeoLocation is required")
+    @NotNull(message = "coordinates is required")
     private Coordinates coordinates;
 
 
