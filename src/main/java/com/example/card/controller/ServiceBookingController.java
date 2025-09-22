@@ -1,7 +1,9 @@
 package com.example.card.controller;
 
+import com.example.card.constrants.dto.GenericResponse;
 import com.example.card.constrants.dto.ServiceBookingRequestDTO;
 import com.example.card.constrants.dto.ServiceBookingResponseDTO;
+import com.example.card.constrants.dto.Status;
 import com.example.card.services.ServiceBookingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -45,18 +47,27 @@ public class ServiceBookingController {
 //    }
 
     @GetMapping
-    public ResponseEntity<List<String>> getAllServicesName() {
+    public ResponseEntity<GenericResponse<List<String>>> getAllServicesName() {
+        try {
+            List<ServiceBookingResponseDTO> responseDTOS = service.getServiceByScreenId();
+            AtomicLong counter = new AtomicLong(1);
+            List<String> list = responseDTOS
+                    .stream()
+                    .map(dto -> counter.getAndIncrement() + " - " + dto.getServiceName())
+                    .toList();
+            if (list.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
+            }
+            GenericResponse<List<String>> response =
+                    new GenericResponse<>(new Status("000000", "SUCCESS"), list);
 
-        List<ServiceBookingResponseDTO> responseDTOS = service.getServiceByScreenId();
-
-        AtomicLong counter = new AtomicLong(1);
-
-        List<String> list = responseDTOS
-                .stream()
-                .map(dto -> counter.getAndIncrement() + " - " + dto.getServiceName())
-                .toList();
-
-        return ResponseEntity.ok(list);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
+        }
     }
 
 }

@@ -1,10 +1,14 @@
 package com.example.card.services;
 
 import com.example.card.constrants.dto.FXRateDto;
+import com.example.card.constrants.dto.FXRateResponseDto;
+import com.example.card.constrants.dto.KioskResponseDTO;
+
+import java.util.List;
 
 
 public interface FXRateService {
 
-    public FXRateDto createFxRate(FXRateDto dto);
-
+    FXRateDto createFxRate(FXRateDto dto);
+    List<FXRateResponseDto> getFx();
 }
