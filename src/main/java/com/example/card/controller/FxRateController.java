@@ -3,6 +3,7 @@ package com.example.card.controller;
 import com.example.card.constrants.dto.*;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.services.FXRateService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 @RestController
 public class FxRateController {
 
@@ -23,27 +24,45 @@ public class FxRateController {
     }
 
     @PostMapping("/save-fx-rates")
-    public ResponseEntity<FXRateDto> saveFxRate(@RequestBody FXRateDto dto) throws ResourceNotFoundException
-    {
-        return  new ResponseEntity<>(fxRateService.createFxRate(dto), HttpStatus.CREATED);
+    public ResponseEntity<FXRateDto> saveFxRate(@RequestBody FXRateDto dto) throws ResourceNotFoundException {
+        log.info("Received request to save FX rate for country code: {}", dto != null ? dto.getCountryCode() : "null");
 
+        try {
+            FXRateDto saved = fxRateService.createFxRate(dto);
+            log.info("FX rate saved successfully for country: {} (Currency: {})", saved.getCountryName(), saved.getCurrencyCode());
+            return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        } catch (ResourceNotFoundException e) {
+            log.error("Resource not found while saving FX rate: {}", e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error while saving FX rate: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/view-fx-rates")
     public ResponseEntity<GenericResponse<List<FXRateResponseDto>>> getService() {
+        log.info("Received request to fetch FX rates");
+
         try {
             List<FXRateResponseDto> fxRates = fxRateService.getFx();
 
             if (fxRates.isEmpty()) {
+                log.warn("No FX rate data found in the system");
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
             }
 
+            log.info("Fetched {} FX rate records", fxRates.size());
+
             GenericResponse<List<FXRateResponseDto>> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), fxRates);
 
+            log.debug("FX rate response payload: {}", response);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            log.error("Error while fetching FX rates: {}", e.getMessage(), e);
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
         }
