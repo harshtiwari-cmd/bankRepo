@@ -6,11 +6,13 @@ import com.example.card.constrants.dto.ServiceBookingResponseDTO;
 import com.example.card.constrants.entity.ServiceBooking;
 import com.example.card.repository.ServiceBookingRepository;
 import com.example.card.services.ServiceBookingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ServiceBookingServiceImpl implements ServiceBookingService {
 
@@ -25,17 +27,37 @@ public class ServiceBookingServiceImpl implements ServiceBookingService {
 
     @Override
     public ServiceBookingResponseDTO createService(ServiceBookingRequestDTO serviceBooking, String screenId) {
-        ServiceBooking entity = serviceMapper.toEntity(serviceBooking);
-        entity.setScreenId(screenId);
-        ServiceBooking save = repository.save(entity);
-        return serviceMapper.toDto(save);
+
+        log.info("Creating new service for screenID: {}", screenId);
+        log.debug("Incoming request DTO: {}", serviceBooking);
+
+        try {
+            ServiceBooking entity = serviceMapper.toEntity(serviceBooking);
+            entity.setScreenId(screenId);
+            ServiceBooking save = repository.save(entity);
+            log.info("Service booking saved with ID: {}", save.getServiceId());
+            return serviceMapper.toDto(save);
+        }
+        catch (Exception e) {
+            log.error("Failed to create service booking for screenId: {}", screenId, e);
+            throw e;
+        }
     }
 
     @Override
     public List<ServiceBookingResponseDTO> getServiceByScreenId() {
-        return repository.findAll()
-                .stream()
-                .map(serviceMapper::toDto)
-                .collect(Collectors.toList());
+
+        log.info("Fetching all service bookings from repository");
+
+        try {
+            return repository.findAll()
+                    .stream()
+                    .map(serviceMapper::toDto)
+                    .toList();
+        }
+       catch (Exception e) {
+            log.error("Error while fetching service booking: {}", e.getMessage());
+            throw e;
+       }
     }
 }
