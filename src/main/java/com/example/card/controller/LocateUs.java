@@ -6,6 +6,7 @@ import com.example.card.constrants.dto.*;
 import com.example.card.services.impl.AtmServiceImpl;
 import com.example.card.services.impl.BankBranchServiceImpl;
 import com.example.card.services.impl.KioskServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/locate-us")
 public class LocateUs {
@@ -34,12 +36,15 @@ public class LocateUs {
 
     @GetMapping
     public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService() {
+
+        log.info("GET /locate-us - Received request to fetch all services");
         try {
             List<BankBranchDTO> branches = branchService.getAllBranchesWithStatus();
             List<AtmResponseDto> atms = atmService.getAtm();
             List<KioskResponseDTO> kiosks = kioskService.getKiosk();
 
             if (branches.isEmpty() && atms.isEmpty() && kiosks.isEmpty()) {
+                log.warn("Failed to load: no data found");
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
             }
@@ -52,8 +57,10 @@ public class LocateUs {
             GenericResponse<List<Map<String, List<?>>>> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), data);
 
+            log.info("Successfully fetched all data");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            log.error("Exception occurred while fetching services: {}", e.getMessage(),e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
         }
