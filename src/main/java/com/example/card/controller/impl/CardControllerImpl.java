@@ -7,10 +7,12 @@ import com.example.card.controller.CardController;
 import com.example.card.services.CardValidationService;
 import com.example.card.services.StaticResponseService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 public class CardControllerImpl implements CardController {
 
@@ -29,9 +31,14 @@ public class CardControllerImpl implements CardController {
     @Override
 
     public ResponseEntity<CardResponse> validateCard(@RequestBody @Valid CardRequest request) {
+
+        log.info("POST /card/validate - Received request to validate card number: {}", request.getCardNumber());
+
         if (!validationService.validate(request)) {
+            log.warn("Failed to Validate the Card: {}", request.getCardNumber());
             return ResponseEntity.badRequest().body(staticResponseService.getFailureResponse());
         }
+        log.info("Successfully validate the card: {}", request.getCardNumber());
         return ResponseEntity.ok(this.staticResponseService.getSuccessResponse());
     }
 

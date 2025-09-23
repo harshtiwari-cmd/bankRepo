@@ -7,6 +7,7 @@ import com.example.card.constrants.dto.KioskResponseDTO;
 import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
 import com.example.card.services.KioskService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 public class KioskServiceImpl implements KioskService {
@@ -29,7 +31,10 @@ public class KioskServiceImpl implements KioskService {
     @Override
     public KioskResponseDTO createKiosk(KioskRequestDTO dto) {
 
+        log.info("Creating new Kiosk");
+
         if (dto.getKioskId() == null) {
+            log.warn("Validation failed : KioskId is Null");
             throw new BusinessException(
                     "KIOSK_ID_NULL",
                     "Kiosk ID cannot be null",
@@ -37,6 +42,7 @@ public class KioskServiceImpl implements KioskService {
             );
         }
         if (dto.getKioskId().isBlank()) {
+            log.warn("Validation Failed : KioskId is Blank");
             throw new BusinessException(
                     "KIOSK_ID_EMPTY",
                     "Kiosk ID cannot be empty",
@@ -44,6 +50,7 @@ public class KioskServiceImpl implements KioskService {
             );
         }
         if (kioskRepository.existsByKioskId(dto.getKioskId())) {
+            log.warn("Validation Failed : KioskId is already Exist");
             throw new BusinessException(
                     "DUPLICATE_KIOSK_ID",
                     "Kiosk with ID '" + dto.getKioskId() + "' already exists",
@@ -52,6 +59,7 @@ public class KioskServiceImpl implements KioskService {
         }
 
         if (dto.getBranchId() == null) {
+            log.warn("Validation Failed: BranchId is Null");
             throw new BusinessException(
                     "BRANCH_ID_NULL",
                     "Branch ID cannot be null",
@@ -59,6 +67,7 @@ public class KioskServiceImpl implements KioskService {
             );
         }
         if (dto.getBranchId().isBlank()) {
+            log.warn("Validation Failed: BrandId is Blank");
             throw new BusinessException(
                     "BRANCH_ID_EMPTY",
                     "Branch ID cannot be empty",
@@ -67,6 +76,7 @@ public class KioskServiceImpl implements KioskService {
         }
 
         if (dto.getName() == null) {
+            log.warn("Validation Failed: Name is Null");
             throw new BusinessException(
                     "NAME_NULL",
                     "Kiosk name cannot be null",
@@ -74,6 +84,7 @@ public class KioskServiceImpl implements KioskService {
             );
         }
         if (dto.getName().isBlank()) {
+            log.warn("Validation Failed : Name is Blank");
             throw new BusinessException(
                     "NAME_EMPTY",
                     "Kiosk name cannot be empty",
@@ -81,6 +92,7 @@ public class KioskServiceImpl implements KioskService {
             );
         }
         if (kioskRepository.existsByName(dto.getName())) {
+            log.warn("Validation Failed : Kiosk Name already Exit");
             throw new BusinessException(
                     "DUPLICATE_NAME",
                     "Kiosk with name '" + dto.getName() + "' already exists",
@@ -89,6 +101,7 @@ public class KioskServiceImpl implements KioskService {
         }
 
         if (dto.getLocation() == null) {
+            log.warn("Validation Failed : Location is Null");
             throw new BusinessException(
                     "LOCATION_NULL",
                     "Kiosk location cannot be null",
@@ -97,20 +110,29 @@ public class KioskServiceImpl implements KioskService {
         }
 
         Kiosk kiosk = kioskMapper.toEntity(dto);
+        log.info("Mapped KioskRequestDTO to Kiosk: {}", kiosk);
 
         if (kiosk.getHolidayCalendar() != null) {
             kiosk.getHolidayCalendar().forEach(holiday -> holiday.setKiosk(kiosk));
         }
 
         Kiosk saved = kioskRepository.save(kiosk);
+        log.info("Kiosk saved with kioskId: {}", saved.getKioskId());
         return kioskMapper.toDto(saved);
     }
 
     @Override
     public List<KioskResponseDTO> getKiosk() {
-        return kioskRepository.findAll()
-                .stream()
-                .map(kioskMapper::toDto)
-                .collect(Collectors.toList());
+        log.info("Fetching all Kiosk from repository");
+       try {
+           return kioskRepository.findAll()
+                   .stream()
+                   .map(kioskMapper::toDto)
+                   .toList();
+       }
+       catch (Exception e) {
+           log.error("Exception while fetching kiosk: {}", e.getMessage(), e);
+           throw e;
+       }
     }
 }
