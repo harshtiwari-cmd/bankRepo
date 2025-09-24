@@ -26,7 +26,7 @@ class FxRateImplTest {
 
     @BeforeEach
     void setUp() {
-        fxRateRepo.deleteAll(); // clean database before each test
+        fxRateRepo.deleteAll();
     }
 
     @Test
@@ -42,7 +42,6 @@ class FxRateImplTest {
         assertEquals(new BigDecimal("82.50"), savedDto.getBuyRate());
         assertEquals(new BigDecimal("83.00"), savedDto.getSellRate());
 
-        // ensure entity is saved in DB
         assertEquals(1, fxRateRepo.count());
     }
 

@@ -40,9 +40,7 @@ class ProfitRateControllerTest {
 
     @BeforeEach
     void setup() {
-        // Register JavaTimeModule to handle LocalDate
         objectMapper.registerModule(new JavaTimeModule());
-        // Disable timestamps to get "YYYY-MM-DD" format
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 

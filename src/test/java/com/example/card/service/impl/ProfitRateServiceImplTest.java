@@ -25,7 +25,7 @@ class ProfitRateServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        profitRateRepository.deleteAll(); // Clean DB before each test
+        profitRateRepository.deleteAll();
     }
 
     @Test
@@ -46,7 +46,7 @@ class ProfitRateServiceImplTest {
         assertEquals(true, response.getIsFixed());
         assertEquals("Standard profit rate", response.getDescription());
 
-        // Ensure entity is saved in DB
+
         assertEquals(1, profitRateRepository.count());
     }
 

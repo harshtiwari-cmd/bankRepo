@@ -30,7 +30,7 @@ class ServiceBookingServiceImplTest {
 
     @Test
     void createService_ShouldSaveAndReturnDto() {
-        // Arrange
+
         ServiceBookingRequestDTO request = ServiceBookingRequestDTO.builder()
                 .serviceName("Test Service")
                 .description("Test Description")
@@ -55,24 +55,23 @@ class ServiceBookingServiceImplTest {
                 .serviceName(savedEntity.getServiceName())
                 .description(savedEntity.getDescription())
                 .screenId(savedEntity.getScreenId())
-                .isActive(savedEntity.isActive()) // important for matching test
+                .isActive(savedEntity.isActive())
                 .build();
 
         when(serviceMapper.toEntity(request)).thenReturn(entity);
         when(repository.save(entity)).thenReturn(savedEntity);
         when(serviceMapper.toDto(savedEntity)).thenReturn(expectedResponse);
 
-        // Act
         ServiceBookingResponseDTO response = serviceBookingService.createService(request, "SCR001");
 
-        // Assert
+
         assertNotNull(response);
         assertEquals("Test Service", response.getServiceName());
         assertEquals("Test Description", response.getDescription());
         assertEquals("SCR001", response.getScreenId());
-        assertTrue(response.isActive()); // matches builder field
+        assertTrue(response.isActive());
 
-        // Verify save called
+
         verify(repository, times(1)).save(entity);
     }
 

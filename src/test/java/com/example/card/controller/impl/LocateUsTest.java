@@ -34,7 +34,6 @@ class LocateUsTest {
 
         locateUs = new LocateUs(atmService, branchService, kioskService);
 
-        // Sample Branch DTO
         branchDto = new BankBranchDTO();
         branchDto.setId(1L);
         branchDto.setBankName("Test Bank");
@@ -62,7 +61,7 @@ class LocateUsTest {
         holiday.setType("National");
         branchDto.setHolidayCalendar(List.of(holiday));
 
-        // Sample ATM DTO
+
         atmDto = AtmResponseDto.builder()
                 .id(10L)
                 .atmId("A001")
@@ -74,7 +73,6 @@ class LocateUsTest {
                 .coordinates(CoordinatesDTO.builder().latitude(12.9716).longitude(77.5946).build())
                 .build();
 
-        // Sample Kiosk DTO
         kioskDto = new KioskResponseDTO();
         kioskDto.setKioskId("K001");
         kioskDto.setBranchId("B001");
@@ -101,7 +99,6 @@ class LocateUsTest {
         kioskDto.setWeeklyHolidays(List.of("Sunday"));
     }
 
-    // --- Branch 1: data exists ---
     @Test
     void getService_ShouldReturnSuccess_WhenDataExists() {
         when(branchService.getAllBranchesWithStatus()).thenReturn(List.of(branchDto));
@@ -118,7 +115,6 @@ class LocateUsTest {
         assertEquals(3, body.getData().size());
     }
 
-    // --- Branch 2: all empty lists ---
     @Test
     void getService_ShouldReturnNoData_WhenAllEmpty() {
         when(branchService.getAllBranchesWithStatus()).thenReturn(Collections.emptyList());
@@ -135,7 +131,6 @@ class LocateUsTest {
         assertTrue(body.getData().isEmpty());
     }
 
-    // --- Branch 3: exception occurs ---
     @Test
     void getService_ShouldReturnInternalServerError_WhenExceptionOccurs() {
         when(branchService.getAllBranchesWithStatus()).thenThrow(new RuntimeException("DB error"));
@@ -150,7 +145,6 @@ class LocateUsTest {
         assertNull(body.getData());
     }
 
-    // --- Edge cases: one list empty, others have data ---
     @Test
     void getService_ShouldReturnSuccess_WhenOnlyBranchesExist() {
         when(branchService.getAllBranchesWithStatus()).thenReturn(List.of(branchDto));
