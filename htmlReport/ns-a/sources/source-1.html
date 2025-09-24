@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AtmServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.card.services.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: AtmServiceImpl (com.example.card.services.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AtmServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.card.services.impl;
+&nbsp;
+&nbsp;import com.example.card.constrants.dto.AtmRequestDto;
+&nbsp;import com.example.card.constrants.dto.AtmResponseDto;
+&nbsp;import com.example.card.constrants.dto.CoordinatesDTO;
+&nbsp;import com.example.card.constrants.mapper.AtmMapper;
+&nbsp;import com.example.card.constrants.entity.AtmEntity;
+&nbsp;import com.example.card.constrants.model.Coordinates;
+&nbsp;import com.example.card.repository.Atm_Repo;
+&nbsp;import com.example.card.services.AtmService;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class AtmServiceImpl implements AtmService {
+&nbsp;
+&nbsp;    private final Atm_Repo atmRepo;
+&nbsp;    private final AtmMapper atmMapper;
+&nbsp;
+<b class="fc">&nbsp;    public AtmServiceImpl(Atm_Repo atmRepo,AtmMapper atmMapper) {</b>
+&nbsp;
+<b class="fc">&nbsp;        this.atmRepo = atmRepo;</b>
+<b class="fc">&nbsp;        this.atmMapper = atmMapper;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AtmResponseDto registerAtm(AtmRequestDto requestDto) {
+<b class="fc">&nbsp;        Coordinates coordinates = requestDto.getCoordinates();</b>
+<b class="fc">&nbsp;        AtmEntity atmEntity = AtmEntity.builder().</b>
+<b class="fc">&nbsp;                atmId(requestDto.getAtmId())</b>
+<b class="fc">&nbsp;                .branchId(requestDto.getBranchId())</b>
+<b class="fc">&nbsp;                .siteName(requestDto.getSiteName())</b>
+<b class="fc">&nbsp;                .streetName(requestDto.getStreetName())</b>
+<b class="fc">&nbsp;                .townName(requestDto.getTownName())</b>
+<b class="fc">&nbsp;                .country(requestDto.getCountry())</b>
+<b class="fc">&nbsp;                .postCode(requestDto.getPostCode())</b>
+<b class="fc">&nbsp;                .coordinates(coordinates)</b>
+<b class="fc">&nbsp;                .supportedLanguages(String.join(&quot;,&quot;, requestDto.getSupportedLanguages()))</b>
+<b class="fc">&nbsp;                .atmServices(requestDto.getAtmServices())</b>
+<b class="fc">&nbsp;                .supportedCurrencies(String.join(&quot;,&quot;, requestDto.getSupportedCurrencies()))</b>
+<b class="fc">&nbsp;                .minimumPossibleAmount(requestDto.getMinimumPossibleAmount())</b>
+<b class="fc">&nbsp;                .openTime(requestDto.getOpenTime())</b>
+<b class="fc">&nbsp;                .build();</b>
+<b class="fc">&nbsp;        AtmEntity saved = atmRepo.save(atmEntity);</b>
+&nbsp;
+<b class="fc">&nbsp;        return AtmResponseDto.builder()</b>
+<b class="fc">&nbsp;                .id(saved.getId())</b>
+<b class="fc">&nbsp;                .atmId(saved.getAtmId())</b>
+<b class="fc">&nbsp;                .branchId(saved.getBranchId())</b>
+<b class="fc">&nbsp;                .siteName(saved.getSiteName())</b>
+<b class="fc">&nbsp;                .townName(saved.getTownName())</b>
+<b class="fc">&nbsp;                .country(saved.getCountry())</b>
+<b class="fc">&nbsp;                .openTime(saved.getOpenTime())</b>
+<b class="fc">&nbsp;                .coordinates(</b>
+<b class="fc">&nbsp;                        CoordinatesDTO.builder()</b>
+<b class="fc">&nbsp;                                .latitude(saved.getCoordinates().getLatitude())</b>
+<b class="fc">&nbsp;                                .longitude(saved.getCoordinates().getLongitude())</b>
+<b class="fc">&nbsp;                                .build()</b>
+&nbsp;                )
+<b class="fc">&nbsp;                .build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;AtmResponseDto&gt; getAtm() {
+<b class="fc">&nbsp;        return atmRepo.findAll()</b>
+<b class="fc">&nbsp;                .stream()</b>
+<b class="fc">&nbsp;                .map(atmMapper::toDto)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-09-24 12:49</div>
+</div>
+</body>
+</html>

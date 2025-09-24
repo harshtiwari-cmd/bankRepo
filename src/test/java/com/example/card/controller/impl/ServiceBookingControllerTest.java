@@ -1,132 +1,97 @@
-//package com.example.card.controller.impl;
-//
-//import com.example.card.constrants.dto.ServiceBookingRequestDTO;
-//import com.example.card.constrants.dto.ServiceBookingResponseDTO;
-//import com.example.card.controller.ServiceBookingController;
-//import com.example.card.services.ServiceBookingService;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Disabled;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mock;
-//import org.mockito.Mockito;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.context.bean.override.mockito.MockitoBean;
-//import org.springframework.test.web.servlet.MockMvc;
-//
-//import java.util.Arrays;
-//
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//
-//@WebMvcTest(ServiceBookingController.class)
-//public class ServiceBookingControllerTest {
-//
-//    @Autowired
-//    private ObjectMapper objectMapper;
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @MockitoBean
-//    private ServiceBookingService service;
-//
-//    private ServiceBookingRequestDTO requestDTO;
-//
-//    private ServiceBookingResponseDTO responseDTO;
-//
-//    @BeforeEach
-//    public void setUp() {
-//
-//        this.requestDTO = ServiceBookingRequestDTO.builder()
-//                .serviceName("Open Account")
-//                .description("Schedule meeting with a financial advisor")
-//                .isActive(true)
-//                .build();
-//
-//        this.responseDTO = ServiceBookingResponseDTO.builder()
-//                .serviceName("Open Account")
-//                .description("Schedule meeting with a financial advisor")
-//                .isActive(true)
-//                .screenId("screen123")
-//                .build();
-//    }
-//
-//    @Test
-//    public void shouldCreateServiceBookingSuccessfully() throws Exception {
-//
-//        Mockito.when(this.service.createService(this.requestDTO, "screen123")).thenReturn(this.responseDTO);
-//
-//        this.mockMvc.perform(post("/service-booking")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(this.objectMapper.writeValueAsString(this.requestDTO))
-//                        .param("screenId", "screen123"))
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.serviceName").value("Open Account"))
-//                .andExpect(jsonPath("$.active").value(true))
-//                .andExpect(jsonPath("$.screenId").value("screen123"));
-//    }
-//
-//    @Test
-//    public void shouldReturnBadRequest() throws Exception {
-//
-//        this.requestDTO.setServiceName(null);
-//
-//        this.mockMvc.perform(post("/service-booking")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(this.objectMapper.writeValueAsString(this.requestDTO))
-//                        .param("screenId", "screen123"))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.serviceName").value("Service name must not be blank"));
-//    }
-//
-//    @Test
-//    public void shouldReturnAllBookingsForScreenId() throws Exception {
-//
-//         final ServiceBookingResponseDTO dto1 = ServiceBookingResponseDTO.builder()
-//                .serviceName("Book Appointment")
-//                .description("Reserve a time slot with a banker")
-//                .isActive(true)
-//                .screenId("screen123")
-//                .build();
-//
-//         final ServiceBookingResponseDTO dto2 = ServiceBookingResponseDTO.builder()
-//                .serviceName("Meet Advisor")
-//                .description("Schedule meeting with a financial advisor")
-//                .isActive(true)
-//                .screenId("screen123")
-//                .build();
-//
-//        Mockito.when(this.service.getServiceByScreenId())
-//                .thenReturn(Arrays.asList(this.responseDTO, dto1, dto2));
-//
-//        this.mockMvc.perform(get("/service-booking")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .param("screenId", "screen123"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(3));
-//    }
-//
-//    @Test
-//    @Disabled
-//    public void shouldReturnNoContentWhenScreenIdIsMissing() throws Exception {
-//        this.mockMvc.perform(get("/service-booking")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNoContent());
-//
-//        Mockito.verify(service, Mockito.times(1)).getServiceByScreenId();
-//    }
-//
-//    @Test
-//    @Disabled
-//    public void shouldReturnNoContentForBlankScreenId() throws Exception {
-//        this.mockMvc.perform(get("/service-booking")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .param("screenId", " "))
-//                .andExpect(status().isNoContent());
-//    }
-//}
+package com.example.card.controller.impl;
+
+import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+import com.example.card.constrants.entity.ServiceBooking;
+import com.example.card.repository.ServiceBookingRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class ServiceBookingControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ServiceBookingRepository repository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setup() {
+        repository.deleteAll(); // clean DB before each test
+    }
+
+    @Test
+    void createService_ShouldReturnCreated() throws Exception {
+        ServiceBookingRequestDTO request = ServiceBookingRequestDTO.builder()
+                .serviceName("Test Service")
+                .description("Test Description")
+                .isActive(true)
+                .build();
+
+        mockMvc.perform(post("/service-booking")
+                        .param("screenId", "SCR001")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.serviceName").value("Test Service"))
+                .andExpect(jsonPath("$.description").value("Test Description"))
+                .andExpect(jsonPath("$.screenId").value("SCR001"))
+                // Mapper does not copy isActive, so persisted value is false
+                .andExpect(jsonPath("$.active").value(false));
+    }
+
+    @Test
+    void getAllServicesName_ShouldReturnSuccessWhenDataExists() throws Exception {
+        // Add a service
+        ServiceBooking entity = new ServiceBooking();
+        entity.setServiceName("Existing Service");
+        entity.setScreenId("SCR002");
+        entity.setActive(true);
+        repository.save(entity);
+
+        mockMvc.perform(get("/service-booking"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data[0]").value("1 - Existing Service"));
+    }
+
+    @Test
+    void getAllServicesName_ShouldReturnNoDataFoundWhenEmpty() throws Exception {
+        mockMvc.perform(get("/service-booking"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000404"))
+                .andExpect(jsonPath("$.status.description").value("No Data Found"))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @Test
+    void getAllServicesName_ShouldHandleNullServiceName() throws Exception {
+        // Save entity with null service name
+        ServiceBooking entity = new ServiceBooking();
+        entity.setServiceName(null);
+        entity.setScreenId("SCR003");
+        repository.save(entity);
+
+        mockMvc.perform(get("/service-booking"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data[0]").value("1 - null"));
+    }
+}

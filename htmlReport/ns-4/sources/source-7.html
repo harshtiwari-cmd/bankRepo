@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceMapperImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.card.constrants.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceMapperImpl (com.example.card.constrants.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceMapperImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (14/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.card.constrants.mapper;
+&nbsp;
+&nbsp;import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+&nbsp;import com.example.card.constrants.dto.ServiceBookingResponseDTO;
+&nbsp;import com.example.card.constrants.entity.ServiceBooking;
+&nbsp;import javax.annotation.processing.Generated;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;@Generated(
+&nbsp;    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+&nbsp;    date = &quot;2025-09-24T10:28:20+0530&quot;,
+&nbsp;    comments = &quot;version: 1.6.3, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)&quot;
+&nbsp;)
+&nbsp;@Component
+<b class="fc">&nbsp;public class ServiceMapperImpl implements ServiceMapper {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ServiceBooking toEntity(ServiceBookingRequestDTO requestDTO) {
+<b class="pc">&nbsp;        if ( requestDTO == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        ServiceBooking serviceBooking = new ServiceBooking();</b>
+&nbsp;
+<b class="fc">&nbsp;        serviceBooking.setServiceName( requestDTO.getServiceName() );</b>
+<b class="fc">&nbsp;        serviceBooking.setDescription( requestDTO.getDescription() );</b>
+<b class="fc">&nbsp;        serviceBooking.setActive( requestDTO.isActive() );</b>
+&nbsp;
+<b class="fc">&nbsp;        return serviceBooking;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ServiceBookingResponseDTO toDto(ServiceBooking entity) {
+<b class="pc">&nbsp;        if ( entity == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        ServiceBookingResponseDTO.ServiceBookingResponseDTOBuilder serviceBookingResponseDTO = ServiceBookingResponseDTO.builder();</b>
+&nbsp;
+<b class="fc">&nbsp;        serviceBookingResponseDTO.serviceId( entity.getServiceId() );</b>
+<b class="fc">&nbsp;        serviceBookingResponseDTO.serviceName( entity.getServiceName() );</b>
+<b class="fc">&nbsp;        serviceBookingResponseDTO.description( entity.getDescription() );</b>
+<b class="fc">&nbsp;        serviceBookingResponseDTO.screenId( entity.getScreenId() );</b>
+&nbsp;
+<b class="fc">&nbsp;        return serviceBookingResponseDTO.build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-09-24 12:49</div>
+</div>
+</body>
+</html>
