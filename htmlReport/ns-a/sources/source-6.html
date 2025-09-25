@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > KioskServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.card.services.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: KioskServiceImpl (com.example.card.services.impl)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">KioskServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.4%
+  </span>
+  <span class="absValue">
+    (27/32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">KioskServiceImpl$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.4%
+  </span>
+  <span class="absValue">
+    (27/32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.card.services.impl;
+&nbsp;
+&nbsp;import com.example.card.constrants.mapper.KioskMapper;
+&nbsp;import com.example.card.constrants.model.Kiosk;
+&nbsp;import com.example.card.constrants.dto.KioskRequestDTO;
+&nbsp;import com.example.card.constrants.dto.KioskResponseDTO;
+&nbsp;import com.example.card.exceptions.BusinessException;
+&nbsp;import com.example.card.repository.KioskRepository;
+&nbsp;import com.example.card.services.KioskService;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+&nbsp;@Transactional
+&nbsp;public class KioskServiceImpl implements KioskService {
+&nbsp;
+&nbsp;    private final KioskRepository kioskRepository;
+&nbsp;    private final KioskMapper kioskMapper;
+&nbsp;
+<b class="fc">&nbsp;    public KioskServiceImpl(KioskRepository kioskRepository, KioskMapper kioskMapper) {</b>
+<b class="fc">&nbsp;        this.kioskRepository = kioskRepository;</b>
+<b class="fc">&nbsp;        this.kioskMapper = kioskMapper;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public KioskResponseDTO createKiosk(KioskRequestDTO dto) {
+&nbsp;
+<b class="fc">&nbsp;        if (dto.getKioskId() == null) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;KIOSK_ID_NULL&quot;,
+&nbsp;                    &quot;Kiosk ID cannot be null&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+<b class="fc">&nbsp;        if (dto.getKioskId().isBlank()) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;KIOSK_ID_EMPTY&quot;,
+&nbsp;                    &quot;Kiosk ID cannot be empty&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+<b class="fc">&nbsp;        if (kioskRepository.existsByKioskId(dto.getKioskId())) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;DUPLICATE_KIOSK_ID&quot;,
+<b class="fc">&nbsp;                    &quot;Kiosk with ID &#39;&quot; + dto.getKioskId() + &quot;&#39; already exists&quot;,</b>
+&nbsp;                    HttpStatus.CONFLICT
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (dto.getBranchId() == null) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;BRANCH_ID_NULL&quot;,
+&nbsp;                    &quot;Branch ID cannot be null&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+<b class="fc">&nbsp;        if (dto.getBranchId().isBlank()) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;BRANCH_ID_EMPTY&quot;,
+&nbsp;                    &quot;Branch ID cannot be empty&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (dto.getName() == null) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;NAME_NULL&quot;,
+&nbsp;                    &quot;Kiosk name cannot be null&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+<b class="fc">&nbsp;        if (dto.getName().isBlank()) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;NAME_EMPTY&quot;,
+&nbsp;                    &quot;Kiosk name cannot be empty&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+<b class="fc">&nbsp;        if (kioskRepository.existsByName(dto.getName())) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;DUPLICATE_NAME&quot;,
+<b class="fc">&nbsp;                    &quot;Kiosk with name &#39;&quot; + dto.getName() + &quot;&#39; already exists&quot;,</b>
+&nbsp;                    HttpStatus.CONFLICT
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (dto.getLocation() == null) {</b>
+<b class="fc">&nbsp;            throw new BusinessException(</b>
+&nbsp;                    &quot;LOCATION_NULL&quot;,
+&nbsp;                    &quot;Kiosk location cannot be null&quot;,
+&nbsp;                    HttpStatus.BAD_REQUEST
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Kiosk kiosk = kioskMapper.toEntity(dto);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (kiosk.getHolidayCalendar() != null) {</b>
+<b class="nc">&nbsp;            kiosk.getHolidayCalendar().forEach(holiday -&gt; holiday.setKiosk(kiosk));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Kiosk saved = kioskRepository.save(kiosk);</b>
+<b class="fc">&nbsp;        return kioskMapper.toDto(saved);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;KioskResponseDTO&gt; getKiosk() {
+<b class="nc">&nbsp;        return kioskRepository.findAll()</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .map(kioskMapper::toDto)</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-09-24 12:49</div>
+</div>
+</body>
+</html>

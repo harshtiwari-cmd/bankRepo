@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceBookingController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.card.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceBookingController (com.example.card.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceBookingController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    23.5%
+  </span>
+  <span class="absValue">
+    (4/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.card.controller;
+&nbsp;
+&nbsp;import com.example.card.constrants.dto.GenericResponse;
+&nbsp;import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+&nbsp;import com.example.card.constrants.dto.ServiceBookingResponseDTO;
+&nbsp;import com.example.card.constrants.dto.Status;
+&nbsp;import com.example.card.services.ServiceBookingService;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.atomic.AtomicLong;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/service-booking&quot;)
+&nbsp;public class ServiceBookingController {
+&nbsp;
+&nbsp;    private final ServiceBookingService service;
+&nbsp;
+<b class="fc">&nbsp;    public ServiceBookingController(ServiceBookingService service) {</b>
+<b class="fc">&nbsp;        this.service = service;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    public ResponseEntity&lt;ServiceBookingResponseDTO&gt; createService(
+&nbsp;            @RequestBody @Valid ServiceBookingRequestDTO serviceBooking,
+&nbsp;            @RequestParam String screenId) {
+<b class="fc">&nbsp;        ServiceBookingResponseDTO service1 = service.createService(serviceBooking, screenId);</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED).body(service1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;//    @GetMapping
+&nbsp;//    public ResponseEntity&lt;List&lt;ServiceBookingResponseDTO&gt;&gt; getService() {
+&nbsp;//        try {
+&nbsp;//            List&lt;ServiceBookingResponseDTO&gt; services = service.getServiceByScreenId();
+&nbsp;//
+&nbsp;//            if (services.isEmpty()) {
+&nbsp;//                return ResponseEntity.noContent().build();
+&nbsp;//            }
+&nbsp;//            return ResponseEntity.ok(services);
+&nbsp;//        } catch (Exception e) {
+&nbsp;//            return ResponseEntity.status(500).build();
+&nbsp;//        }
+&nbsp;//    }
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;GenericResponse&lt;List&lt;String&gt;&gt;&gt; getAllServicesName() {
+&nbsp;        try {
+<b class="nc">&nbsp;            List&lt;ServiceBookingResponseDTO&gt; responseDTOS = service.getServiceByScreenId();</b>
+<b class="nc">&nbsp;            AtomicLong counter = new AtomicLong(1);</b>
+<b class="nc">&nbsp;            List&lt;String&gt; list = responseDTOS</b>
+<b class="nc">&nbsp;                    .stream()</b>
+<b class="nc">&nbsp;                    .map(dto -&gt; counter.getAndIncrement() + &quot; - &quot; + dto.getServiceName())</b>
+<b class="nc">&nbsp;                    .toList();</b>
+<b class="nc">&nbsp;            if (list.isEmpty()) {</b>
+<b class="nc">&nbsp;                return ResponseEntity.status(HttpStatus.OK)</b>
+<b class="nc">&nbsp;                        .body(new GenericResponse&lt;&gt;(new Status(&quot;000404&quot;, &quot;No Data Found&quot;), new ArrayList&lt;&gt;()));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            GenericResponse&lt;List&lt;String&gt;&gt; response =</b>
+&nbsp;                    new GenericResponse&lt;&gt;(new Status(&quot;000000&quot;, &quot;SUCCESS&quot;), list);
+&nbsp;
+<b class="nc">&nbsp;            return ResponseEntity.ok(response);</b>
+&nbsp;        }
+&nbsp;        catch (Exception e) {
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)</b>
+<b class="nc">&nbsp;                    .body(new GenericResponse&lt;&gt;(new Status(&quot;G-00001&quot;, &quot;Internal Server ERROR&quot;), null));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-09-24 12:49</div>
+</div>
+</body>
+</html>

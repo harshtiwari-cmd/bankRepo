@@ -1,0 +1,103 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProfitRateRequestDTO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.card.constrants.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: ProfitRateRequestDTO (com.example.card.constrants.dto)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ProfitRateRequestDTO</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.card.constrants.dto;
+&nbsp;
+&nbsp;import lombok.Data;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;
+&nbsp;import jakarta.validation.constraints.*;
+&nbsp;
+&nbsp;@Data
+&nbsp;public class ProfitRateRequestDTO {
+&nbsp;
+&nbsp;    private Long id;
+&nbsp;
+&nbsp;    @NotBlank(message = &quot;Product name must not be blank&quot;)
+&nbsp;    @Size(max = 100, message = &quot;Product name must not exceed 100 characters&quot;)
+&nbsp;    private String productName;
+&nbsp;
+&nbsp;    @NotNull(message = &quot;Rate is required&quot;)
+&nbsp;    @DecimalMin(value = &quot;0.0&quot;, inclusive = false, message = &quot;Rate must be greater than 0&quot;)
+&nbsp;    @Digits(integer = 3, fraction = 2, message = &quot;Rate must be a valid percentage (e.g., 5.25)&quot;)
+&nbsp;    private Double rate;
+&nbsp;
+&nbsp;    @NotNull(message = &quot;Effective from date is required&quot;)
+&nbsp;    @FutureOrPresent(message = &quot;Effective from date must be today or in the future&quot;)
+&nbsp;    private LocalDate effectiveFrom;
+&nbsp;
+&nbsp;    @Future(message = &quot;Effective to date must be in the future&quot;)
+&nbsp;    private LocalDate effectiveTo;
+&nbsp;
+&nbsp;    @NotNull(message = &quot;Rate type (fixed or variable) must be specified&quot;)
+&nbsp;    private Boolean isFixed;
+&nbsp;
+&nbsp;    @Size(max = 255, message = &quot;Description must not exceed 255 characters&quot;)
+&nbsp;    private String description;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-09-24 12:49</div>
+</div>
+</body>
+</html>
