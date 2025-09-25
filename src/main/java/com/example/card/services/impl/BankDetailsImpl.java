@@ -38,6 +38,12 @@ public class BankDetailsImpl implements BankDetailsService {
          entity.setMail(dto.getMail());
          entity.setContact(dto.getContact());
          entity.setInternationalContact(dto.getInternationalContact());
+         entity.setFbUrl(dto.getFbUrl());
+         entity.setDukhenBankUrl(dto.getDukhenBankUrl());
+         entity.setTwitterUrl(dto.getTwitterUrl());
+         entity.setInstaUrl(dto.getInstaUrl());
+         entity.setSnapChatUrl(dto.getSnapChatUrl());
+         entity.setYouTubeUrl(dto.getYouTubeUrl());
         log.debug("Mapped DTO to entity: {}", entity);
 
         BankDetailsEntity savedEntity = repository.save(entity);
@@ -62,7 +68,13 @@ public class BankDetailsImpl implements BankDetailsService {
                 entity.getName(),
                 entity.getMail(),
                 entity.getContact(),
-                entity.getInternationalContact()
+                entity.getInternationalContact(),
+                entity.getInstaUrl(),
+                entity.getTwitterUrl(),
+                entity.getFbUrl(),
+                entity.getDukhenBankUrl(),
+                entity.getSnapChatUrl(),
+                entity.getYouTubeUrl()
         );
 
         log.debug("Bank details fetched and mapped to response DTO: {}", responseDto);
