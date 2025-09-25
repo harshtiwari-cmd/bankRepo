@@ -19,4 +19,10 @@ public class BankDetailsResponseDto {
     private Long contact;
     @NotNull(message = "international number should not be null")
     private String internationalContact;
+    private String instaUrl;
+    private String twitterUrl;
+    private String fbUrl;
+    private String dukhenBankUrl;
+    private String snapChatUrl;
+    private String youTubeUrl;
 }

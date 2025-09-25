@@ -23,7 +23,17 @@ public class BankDetailsEntity {
     private Long contact;
     @Column
     private String internationalContact;
-
-
+    @Column
+    private String instaUrl;
+    @Column
+    private String twitterUrl;
+    @Column
+    private String fbUrl;
+    @Column
+    private String dukhenBankUrl;
+    @Column
+    private String snapChatUrl;
+    @Column
+    private String youTubeUrl;
 
 }
