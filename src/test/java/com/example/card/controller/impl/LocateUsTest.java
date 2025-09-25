@@ -63,14 +63,26 @@ class LocateUsTest {
 
 
         atmDto = AtmResponseDto.builder()
-                .id(10L)
-                .atmId("A001")
-                .branchId("B001")
-                .siteName("Central ATM Site")
-                .townName("Bangalore")
+                .id(101L)
+                .arabicName("ATM Machine")
+                .cashDeposit(true)
+                .cashOut(true)
+                .chequeDeposit(false)
+                .city("Mumbai")
+                .cityInArabic("Mumbai")
+                .code("ATM123")
+                .contactDetails("022-12345678")
                 .country("India")
-                .openTime("24x7")
-                .coordinates(CoordinatesDTO.builder().latitude(12.9716).longitude(77.5946).build())
+                .disablePeople(false)
+                .fullAddress("123 Main Street, Mumbai")
+                .fullAddressArb("123 Main Street, Mumbai")
+                .latitude("19.0760")
+                .longitude("72.8777")
+                .onlineLocation(true)
+                .timing("24/7")
+                .typeLocation("Branch ATM")
+                .workingHours("9 AM - 6 PM")
+                .workingHoursInArb("9 AM - 6 PM")
                 .build();
 
         kioskDto = new KioskResponseDTO();
