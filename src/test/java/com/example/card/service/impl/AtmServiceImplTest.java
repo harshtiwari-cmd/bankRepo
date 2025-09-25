@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+
 @ExtendWith(MockitoExtension.class)
 public class AtmServiceImplTest {
 
@@ -38,6 +39,7 @@ public class AtmServiceImplTest {
 
     private AtmRequestDto requestDto;
     private AtmEntity savedEntity;
+
 
     @BeforeEach
     void setUp() {
@@ -189,4 +191,5 @@ public class AtmServiceImplTest {
 
         assertEquals("DB Save Error", exception.getMessage());
     }
+
 }

@@ -3,7 +3,6 @@ package com.example.card.controller.impl;
 
 
 import com.example.card.constrants.dto.AtmRequestDto;
-import com.example.card.constrants.model.Coordinates;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,8 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,14 +25,13 @@ public class AtmControllerImplTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // Build a valid request DTO based on your updated entity structure
     private AtmRequestDto buildValidRequest() {
         return AtmRequestDto.builder()
                 .code("ATM001")
                 .city("Hyderabad")
                 .country("IN")
                 .timing("08:00 - 20:00")
-                .arabicName("aaaaa")
+                .arabicName("aaaa")
                 .cashDeposit(true)
                 .cashOut(true)
                 .chequeDeposit(false)
@@ -43,13 +39,13 @@ public class AtmControllerImplTest {
                 .contactDetails("1800-ATM")
                 .disablePeople(true)
                 .fullAddress("Panjagutta Road, Central Mall")
-                .fullAddressArb("yyyyyyy")
+                .fullAddressArb("yyyyy")
                 .latitude("17.385044")
                 .longitude("78.486671")
                 .onlineLocation(true)
                 .typeLocation("Indoor")
                 .workingHours("08:00 to 20:00")
-                .workingHoursInArb("من 08:00 إلى 20:00")
+                .workingHoursInArb("20:00 to 08:00")
                 .build();
     }
 
@@ -74,13 +70,12 @@ public class AtmControllerImplTest {
     @DisplayName("POST /api/atms - Validation Failure - Missing required fields")
     void testRegisterAtm_validationFailure() throws Exception {
         AtmRequestDto invalid = buildValidRequest();
-        invalid.setCode(""); // assuming @NotBlank on code
+        invalid.setCode(""); // @NotBlank violation
 
         mockMvc.perform(post("/api/atms")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalid)))
                 .andExpect(status().isBadRequest());
-
     }
 
     @Test
