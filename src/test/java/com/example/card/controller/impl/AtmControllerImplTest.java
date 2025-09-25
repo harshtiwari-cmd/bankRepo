@@ -4,6 +4,7 @@ package com.example.card.controller.impl;
 
 
 import com.example.card.constrants.dto.AtmRequestDto;
+import com.example.card.constrants.dto.AtmResponseDto;
 import com.example.card.constrants.model.Coordinates;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -30,37 +31,43 @@ public class AtmControllerImplTest {
 
     private AtmRequestDto buildValidRequest() {
         return AtmRequestDto.builder()
-                .atmId("AB123456")
-                .branchId("402519")
-                .siteName("central mall")
-                .streetName("panjagutta road")
-                .townName("Hyderabad")
-                .country("IN")
-                .postCode("560038")
-                .coordinates(new Coordinates(12.97878, 77.9999))
-                .supportedLanguages(List.of("en", "hi","or"))
-                .atmServices(List.of("cashWithdrawal", "MiniStateMent"))
-                .supportedCurrencies(List.of("INR"))
-                .minimumPossibleAmount(100)
-                .openTime("08:00")
+                .arabicName("ATM Machine")
+                .cashDeposit(true)
+                .cashOut(true)
+                .chequeDeposit(false)
+                .city("Mumbai")
+                .cityInArabic("Mumbai")
+                .code("ATM123")
+                .contactDetails("022-12345678")
+                .country("India")
+                .disablePeople(false)
+                .fullAddress("123 Main Street, Mumbai")
+                .fullAddressArb("123 Main Street, Mumbai")
+                .latitude("19.0760")
+                .longitude("72.8777")
+                .onlineLocation(true)
+                .timing("24/7")
+                .typeLocation("Branch ATM")
+                .workingHours("9 AM - 6 PM")
+                .workingHoursInArb("9 AM - 6 PM")
                 .build();
     }
 
     @Test
     void testRegisterAtm_success() throws Exception {
         AtmRequestDto requestDto = buildValidRequest();
-
+        requestDto.setCode("ATM123");
         mockMvc.perform(post("/api/atms")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.atmId").value("AB123456"));
+                .andExpect(jsonPath("$.code").value("ATM123"));
     }
 
     @Test
     void testRegisterAtm_validationFailure() throws Exception {
         AtmRequestDto invalid = buildValidRequest();
-        invalid.setAtmId(""); // invalid due to @NotBlank
+        invalid.setCode(""); // invalid due to @NotBlank
 
         mockMvc.perform(post("/api/atms")
                         .contentType(MediaType.APPLICATION_JSON)
