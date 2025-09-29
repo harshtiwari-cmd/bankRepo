@@ -1,7 +1,7 @@
 package com.example.card.exceptions;
 
 
-import com.example.card.constrants.dto.ErrorResponse;
+import com.example.card.domain.dto.ErrorResponse;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

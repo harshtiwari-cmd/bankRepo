@@ -1,6 +1,6 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.ServiceBookingRequestDTO;
+import com.example.card.domain.dto.ServiceBookingRequestDTO;
 import com.example.card.constrants.entity.ServiceBooking;
 import com.example.card.repository.ServiceBookingRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

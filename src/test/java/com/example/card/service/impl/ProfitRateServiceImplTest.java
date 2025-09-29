@@ -1,9 +1,9 @@
 package com.example.card.service.impl;
 
-import com.example.card.constrants.dto.ProfitRateRequestDTO;
-import com.example.card.constrants.dto.ProfitRateResponseDTO;
+import com.example.card.domain.dto.ProfitRateRequestDTO;
+import com.example.card.domain.dto.ProfitRateResponseDTO;
 import com.example.card.repository.ProfitRateRepository;
-import com.example.card.services.impl.ProfitRateServiceImpl;
+import com.example.card.adapter.api.services.impl.ProfitRateServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,8 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.model.ReferenceResponse;
-import com.example.card.services.ReferenceNumberService;
+import com.example.card.adapter.api.controller.IbNumberGenerationController;
+import com.example.card.domain.model.ReferenceResponse;
+import com.example.card.adapter.api.services.ReferenceNumberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.card.controller.impl.IbNumberGenerationImplTest;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import com.example.card.exceptions.BusinessException;
@@ -22,7 +23,7 @@ class IbNumberGenerationImplTest {
     private ReferenceNumberService referenceNumberService;
 
     @InjectMocks
-    private IbNumberGenerationImpl controller;
+    private IbNumberGenerationController controller;
 
     private String validChannel;
     private String generatedRef;

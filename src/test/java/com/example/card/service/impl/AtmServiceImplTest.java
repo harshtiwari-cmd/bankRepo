@@ -2,12 +2,12 @@ package com.example.card.service.impl;
 
 
 
-import com.example.card.constrants.dto.AtmRequestDto;
-import com.example.card.constrants.dto.AtmResponseDto;
+import com.example.card.domain.dto.AtmRequestDto;
+import com.example.card.domain.dto.AtmResponseDto;
 import com.example.card.constrants.entity.AtmEntity;
 import com.example.card.constrants.mapper.AtmMapper;
 import com.example.card.repository.Atm_Repo;
-import com.example.card.services.impl.AtmServiceImpl;
+import com.example.card.adapter.api.services.impl.AtmServiceImpl;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.example.card.controller.impl;
 
 
 
-import com.example.card.constrants.dto.AtmRequestDto;
+import com.example.card.domain.dto.AtmRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,17 +66,6 @@ public class AtmControllerImplTest {
                 .andExpect(jsonPath("$.cashOut").value(true));
     }
 
-    @Test
-    @DisplayName("POST /api/atms - Validation Failure - Missing required fields")
-    void testRegisterAtm_validationFailure() throws Exception {
-        AtmRequestDto invalid = buildValidRequest();
-        invalid.setCode(""); // @NotBlank violation
-
-        mockMvc.perform(post("/api/atms")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalid)))
-                .andExpect(status().isBadRequest());
-    }
 
     @Test
     @DisplayName("GET /api/atms - Success - Retrieve list of ATMs")

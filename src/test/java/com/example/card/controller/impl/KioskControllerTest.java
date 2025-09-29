@@ -2,11 +2,11 @@ package com.example.card.controller.impl;
 
 
 
-import com.example.card.constrants.dto.HolidayCalendarDTO;
-import com.example.card.constrants.dto.KioskRequestDTO;
-import com.example.card.constrants.dto.KioskResponseDTO;
-import com.example.card.controller.KioskController;
-import com.example.card.services.KioskService;
+import com.example.card.domain.dto.HolidayCalendarDTO;
+import com.example.card.domain.dto.KioskRequestDTO;
+import com.example.card.domain.dto.KioskResponseDTO;
+import com.example.card.adapter.api.controller.KioskController;
+import com.example.card.adapter.api.services.KioskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

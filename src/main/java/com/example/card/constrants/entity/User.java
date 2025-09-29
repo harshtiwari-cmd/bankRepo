@@ -1,10 +1,7 @@
 package com.example.card.constrants.entity;
 
-import com.example.card.constrants.model.Address;
+import com.example.card.domain.model.Address;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data

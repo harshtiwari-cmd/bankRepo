@@ -1,11 +1,10 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.mapper.CardMapper;
-import com.example.card.constrants.model.CardRequest;
-import com.example.card.constrants.model.CardResponse;
-import com.example.card.exceptions.BusinessException;
-import com.example.card.services.CardValidationService;
-import com.example.card.services.StaticResponseService;
+import com.example.card.adapter.api.controller.CardController;
+import com.example.card.domain.model.CardRequest;
+import com.example.card.domain.model.CardResponse;
+import com.example.card.adapter.api.services.CardValidationService;
+import com.example.card.adapter.api.services.StaticResponseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +27,7 @@ class CardControllerImplTest {
     private StaticResponseService staticResponseService;
 
     @InjectMocks
-    private CardControllerImpl cardController;
+    private CardController cardController;
 
     private CardRequest validRequest;
     private CardResponse successResponse;

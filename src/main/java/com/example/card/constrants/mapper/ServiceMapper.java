@@ -1,7 +1,7 @@
 package com.example.card.constrants.mapper;
 
-import com.example.card.constrants.dto.ServiceBookingRequestDTO;
-import com.example.card.constrants.dto.ServiceBookingResponseDTO;
+import com.example.card.domain.dto.ServiceBookingRequestDTO;
+import com.example.card.domain.dto.ServiceBookingResponseDTO;
 import com.example.card.constrants.entity.ServiceBooking;
 import org.mapstruct.Mapper;
 

@@ -1,15 +1,15 @@
 package com.example.card.service.impl;
 
-import com.example.card.constrants.dto.BankBranchDTO;
-import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
-import com.example.card.constrants.dto.CoordinatesHarshDTO;
-import com.example.card.constrants.dto.HolidayHarshDTO;
+import com.example.card.domain.dto.BankBranchDTO;
+import com.example.card.domain.dto.CreateBankHarshBranchDTO;
+import com.example.card.domain.dto.CoordinatesHarshDTO;
+import com.example.card.domain.dto.HolidayHarshDTO;
 import com.example.card.constrants.mapper.BankBranchMapper;
-import com.example.card.constrants.model.CoordinatesHarsh;
-import com.example.card.constrants.model.HolidayHarsh;
+import com.example.card.domain.model.CoordinatesHarsh;
+import com.example.card.domain.model.HolidayHarsh;
 import com.example.card.constrants.entity.BankBranchHarsh;
 import com.example.card.repository.BankBranchRepository;
-import com.example.card.services.impl.BankBranchServiceImpl;
+import com.example.card.adapter.api.services.impl.BankBranchServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
