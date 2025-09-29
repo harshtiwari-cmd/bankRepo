@@ -2,7 +2,7 @@ package com.example.card.constrants.mapper;
 
 
 
-import com.example.card.constrants.dto.FXRateResponseDto;
+import com.example.card.domain.dto.FXRateResponseDto;
 import com.example.card.constrants.entity.FxRate;
 import org.mapstruct.Mapper;
 

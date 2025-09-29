@@ -1,7 +1,7 @@
 package com.example.card.constrants.entity;
 
-import com.example.card.constrants.model.CoordinatesHarsh;
-import com.example.card.constrants.model.HolidayHarsh;
+import com.example.card.domain.model.CoordinatesHarsh;
+import com.example.card.domain.model.HolidayHarsh;
 import jakarta.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;

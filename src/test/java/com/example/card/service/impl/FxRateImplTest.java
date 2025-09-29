@@ -1,10 +1,9 @@
 package com.example.card.service.impl;
 
-import com.example.card.constrants.dto.FXRateDto;
-import com.example.card.constrants.dto.FXRateResponseDto;
+import com.example.card.domain.dto.FXRateDto;
+import com.example.card.domain.dto.FXRateResponseDto;
 import com.example.card.repository.FxRateRepo;
-import com.example.card.services.impl.FxRateImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.card.adapter.api.services.impl.FxRateImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

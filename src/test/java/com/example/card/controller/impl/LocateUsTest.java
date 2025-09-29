@@ -1,10 +1,10 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.*;
-import com.example.card.controller.LocateUs;
-import com.example.card.services.impl.AtmServiceImpl;
-import com.example.card.services.impl.BankBranchServiceImpl;
-import com.example.card.services.impl.KioskServiceImpl;
+import com.example.card.adapter.api.controller.LocateUs;
+import com.example.card.adapter.api.services.impl.AtmServiceImpl;
+import com.example.card.adapter.api.services.impl.BankBranchServiceImpl;
+import com.example.card.adapter.api.services.impl.KioskServiceImpl;
+import com.example.card.domain.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -152,8 +152,8 @@ class LocateUsTest {
         assertEquals(500, response.getStatusCodeValue());
         GenericResponse<List<Map<String, List<?>>>> body = response.getBody();
         assertNotNull(body);
-        assertEquals("G-00001", body.getStatus().getCode());
-        assertEquals("Internal Server ERROR", body.getStatus().getDescription());
+        assertEquals("BRANCH_ERROR", body.getStatus().getCode());
+        assertEquals("Failed to fetch branches", body.getStatus().getDescription());
         assertNull(body.getData());
     }
 

@@ -1,10 +1,11 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.BankBranchDTO;
-import com.example.card.constrants.dto.CreateBankHarshBranchDTO;
-import com.example.card.constrants.dto.CoordinatesHarshDTO;
-import com.example.card.constrants.dto.HolidayHarshDTO;
-import com.example.card.services.BankBranchService;
+import com.example.card.adapter.api.controller.BankBranchController;
+import com.example.card.domain.dto.BankBranchDTO;
+import com.example.card.domain.dto.CreateBankHarshBranchDTO;
+import com.example.card.domain.dto.CoordinatesHarshDTO;
+import com.example.card.domain.dto.HolidayHarshDTO;
+import com.example.card.adapter.api.services.BankBranchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class BankBranchImplTest {
     private BankBranchService bankBranchService;
 
     @InjectMocks
-    private BankBranchImpl bankBranchImpl;
+    private BankBranchController bankBranchImpl;
 
     private BankBranchDTO sampleBankBranchDTO;
     private CreateBankHarshBranchDTO sampleCreateBankHarshBranchDTO;

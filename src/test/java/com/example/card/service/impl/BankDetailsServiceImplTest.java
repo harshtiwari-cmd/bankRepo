@@ -1,22 +1,18 @@
 package com.example.card.service.impl;
 
-import com.example.card.constrants.dto.BankDetailsDto;
-import com.example.card.constrants.dto.BankDetailsResponseDto;
+import com.example.card.domain.dto.BankDetailsDto;
+import com.example.card.domain.dto.BankDetailsResponseDto;
 import com.example.card.constrants.entity.BankDetailsEntity;
 import com.example.card.constrants.mapper.BankDetailsMapper;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.repository.BankDetailsRepository;
-import com.example.card.services.impl.BankDetailsImpl;
+import com.example.card.adapter.api.services.impl.BankDetailsImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

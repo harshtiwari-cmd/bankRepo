@@ -2,8 +2,8 @@ package com.example.card.constrants.mapper;
 
 
 
-import com.example.card.constrants.dto.BankDetailsDto;
-import com.example.card.constrants.dto.BankDetailsResponseDto;
+import com.example.card.domain.dto.BankDetailsDto;
+import com.example.card.domain.dto.BankDetailsResponseDto;
 import com.example.card.constrants.entity.BankDetailsEntity;
 import org.mapstruct.Mapper;
 

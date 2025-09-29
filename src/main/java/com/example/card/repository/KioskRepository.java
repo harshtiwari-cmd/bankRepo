@@ -1,6 +1,6 @@
 package com.example.card.repository;
 
-import com.example.card.constrants.model.Kiosk;
+import com.example.card.domain.model.Kiosk;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

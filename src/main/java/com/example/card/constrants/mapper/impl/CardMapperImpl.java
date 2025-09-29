@@ -1,7 +1,7 @@
 package com.example.card.constrants.mapper.impl;
 
 import com.example.card.constrants.mapper.CardMapper;
-import com.example.card.constrants.model.CardResponse;
+import com.example.card.domain.model.CardResponse;
 import org.springframework.stereotype.Service;
 
 @Service
