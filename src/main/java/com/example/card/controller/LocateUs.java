@@ -36,12 +36,35 @@ public class LocateUs {
 
     @GetMapping
     public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService() {
-
         log.info("GET /locate-us - Received request to fetch all services");
         try {
-            List<BankBranchDTO> branches = branchService.getAllBranchesWithStatus();
-            List<AtmResponseDto> atms = atmService.getAtm();
-            List<KioskResponseDTO> kiosks = kioskService.getKiosk();
+            List<BankBranchDTO> branches;
+            List<AtmResponseDto> atms;
+            List<KioskResponseDTO> kiosks;
+
+            try {
+                branches = branchService.getAllBranchesWithStatus();
+            } catch (Exception e) {
+                log.error("Failed to fetch branches: {}", e.getMessage(), e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new GenericResponse<>(new Status("BRANCH_ERROR", "Failed to fetch branches"), null));
+            }
+
+            try {
+                atms = atmService.getAtm();
+            } catch (Exception e) {
+                log.error("Failed to fetch ATMs: {}", e.getMessage(), e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new GenericResponse<>(new Status("ATM_ERROR", "Failed to fetch ATMs"), null));
+            }
+
+            try {
+                kiosks = kioskService.getKiosk();
+            } catch (Exception e) {
+                log.error("Failed to fetch kiosks: {}", e.getMessage(), e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new GenericResponse<>(new Status("KIOSK_ERROR", "Failed to fetch kiosks"), null));
+            }
 
             if (branches.isEmpty() && atms.isEmpty() && kiosks.isEmpty()) {
                 log.warn("Failed to load: no data found");
@@ -60,7 +83,7 @@ public class LocateUs {
             log.info("Successfully fetched all data");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Exception occurred while fetching services: {}", e.getMessage(),e);
+            log.error("Exception occurred while fetching services: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
         }
