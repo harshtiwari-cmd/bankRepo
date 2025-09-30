@@ -1,10 +1,10 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.*;
-import com.example.card.controller.LocateUs;
-import com.example.card.services.impl.AtmServiceImpl;
-import com.example.card.services.impl.BankBranchServiceImpl;
-import com.example.card.services.impl.KioskServiceImpl;
+import com.example.card.adapter.api.controller.LocateUs;
+import com.example.card.adapter.api.services.impl.AtmServiceImpl;
+import com.example.card.adapter.api.services.impl.BankBranchServiceImpl;
+import com.example.card.adapter.api.services.impl.KioskServiceImpl;
+import com.example.card.domain.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -61,16 +61,27 @@ class LocateUsTest {
         holiday.setType("National");
         branchDto.setHolidayCalendar(List.of(holiday));
 
-
         atmDto = AtmResponseDto.builder()
-                .id(10L)
-                .atmId("A001")
-                .branchId("B001")
-                .siteName("Central ATM Site")
-                .townName("Bangalore")
+                .id(101L)
+                .arabicName("ATM Machine")
+                .cashDeposit(true)
+                .cashOut(true)
+                .chequeDeposit(false)
+                .city("Mumbai")
+                .cityInArabic("Mumbai")
+                .code("ATM123")
+                .contactDetails("022-12345678")
                 .country("India")
-                .openTime("24x7")
-                .coordinates(CoordinatesDTO.builder().latitude(12.9716).longitude(77.5946).build())
+                .disablePeople(false)
+                .fullAddress("123 Main Street, Mumbai")
+                .fullAddressArb("123 Main Street, Mumbai")
+                .latitude("19.0760")
+                .longitude("72.8777")
+                .onlineLocation(true)
+                .timing("24/7")
+                .typeLocation("Branch ATM")
+                .workingHours("9 AM - 6 PM")
+                .workingHoursInArb("9 AM - 6 PM")
                 .build();
 
         kioskDto = new KioskResponseDTO();
@@ -140,8 +151,8 @@ class LocateUsTest {
         assertEquals(500, response.getStatusCodeValue());
         GenericResponse<List<Map<String, List<?>>>> body = response.getBody();
         assertNotNull(body);
-        assertEquals("G-00001", body.getStatus().getCode());
-        assertEquals("Internal Server ERROR", body.getStatus().getDescription());
+        assertEquals("BRANCH_ERROR", body.getStatus().getCode());
+        assertEquals("Failed to fetch branches", body.getStatus().getDescription());
         assertNull(body.getData());
     }
 
