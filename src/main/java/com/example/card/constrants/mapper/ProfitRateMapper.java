@@ -1,7 +1,7 @@
 package com.example.card.constrants.mapper;
 
-import com.example.card.constrants.dto.ProfitRateRequestDTO;
-import com.example.card.constrants.dto.ProfitRateResponseDTO;
+import com.example.card.domain.dto.ProfitRateRequestDTO;
+import com.example.card.domain.dto.ProfitRateResponseDTO;
 import com.example.card.constrants.entity.ProfitRate;
 import org.mapstruct.Mapper;
 

@@ -1,8 +1,8 @@
 package com.example.card.constrants.mapper;
 
-import com.example.card.constrants.dto.BankBranchDTO;
-import com.example.card.constrants.dto.CoordinatesHarshDTO;
-import com.example.card.constrants.dto.HolidayHarshDTO;
+import com.example.card.domain.dto.BankBranchDTO;
+import com.example.card.domain.dto.CoordinatesHarshDTO;
+import com.example.card.domain.dto.HolidayHarshDTO;
 import com.example.card.constrants.entity.BankBranchHarsh;
 
 import java.util.stream.Collectors;

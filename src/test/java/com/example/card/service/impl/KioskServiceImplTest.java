@@ -1,14 +1,14 @@
 package com.example.card.service.impl;
 
 import com.example.card.constrants.mapper.KioskMapper;
-import com.example.card.constrants.model.Kiosk;
+import com.example.card.domain.model.Kiosk;
 
-import com.example.card.constrants.dto.KioskRequestDTO;
-import com.example.card.constrants.dto.KioskResponseDTO;
-import com.example.card.constrants.dto.LocationDTO;
+import com.example.card.domain.dto.KioskRequestDTO;
+import com.example.card.domain.dto.KioskResponseDTO;
+import com.example.card.domain.dto.LocationDTO;
 import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
-import com.example.card.services.impl.KioskServiceImpl;
+import com.example.card.adapter.api.services.impl.KioskServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

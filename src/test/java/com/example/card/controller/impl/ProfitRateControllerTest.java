@@ -1,9 +1,9 @@
 package com.example.card.controller.impl;
 
-import com.example.card.constrants.dto.ProfitRateRequestDTO;
-import com.example.card.constrants.dto.ProfitRateResponseDTO;
-import com.example.card.controller.ProfitRateController;
-import com.example.card.services.ProfitRateService;
+import com.example.card.domain.dto.ProfitRateRequestDTO;
+import com.example.card.domain.dto.ProfitRateResponseDTO;
+import com.example.card.adapter.api.controller.ProfitRateController;
+import com.example.card.adapter.api.services.ProfitRateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
