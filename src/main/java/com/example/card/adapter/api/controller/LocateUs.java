@@ -1,15 +1,16 @@
 package com.example.card.adapter.api.controller;
 
 
-
 import com.example.card.adapter.api.services.impl.AtmServiceImpl;
 import com.example.card.adapter.api.services.impl.BankBranchServiceImpl;
 import com.example.card.adapter.api.services.impl.KioskServiceImpl;
 import com.example.card.domain.dto.*;
+import com.example.card.infrastructure.common.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class LocateUs {
     private final BankBranchServiceImpl branchService;
     private final KioskServiceImpl kioskService;
 
-    public LocateUs(AtmServiceImpl atmService,BankBranchServiceImpl branchService,KioskServiceImpl kioskService) {
+    public LocateUs(AtmServiceImpl atmService, BankBranchServiceImpl branchService, KioskServiceImpl kioskService) {
         this.kioskService = kioskService;
         this.branchService = branchService;
         this.atmService = atmService;
@@ -35,7 +36,15 @@ public class LocateUs {
     }
 
     @GetMapping
-    public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService() {
+    public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+    ) {
         log.info("GET /locate-us - Received request to fetch all services");
         try {
             List<BankBranchDTO> branches;

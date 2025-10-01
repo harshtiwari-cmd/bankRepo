@@ -3,6 +3,7 @@ package com.example.card.domain.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

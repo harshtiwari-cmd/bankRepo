@@ -123,15 +123,14 @@ public class KioskServiceImpl implements KioskService {
     @Override
     public List<KioskResponseDTO> getKiosk() {
         log.info("Fetching all Kiosk from repository");
-       try {
-           return kioskRepository.findAll()
-                   .stream()
-                   .map(kioskMapper::toDto)
-                   .toList();
-       }
-       catch (Exception e) {
-           log.error("Exception while fetching kiosk: {}", e.getMessage(), e);
-           throw e;
-       }
+        try {
+            return kioskRepository.findAll()
+                    .stream()
+                    .map(kioskMapper::toDto)
+                    .toList();
+        } catch (Exception e) {
+            log.error("Exception while fetching kiosk: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 }

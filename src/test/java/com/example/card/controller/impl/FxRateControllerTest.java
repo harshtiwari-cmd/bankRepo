@@ -42,7 +42,7 @@ class FxRateControllerTest {
         when(fxRateService.createFxRate(any(FXRateDto.class)))
                 .thenReturn(fxRateDto);
 
-        var response = fxRateController.saveFxRate(fxRateDto);
+        var response = fxRateController.saveFxRate("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1", fxRateDto);
 
         assertNotNull(response);
         assertEquals(201, response.getStatusCodeValue());
@@ -56,7 +56,7 @@ class FxRateControllerTest {
     void getService_ShouldReturnSuccessResponse_WhenDataExists() {
         when(fxRateService.getFx()).thenReturn(List.of(fxRateResponseDto));
 
-        var response = fxRateController.getService();
+        var response = fxRateController.getService("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1");
 
         assertEquals(200, response.getStatusCodeValue());
         GenericResponse<List<FXRateResponseDto>> body = response.getBody();
@@ -71,7 +71,7 @@ class FxRateControllerTest {
     void getService_ShouldReturnNoDataFound_WhenListIsEmpty() {
         when(fxRateService.getFx()).thenReturn(Collections.emptyList());
 
-        var response = fxRateController.getService();
+        var response = fxRateController.getService("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1");
 
         assertEquals(200, response.getStatusCodeValue());
         GenericResponse<List<FXRateResponseDto>> body = response.getBody();
@@ -85,7 +85,7 @@ class FxRateControllerTest {
     void getService_ShouldReturnInternalServerError_WhenExceptionThrown() {
         when(fxRateService.getFx()).thenThrow(new RuntimeException("DB error"));
 
-        var response = fxRateController.getService();
+        var response = fxRateController.getService("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1");
 
         assertEquals(500, response.getStatusCodeValue());
         GenericResponse<List<FXRateResponseDto>> body = response.getBody();

@@ -1,96 +1,98 @@
 package com.example.card.controller.impl;
 
 import com.example.card.adapter.api.controller.IbNumberGenerationController;
-import com.example.card.domain.model.ReferenceResponse;
 import com.example.card.adapter.api.services.ReferenceNumberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import com.example.card.exceptions.BusinessException;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+@WebMvcTest(IbNumberGenerationController.class)
 class IbNumberGenerationImplTest {
 
-    @Mock
+    @MockitoBean
     private ReferenceNumberService referenceNumberService;
 
-    @InjectMocks
-    private IbNumberGenerationController controller;
+    @Autowired
+    private MockMvc mockMvc;
 
-    private String validChannel;
+
+    private String channelName;
     private String generatedRef;
 
     @BeforeEach
     void setUp() {
-        validChannel = "SBI";
-        generatedRef = "SBI16092025000001";
+        channelName = "RIB";
+        generatedRef = "RIB16092025000001";
     }
 
     @Test
-    void generate_withValidChannel_returnsReference() {
+    void generate_withValidChannel_returnsReference() throws Exception {
 
-        when(referenceNumberService.generateReferenceNumber(validChannel)).thenReturn(generatedRef);
+        when(referenceNumberService.generateReferenceNumber(channelName)).thenReturn("RIB16092025000001");
 
+        mockMvc.perform(get("/reference/generate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .param("channelName", "RIB")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.referenceNumber").value("RIB16092025000001"))
+                .andExpect(jsonPath("$.message").value("Reference generated successfully"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        ResponseEntity<ReferenceResponse> responseEntity = controller.generate(validChannel);
-
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody());
-        assertEquals(generatedRef, responseEntity.getBody().getReferenceNumber());
-        assertEquals("Reference generated successfully", responseEntity.getBody().getMessage());
-
-        verify(referenceNumberService, times(1)).generateReferenceNumber(validChannel);
+        verify(referenceNumberService, times(1)).generateReferenceNumber(channelName);
     }
 
 
-
-
-
     @Test
-    void generate_withNullChannel_throwsBusinessException() {
-        BusinessException ex = assertThrows(
-                BusinessException.class,
-                () -> controller.generate(null)
-        );
-
-        assertEquals("CHANNEL_REQUIRED", ex.getErrorCode());
-        assertEquals("Channel must be provided", ex.getMessage());
-        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
+    void generate_withNullChannel_throwsBadRequest() throws Exception {
+        mockMvc.perform(get("/reference/generate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Missing Request Parameter"))
+                .andExpect(jsonPath("$.details").value("Missing required parameter: channelName"));
     }
 
-    @Test
-    void generate_withEmptyChannel_throwsBusinessException() {
-        BusinessException ex = assertThrows(
-                BusinessException.class,
-                () -> controller.generate("  ")
-        );
-
-        assertEquals("CHANNEL_REQUIRED", ex.getErrorCode());
-        assertEquals("Channel must be provided", ex.getMessage());
-        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
-    }
 
     @Test
-    void generate_whenServiceThrowsException_propagatesException() {
-        String channel = "ABC";
-        when(referenceNumberService.generateReferenceNumber(channel))
+    void generate_whenServiceThrowsException_propagatesException() throws Exception {
+        when(referenceNumberService.generateReferenceNumber(channelName))
                 .thenThrow(new RuntimeException("Unexpected DB error"));
 
-        RuntimeException ex = assertThrows(
-                RuntimeException.class,
-                () -> controller.generate(channel)
-        );
-
-        assertEquals("Unexpected DB error", ex.getMessage());
+        mockMvc.perform(get("/reference/generate")
+                        .param("channelName", channelName)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.details").value("Unexpected DB error"));
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 @Slf4j
 @Service
 public class StaticResponseServiceImpl implements StaticResponseService {

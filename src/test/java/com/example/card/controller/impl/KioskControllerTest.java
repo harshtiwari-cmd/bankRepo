@@ -1,7 +1,6 @@
 package com.example.card.controller.impl;
 
 
-
 import com.example.card.domain.dto.HolidayCalendarDTO;
 import com.example.card.domain.dto.KioskRequestDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
@@ -60,11 +59,18 @@ public class KioskControllerTest {
         responseDTO.setName("Main Kiosk");
         responseDTO.setDescription("Test kiosk");
 
-        Mockito.when(service.createKiosk( any(KioskRequestDTO.class) )).thenReturn(responseDTO);
+        Mockito.when(service.createKiosk(any(KioskRequestDTO.class))).thenReturn(responseDTO);
 
 
         mockMvc.perform(post("/kiosk")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.kioskId").value("K001"))

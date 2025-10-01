@@ -5,22 +5,39 @@ import com.example.card.adapter.api.services.impl.AtmServiceImpl;
 import com.example.card.adapter.api.services.impl.BankBranchServiceImpl;
 import com.example.card.adapter.api.services.impl.KioskServiceImpl;
 import com.example.card.domain.dto.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(LocateUs.class)
 class LocateUsTest {
 
+    @MockitoBean
     private AtmServiceImpl atmService;
+
+    @MockitoBean
     private BankBranchServiceImpl branchService;
+
+    @MockitoBean
     private KioskServiceImpl kioskService;
 
-    private LocateUs locateUs;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private BankBranchDTO branchDto;
     private AtmResponseDto atmDto;
@@ -28,11 +45,6 @@ class LocateUsTest {
 
     @BeforeEach
     void setUp() {
-        atmService = mock(AtmServiceImpl.class);
-        branchService = mock(BankBranchServiceImpl.class);
-        kioskService = mock(KioskServiceImpl.class);
-
-        locateUs = new LocateUs(atmService, branchService, kioskService);
 
         branchDto = new BankBranchDTO();
         branchDto.setId(1L);
@@ -112,84 +124,136 @@ class LocateUsTest {
     }
 
     @Test
-    void getService_ShouldReturnSuccess_WhenDataExists() {
+    void getService_ShouldReturnSuccess_WhenDataExists() throws Exception {
         when(branchService.getAllBranchesWithStatus()).thenReturn(List.of(branchDto));
         when(atmService.getAtm()).thenReturn(List.of(atmDto));
         when(kioskService.getKiosk()).thenReturn(List.of(kioskDto));
 
-        ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> response = locateUs.getService();
+        mockMvc.perform(
+                get("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.length()").value(3));
 
-        assertEquals(200, response.getStatusCodeValue());
-        GenericResponse<List<Map<String, List<?>>>> body = response.getBody();
-        assertNotNull(body);
-        assertEquals("000000", body.getStatus().getCode());
-        assertEquals("SUCCESS", body.getStatus().getDescription());
-        assertEquals(3, body.getData().size());
     }
 
     @Test
-    void getService_ShouldReturnNoData_WhenAllEmpty() {
+    void getService_ShouldReturnNoData_WhenAllEmpty() throws Exception {
         when(branchService.getAllBranchesWithStatus()).thenReturn(Collections.emptyList());
         when(atmService.getAtm()).thenReturn(Collections.emptyList());
         when(kioskService.getKiosk()).thenReturn(Collections.emptyList());
 
-        ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> response = locateUs.getService();
+        mockMvc.perform(
+                        get("/locate-us")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("unit", "PRD")
+                                .header("channel", "MB")
+                                .header("lang", "English")
+                                .header("serviceId", "LOGIN")
+                                .header("screenId", "SC_01")
+                                .header("moduleId", "MI_01")
+                                .header("subModuleId", "SMI_01")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000404"))
+                .andExpect(jsonPath("$.status.description").value("No Data Found"))
+                .andExpect(jsonPath("$.data.length()").value(0));
 
-        assertEquals(200, response.getStatusCodeValue());
-        GenericResponse<List<Map<String, List<?>>>> body = response.getBody();
-        assertNotNull(body);
-        assertEquals("000404", body.getStatus().getCode());
-        assertEquals("No Data Found", body.getStatus().getDescription());
-        assertTrue(body.getData().isEmpty());
     }
 
     @Test
-    void getService_ShouldReturnInternalServerError_WhenExceptionOccurs() {
+    void getService_ShouldReturnInternalServerError_WhenExceptionOccurs() throws Exception {
+
         when(branchService.getAllBranchesWithStatus()).thenThrow(new RuntimeException("DB error"));
 
-        ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> response = locateUs.getService();
-
-        assertEquals(500, response.getStatusCodeValue());
-        GenericResponse<List<Map<String, List<?>>>> body = response.getBody();
-        assertNotNull(body);
-        assertEquals("BRANCH_ERROR", body.getStatus().getCode());
-        assertEquals("Failed to fetch branches", body.getStatus().getDescription());
-        assertNull(body.getData());
+        mockMvc.perform(get("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status.code").value("BRANCH_ERROR"))
+                .andExpect(jsonPath("$.status.description").value("Failed to fetch branches"))
+                .andExpect(jsonPath("$.data").doesNotExist());
     }
 
     @Test
-    void getService_ShouldReturnSuccess_WhenOnlyBranchesExist() {
+    void getService_ShouldReturnSuccess_WhenOnlyBranchesExist() throws Exception {
         when(branchService.getAllBranchesWithStatus()).thenReturn(List.of(branchDto));
         when(atmService.getAtm()).thenReturn(Collections.emptyList());
         when(kioskService.getKiosk()).thenReturn(Collections.emptyList());
 
-        ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> response = locateUs.getService();
-
-        assertEquals(200, response.getStatusCodeValue());
-        GenericResponse<List<Map<String, List<?>>>> body = response.getBody();
-        assertNotNull(body);
-        assertEquals("000000", body.getStatus().getCode());
+        mockMvc.perform(get("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.length()").value(3))
+                .andExpect(jsonPath("$.data[0].branches").isArray());
     }
 
     @Test
-    void getService_ShouldReturnSuccess_WhenOnlyAtmsExist() {
+    void getService_ShouldReturnSuccess_WhenOnlyAtmsExist() throws Exception {
         when(branchService.getAllBranchesWithStatus()).thenReturn(Collections.emptyList());
         when(atmService.getAtm()).thenReturn(List.of(atmDto));
         when(kioskService.getKiosk()).thenReturn(Collections.emptyList());
 
-        ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> response = locateUs.getService();
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("000000", response.getBody().getStatus().getCode());
+        mockMvc.perform(get("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.length()").value(3))
+                .andExpect(jsonPath("$.data[1].atms").isArray());
     }
 
     @Test
-    void getService_ShouldReturnSuccess_WhenOnlyKiosksExist() {
+    void getService_ShouldReturnSuccess_WhenOnlyKiosksExist() throws Exception {
         when(branchService.getAllBranchesWithStatus()).thenReturn(Collections.emptyList());
         when(atmService.getAtm()).thenReturn(Collections.emptyList());
         when(kioskService.getKiosk()).thenReturn(List.of(kioskDto));
 
-        ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> response = locateUs.getService();
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("000000", response.getBody().getStatus().getCode());
+        mockMvc.perform(get("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.length()").value(3))
+                .andExpect(jsonPath("$.data[2].kiosks").isArray());
     }
 }

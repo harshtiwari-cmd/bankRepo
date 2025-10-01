@@ -98,7 +98,11 @@ class BankBranchImplTest {
         when(bankBranchService.getAllBranches()).thenReturn(Collections.emptyList());
 
         // When
-        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches(
+                "unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+        );
+
+
 
         // Then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -113,7 +117,11 @@ class BankBranchImplTest {
         when(bankBranchService.getAllBranches()).thenReturn(branches);
 
         // When
-        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches(
+                "unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+        );
+
+
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -136,7 +144,11 @@ class BankBranchImplTest {
         when(bankBranchService.getAllBranches()).thenReturn(branches);
 
         // When
-        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches(
+                "unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+        );
+
+
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -153,7 +165,11 @@ class BankBranchImplTest {
         when(bankBranchService.getAllBranches()).thenThrow(new RuntimeException("Database error"));
 
         // When
-        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches(
+                "unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+        );
+
+
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -167,7 +183,11 @@ class BankBranchImplTest {
         when(bankBranchService.getAllBranches()).thenThrow(new IllegalArgumentException("Invalid argument"));
 
         // When
-        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches(
+                "unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+        );
+
+
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -181,7 +201,11 @@ class BankBranchImplTest {
         when(bankBranchService.getAllBranches()).thenThrow(new NullPointerException("Null pointer"));
 
         // When
-        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches();
+        ResponseEntity<List<BankBranchDTO>> response = bankBranchImpl.getAllBranches(
+                "unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+        );
+
+
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -195,7 +219,9 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl
+                .addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1"
+                ,sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -211,7 +237,7 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(null)).thenThrow(new IllegalArgumentException("DTO cannot be null"));
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(null);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",null);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -229,7 +255,7 @@ class BankBranchImplTest {
                 .thenThrow(new IllegalArgumentException("Required fields are missing"));
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(incompleteDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",incompleteDTO);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -244,7 +270,7 @@ class BankBranchImplTest {
                 .thenThrow(new RuntimeException("Database connection error"));
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -259,7 +285,7 @@ class BankBranchImplTest {
                 .thenThrow(new RuntimeException("Data access exception"));
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1", sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -275,7 +301,7 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -292,7 +318,7 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -309,7 +335,7 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -326,7 +352,7 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1", sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -343,7 +369,7 @@ class BankBranchImplTest {
         when(bankBranchService.createBankBranch(sampleCreateBankHarshBranchDTO)).thenReturn(sampleBankBranchDTO);
 
         // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch(sampleCreateBankHarshBranchDTO);
+        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",sampleCreateBankHarshBranchDTO);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
