@@ -5,7 +5,8 @@ import com.example.card.domain.dto.KioskResponseDTO;
 
 import java.util.List;
 
-public interface KioskService  {
-     KioskResponseDTO createKiosk(KioskRequestDTO kioskDto);
-     List<KioskResponseDTO> getKiosk();
+public interface KioskService {
+    KioskResponseDTO createKiosk(KioskRequestDTO kioskDto);
+
+    List<KioskResponseDTO> getKiosk();
 }

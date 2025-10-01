@@ -36,8 +36,7 @@ public class ServiceBookingServiceImpl implements ServiceBookingService {
             ServiceBooking save = repository.save(entity);
             log.info("Service booking saved with ID: {}", save.getServiceId());
             return serviceMapper.toDto(save);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Failed to create service booking for screenId: {}", screenId, e);
             throw e;
         }
@@ -53,10 +52,9 @@ public class ServiceBookingServiceImpl implements ServiceBookingService {
                     .stream()
                     .map(serviceMapper::toDto)
                     .toList();
-        }
-       catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error while fetching service booking: {}", e.getMessage());
             throw e;
-       }
+        }
     }
 }

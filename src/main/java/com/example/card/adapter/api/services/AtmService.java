@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface AtmService {
     AtmResponseDto registerAtm(AtmRequestDto requestDto);
+
     List<AtmResponseDto> getAtm();
 }

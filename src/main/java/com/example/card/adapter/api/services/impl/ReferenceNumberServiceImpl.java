@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ReferenceNumberServiceImpl implements ReferenceNumberService {
     private final Map<String, AtomicInteger> sequenceMap = new ConcurrentHashMap<>();
+
     @Override
     public synchronized String generateReferenceNumber(String channelName) {
 

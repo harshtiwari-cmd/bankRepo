@@ -78,6 +78,7 @@ public class BankDetailsServiceImplTest {
 
         assertEquals("Account details are required ", exception.getMessage());
     }
+
     @Test
     void testGetBankDetails_success() {
         when(repository.findTopBy()).thenReturn(entity);

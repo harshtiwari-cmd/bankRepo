@@ -3,6 +3,7 @@ package com.example.card.adapter.api.controller;
 import com.example.card.domain.dto.KioskRequestDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.adapter.api.services.KioskService;
+import com.example.card.infrastructure.common.AppConstant;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,15 @@ public class KioskController {
     }
 
     @PostMapping
-    public ResponseEntity<KioskResponseDTO> createKiosk(@RequestBody @Valid KioskRequestDTO kiosk) {
+    public ResponseEntity<KioskResponseDTO> createKiosk(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
+            @RequestBody @Valid KioskRequestDTO kiosk) {
 
         log.info("POST /kiosk - Received request to create Kiosk: {}", kiosk);
 
@@ -31,14 +40,22 @@ public class KioskController {
             KioskResponseDTO kiosk1 = service.createKiosk(kiosk);
             log.info("Kiosk created Successfully with id: {}", kiosk1.getKioskId());
             return ResponseEntity.status(HttpStatus.CREATED).body(kiosk1);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Exception while creating Kiosk: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @GetMapping
-    public ResponseEntity<List<KioskResponseDTO>> getKiosk() {
+    public ResponseEntity<List<KioskResponseDTO>> getKiosk(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+    ) {
 
         log.info("GET /kiosk - Received request to fetch all Kiosk");
 
@@ -52,8 +69,7 @@ public class KioskController {
 
             log.info("Fetched {} kiosk records", kiosks.size());
             return ResponseEntity.ok(kiosks);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Exception while fetching Kiosk: {}", e.getMessage(), e);
             return ResponseEntity.status(500).build();
         }

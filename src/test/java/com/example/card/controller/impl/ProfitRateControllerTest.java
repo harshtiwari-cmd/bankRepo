@@ -94,7 +94,16 @@ class ProfitRateControllerTest {
 
         mockMvc.perform(post("/api/profit-rates")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(request))
+
+                )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(10))
                 .andExpect(jsonPath("$.productName").value("Fixed Deposit"))

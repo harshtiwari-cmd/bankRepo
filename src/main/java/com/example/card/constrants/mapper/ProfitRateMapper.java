@@ -12,7 +12,7 @@ public interface ProfitRateMapper {
 
     ProfitRate toEntity(ProfitRateRequestDTO requestDTO);
 
-   List<ProfitRateResponseDTO> toDto(List<ProfitRate> profitRate);
+    List<ProfitRateResponseDTO> toDto(List<ProfitRate> profitRate);
 
-   ProfitRateResponseDTO toDto(ProfitRate profitRate);
+    ProfitRateResponseDTO toDto(ProfitRate profitRate);
 }

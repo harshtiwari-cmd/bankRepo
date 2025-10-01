@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface BankBranchService {
     List<BankBranchDTO> getAllBranches();
+
     boolean isBranchOpen(Long branchId, LocalDateTime dateTime);
+
     BankBranchDTO createBankBranch(CreateBankHarshBranchDTO createDTO);
 }

@@ -1,7 +1,6 @@
 package com.example.card.controller.impl;
 
 
-
 import com.example.card.domain.dto.AtmRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

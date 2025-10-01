@@ -3,6 +3,7 @@ package com.example.card.constrants.entity;
 import com.example.card.domain.model.Coordinates;
 import com.example.card.domain.model.Holiday;
 import jakarta.persistence.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -84,44 +85,109 @@ public class BankBranch {
     }
 
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getBankName() { return bankName; }
-    public void setBankName(String bankName) { this.bankName = bankName; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getBankBranchName() { return bankBranchName; }
-    public void setBankBranchName(String bankBranchName) { this.bankBranchName = bankBranchName; }
+    public String getBankName() {
+        return bankName;
+    }
 
-    public String getBranchNumber() { return branchNumber; }
-    public void setBranchNumber(String branchNumber) { this.branchNumber = branchNumber; }
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getBankBranchName() {
+        return bankBranchName;
+    }
 
-    public String getBankBranchType() { return bankBranchType; }
-    public void setBankBranchType(String bankBranchType) { this.bankBranchType = bankBranchType; }
+    public void setBankBranchName(String bankBranchName) {
+        this.bankBranchName = bankBranchName;
+    }
 
-    public String getCountryName() { return countryName; }
-    public void setCountryName(String countryName) { this.countryName = countryName; }
+    public String getBranchNumber() {
+        return branchNumber;
+    }
 
-    public Coordinates getCoordinates() { return coordinates; }
-    public void setCoordinates(Coordinates coordinates) { this.coordinates = coordinates; }
+    public void setBranchNumber(String branchNumber) {
+        this.branchNumber = branchNumber;
+    }
 
-    public String getOpenTime() { return openTime; }
-    public void setOpenTime(String openTime) { this.openTime = openTime; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getCloseTime() { return closeTime; }
-    public void setCloseTime(String closeTime) { this.closeTime = closeTime; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public String getHolidayDates() { return holidayDates; }
-    public void setHolidayDates(String holidayDates) { this.holidayDates = holidayDates; }
+    public String getBankBranchType() {
+        return bankBranchType;
+    }
 
-    public String getHolidayNames() { return holidayNames; }
-    public void setHolidayNames(String holidayNames) { this.holidayNames = holidayNames; }
+    public void setBankBranchType(String bankBranchType) {
+        this.bankBranchType = bankBranchType;
+    }
 
-    public String getHolidayTypes() { return holidayTypes; }
-    public void setHolidayTypes(String holidayTypes) { this.holidayTypes = holidayTypes; }
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(String openTime) {
+        this.openTime = openTime;
+    }
+
+    public String getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(String closeTime) {
+        this.closeTime = closeTime;
+    }
+
+    public String getHolidayDates() {
+        return holidayDates;
+    }
+
+    public void setHolidayDates(String holidayDates) {
+        this.holidayDates = holidayDates;
+    }
+
+    public String getHolidayNames() {
+        return holidayNames;
+    }
+
+    public void setHolidayNames(String holidayNames) {
+        this.holidayNames = holidayNames;
+    }
+
+    public String getHolidayTypes() {
+        return holidayTypes;
+    }
+
+    public void setHolidayTypes(String holidayTypes) {
+        this.holidayTypes = holidayTypes;
+    }
 
     public String getAddress() {
         return address;
@@ -147,6 +213,11 @@ public class BankBranch {
         this.location = location;
     }
 
-    public String getWeeklyHolidays() { return weeklyHolidays; }
-    public void setWeeklyHolidays(String weeklyHolidays) { this.weeklyHolidays = weeklyHolidays; }
+    public String getWeeklyHolidays() {
+        return weeklyHolidays;
+    }
+
+    public void setWeeklyHolidays(String weeklyHolidays) {
+        this.weeklyHolidays = weeklyHolidays;
+    }
 }

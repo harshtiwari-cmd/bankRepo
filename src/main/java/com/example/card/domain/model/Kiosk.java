@@ -3,6 +3,7 @@ package com.example.card.domain.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.List;
 
 @Data
@@ -34,7 +35,6 @@ public class Kiosk {
     private List<HolidayCalendar> holidayCalendar;
 
     private List<String> weeklyHolidays;
-
 
 
 }
