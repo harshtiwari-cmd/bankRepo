@@ -6,6 +6,7 @@ import com.example.card.domain.dto.GenericResponse;
 import com.example.card.domain.dto.Status;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.adapter.api.services.BankDetailsService;
+import com.example.card.headers.RequestHeaderConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,10 @@ public class BankDetailsController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveBankDetails(@RequestBody BankDetailsDto dto) throws ResourceNotFoundException {
-        log.info("Received request to save bank details for email: {}", dto != null ? dto.getMail() : "null");
+    public ResponseEntity<String> saveBankDetails(
+            @RequestBody BankDetailsDto dto) throws ResourceNotFoundException {
 
+        log.info("Received request to save bank details for email: {}", dto != null ? dto.getMail() : "null");
         try {
             String saved = bankDetailsService.createBankDetails(dto).getName();
             log.info("Bank details saved successfully for name: {}", saved);
