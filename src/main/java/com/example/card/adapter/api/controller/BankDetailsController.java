@@ -6,7 +6,6 @@ import com.example.card.domain.dto.GenericResponse;
 import com.example.card.domain.dto.Status;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.adapter.api.services.BankDetailsService;
-import com.example.card.headers.RequestHeaderConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
