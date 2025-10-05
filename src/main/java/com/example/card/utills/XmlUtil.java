@@ -13,7 +13,7 @@ public class XmlUtil {
     {
         try {
             JAXBContext context=  JAXBContext.newInstance(object.getClass());
-          Marshaller marshaller= context.createMarshaller();
+            Marshaller marshaller= context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
 
         StringWriter stringwriter=new StringWriter();
