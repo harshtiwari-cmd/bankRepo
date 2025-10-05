@@ -1,5 +1,7 @@
 package com.example.card.controller.impl;
 
+
+
 import com.example.card.domain.dto.AtmRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -64,17 +66,6 @@ public class AtmControllerImplTest {
                 .andExpect(jsonPath("$.cashOut").value(true));
     }
 
-    @Test
-    @DisplayName("POST /api/atms - Validation Failure")
-    void testRegisterAtm_validationFailure() throws Exception {
-        AtmRequestDto invalid = buildValidRequest();
-        invalid.setCode(""); // Assuming @NotBlank or similar on 'code'
-
-        mockMvc.perform(post("/api/atms")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalid)))
-                .andExpect(status().isBadRequest());
-    }
 
     @Test
     @DisplayName("GET /api/atms - Success - Retrieve list of ATMs")

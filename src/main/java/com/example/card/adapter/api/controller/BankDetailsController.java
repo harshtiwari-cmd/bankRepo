@@ -6,6 +6,7 @@ import com.example.card.domain.dto.GenericResponse;
 import com.example.card.domain.dto.Status;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.adapter.api.services.BankDetailsService;
+import com.example.card.infrastructure.common.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,15 @@ public class BankDetailsController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveBankDetails(
+
+
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE, required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID, required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID, required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
             @RequestBody BankDetailsDto dto) throws ResourceNotFoundException {
 
         log.info("Received request to save bank details for email: {}", dto != null ? dto.getMail() : "null");
@@ -39,8 +49,18 @@ public class BankDetailsController {
             return new ResponseEntity<>("Failed to save bank details", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
     @GetMapping
-    public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails() {
+    public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE, required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID, required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID, required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+    ) {
         log.info("Received request to fetch bank details");
 
         try {
@@ -58,4 +78,5 @@ public class BankDetailsController {
                     .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
         }
     }
+
 }

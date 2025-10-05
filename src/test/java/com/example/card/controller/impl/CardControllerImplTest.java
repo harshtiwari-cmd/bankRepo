@@ -48,7 +48,7 @@ class CardControllerImplTest {
         when(validationService.validate(validRequest)).thenReturn(true);
         when(staticResponseService.getSuccessResponse()).thenReturn(successResponse);
 
-        ResponseEntity<CardResponse> response = cardController.validateCard(validRequest);
+        ResponseEntity<CardResponse> response = cardController.validateCard("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1", validRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(successResponse, response.getBody());
@@ -61,7 +61,7 @@ class CardControllerImplTest {
         when(validationService.validate(validRequest)).thenReturn(false);
         when(staticResponseService.getFailureResponse()).thenReturn(failureResponse);
 
-        ResponseEntity<CardResponse> response = cardController.validateCard(validRequest);
+        ResponseEntity<CardResponse> response = cardController.validateCard("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1", validRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals(failureResponse, response.getBody());
@@ -73,7 +73,7 @@ class CardControllerImplTest {
     void validateCard_WhenValidationServiceThrowsException_Propagates() {
         when(validationService.validate(validRequest)).thenThrow(new RuntimeException("Validation failed"));
 
-        assertThrows(RuntimeException.class, () -> cardController.validateCard(validRequest));
+        assertThrows(RuntimeException.class, () -> cardController.validateCard("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1", validRequest));
         verify(validationService).validate(validRequest);
         verifyNoInteractions(staticResponseService);
     }

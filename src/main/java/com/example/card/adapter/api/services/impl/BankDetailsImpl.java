@@ -19,7 +19,7 @@ public class BankDetailsImpl implements BankDetailsService {
 
     public BankDetailsImpl(BankDetailsRepository repository, BankDetailsMapper bankDetailsMapper) {
         this.repository = repository;
-        this.bankDetailsMapper=bankDetailsMapper;
+        this.bankDetailsMapper = bankDetailsMapper;
     }
 
     @Override
@@ -30,24 +30,24 @@ public class BankDetailsImpl implements BankDetailsService {
             throw new ResourceNotFoundException("Account details are required ");
         }
 
-        BankDetailsEntity entity=new BankDetailsEntity();
+        BankDetailsEntity entity = new BankDetailsEntity();
 
         entity.setName(dto.getName());
-         entity.setMail(dto.getMail());
-         entity.setContact(dto.getContact());
-         entity.setInternationalContact(dto.getInternationalContact());
-         entity.setFbUrl(dto.getFbUrl());
-         entity.setDukhenBankUrl(dto.getDukhenBankUrl());
-         entity.setTwitterUrl(dto.getTwitterUrl());
-         entity.setInstaUrl(dto.getInstaUrl());
-         entity.setSnapChatUrl(dto.getSnapChatUrl());
-         entity.setYouTubeUrl(dto.getYouTubeUrl());
+        entity.setMail(dto.getMail());
+        entity.setContact(dto.getContact());
+        entity.setInternationalContact(dto.getInternationalContact());
+        entity.setFbUrl(dto.getFbUrl());
+        entity.setDukhenBankUrl(dto.getDukhenBankUrl());
+        entity.setTwitterUrl(dto.getTwitterUrl());
+        entity.setInstaUrl(dto.getInstaUrl());
+        entity.setSnapChatUrl(dto.getSnapChatUrl());
+        entity.setYouTubeUrl(dto.getYouTubeUrl());
         log.debug("Mapped DTO to entity: {}", entity);
 
         BankDetailsEntity savedEntity = repository.save(entity);
         log.info("Bank details saved successfully with ID: {}", savedEntity.getId());
 
-         return savedEntity;
+        return savedEntity;
 
     }
 

@@ -10,5 +10,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface AtmMapper {
     CoordinatesDTO toDto(Coordinates coordinates);
+
     AtmResponseDto toDto(AtmEntity entity);
 }

@@ -6,5 +6,6 @@ import com.example.card.constrants.entity.BankDetailsEntity;
 
 public interface BankDetailsService {
     BankDetailsEntity createBankDetails(BankDetailsDto dto);
+
     BankDetailsResponseDto getbankDetails();
 }

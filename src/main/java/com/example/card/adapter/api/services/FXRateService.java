@@ -9,5 +9,6 @@ import java.util.List;
 public interface FXRateService {
 
     FXRateDto createFxRate(FXRateDto dto);
+
     List<FXRateResponseDto> getFx();
 }

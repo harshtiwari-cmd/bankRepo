@@ -30,7 +30,7 @@ public class ProfitRateServiceImpl implements ProfitRateService {
         log.info("Fetching all profit rates from repository");
 
         List<ProfitRate> profitRates = profitRateRepository.findAll();
-        log.info("Successfully {} fetched profit rates",profitRates.size());
+        log.info("Successfully {} fetched profit rates", profitRates.size());
 
         List<ProfitRateResponseDTO> responseDTOS = mapper.toDto(profitRates);
         log.debug("Mapped profitRates to DTO: {}", responseDTOS);

@@ -192,8 +192,6 @@ class KioskServiceImplTest {
     }
 
 
-
-
     @Disabled
     @Test
     void createKiosk_withBoundaryCoordinates_success() {

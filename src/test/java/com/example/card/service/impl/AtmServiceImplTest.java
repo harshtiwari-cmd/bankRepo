@@ -1,5 +1,7 @@
 package com.example.card.service.impl;
 
+
+
 import com.example.card.domain.dto.AtmRequestDto;
 import com.example.card.domain.dto.AtmResponseDto;
 import com.example.card.constrants.entity.AtmEntity;
@@ -22,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+
 @ExtendWith(MockitoExtension.class)
 public class AtmServiceImplTest {
 
@@ -36,6 +39,7 @@ public class AtmServiceImplTest {
 
     private AtmRequestDto requestDto;
     private AtmEntity savedEntity;
+
 
     @BeforeEach
     void setUp() {
@@ -58,7 +62,7 @@ public class AtmServiceImplTest {
                 .timing("08:00 - 20:00")
                 .typeLocation("Indoor")
                 .workingHours("08:00 to 20:00")
-                .workingHoursInArb("20:00 08:00")
+                .workingHoursInArb(" 20:00  08:00")
                 .build();
 
         savedEntity = AtmEntity.builder()
@@ -81,13 +85,14 @@ public class AtmServiceImplTest {
                 .timing("08:00 - 20:00")
                 .typeLocation("Indoor")
                 .workingHours("08:00 to 20:00")
-                .workingHoursInArb("20:00 08:00")
+                .workingHoursInArb(" 20:00  08:00")
                 .build();
     }
 
     @Test
     void testRegisterAtm_success() {
         when(atmRepo.save(any())).thenReturn(savedEntity);
+
 
         AtmResponseDto response = atmService.registerAtm(requestDto);
 
@@ -97,6 +102,7 @@ public class AtmServiceImplTest {
         assertEquals("IN", response.getCountry());
         assertEquals("08:00 - 20:00", response.getTiming());
     }
+
 
     @Test
     void testGetAtm_returnsData() {
@@ -108,6 +114,7 @@ public class AtmServiceImplTest {
                 .build();
 
         when(atmRepo.findAll()).thenReturn(List.of(savedEntity));
+
 
         List<AtmResponseDto> result = atmService.getAtm();
 
@@ -184,4 +191,5 @@ public class AtmServiceImplTest {
 
         assertEquals("DB Save Error", exception.getMessage());
     }
+
 }

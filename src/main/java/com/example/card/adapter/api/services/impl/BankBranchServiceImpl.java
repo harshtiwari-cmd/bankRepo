@@ -41,6 +41,7 @@ public class BankBranchServiceImpl implements BankBranchService {
         log.info("Fetched {} bank branches", branches.size());
         return branches;
     }
+
     @Override
     public BankBranchDTO createBankBranch(CreateBankHarshBranchDTO dto) {
         log.info("Received request to create bank branch: {}", dto.getBankBranchName());
@@ -80,6 +81,7 @@ public class BankBranchServiceImpl implements BankBranchService {
         log.info("Bank branch created with ID: {}", saved.getId());
         return BankBranchMapper.toDTO(saved);
     }
+
     @Override
     public boolean isBranchOpen(Long branchId, LocalDateTime dateTime) {
         log.info("Checking if branch with ID {} is open at {}", branchId, dateTime);
@@ -110,6 +112,7 @@ public class BankBranchServiceImpl implements BankBranchService {
         log.info("Branch {} is open at {}", branchId, time);
         return true;
     }
+
     public BankBranchDTO getBranchById(Long branchId) {
         log.debug("Fetching branch by ID: {}", branchId);
         BankBranchHarsh entity = repository.findById(branchId)

@@ -2,8 +2,7 @@ package com.example.card.exceptions;
 
 import java.time.LocalDateTime;
 
-public class ErrorResponse
-{
+public class ErrorResponse {
     private int statusCode;
     private String message;
     private LocalDateTime timestamp;
@@ -15,7 +14,15 @@ public class ErrorResponse
     }
 
 
-    public int getStatusCode() { return statusCode; }
-    public String getMessage() { return message; }
-    public LocalDateTime getTimestamp() { return timestamp; }
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }

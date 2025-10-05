@@ -6,22 +6,36 @@ import com.example.card.domain.dto.CreateBankHarshBranchDTO;
 import com.example.card.exceptions.BranchClosedException;
 
 import com.example.card.adapter.api.services.BankBranchService;
+import com.example.card.infrastructure.common.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api")
 public class BankBranchController {
 
-    @Autowired
+
     private BankBranchService bankBranchService;
 
+    public BankBranchController(BankBranchService bankBranchService) {
+        this.bankBranchService = bankBranchService;
+    }
+
     @GetMapping("/branches")
-    public ResponseEntity<List<BankBranchDTO>> getAllBranches() {
+    public ResponseEntity<List<BankBranchDTO>> getAllBranches(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+    ) {
         log.info("Received request to fetch all bank branches");
         try {
             List<BankBranchDTO> branches = bankBranchService.getAllBranches();
@@ -37,9 +51,18 @@ public class BankBranchController {
             return ResponseEntity.status(500).build();
         }
     }
+
     @PostMapping("/branches")
 
-    public ResponseEntity<BankBranchDTO> addBranch(@RequestBody CreateBankHarshBranchDTO createDTO) {
+    public ResponseEntity<BankBranchDTO> addBranch(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
+            @RequestBody CreateBankHarshBranchDTO createDTO) {
         log.info("Received request to create a new bank branch: {}", createDTO.getBankBranchName());
         try {
             BankBranchDTO savedBranch = bankBranchService.createBankBranch(createDTO);
@@ -49,6 +72,7 @@ public class BankBranchController {
             return ResponseEntity.status(500).build();
         }
     }
+
     @PostMapping("/branches/{id}/validate")
     public ResponseEntity<Boolean> validateBranchOpen(
             @PathVariable final Long id,
