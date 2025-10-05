@@ -25,16 +25,18 @@ public class BankDetailsController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveBankDetails(
+
+
             @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
             @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE, required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID, required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID, required = false) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
             @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
             @RequestBody BankDetailsDto dto) throws ResourceNotFoundException {
-        log.info("Received request to save bank details for email: {}", dto != null ? dto.getMail() : "null");
 
+        log.info("Received request to save bank details for email: {}", dto != null ? dto.getMail() : "null");
         try {
             String saved = bankDetailsService.createBankDetails(dto).getName();
             log.info("Bank details saved successfully for name: {}", saved);
@@ -48,13 +50,14 @@ public class BankDetailsController {
         }
     }
 
+
     @GetMapping
     public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails(
             @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
             @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE, required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID, required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID, required = false) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
             @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
     ) {
@@ -75,4 +78,5 @@ public class BankDetailsController {
                     .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
         }
     }
+
 }

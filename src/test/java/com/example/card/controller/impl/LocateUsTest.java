@@ -73,7 +73,6 @@ class LocateUsTest {
         holiday.setType("National");
         branchDto.setHolidayCalendar(List.of(holiday));
 
-
         atmDto = AtmResponseDto.builder()
                 .id(101L)
                 .arabicName("ATM Machine")
