@@ -42,7 +42,7 @@ public class AtmServiceImpl implements AtmService {
                 .longitude(requestDto.getLongitude())
                 .onlineLocation(requestDto.getOnlineLocation())
                 .timing(requestDto.getTiming())
-                .typeLocation(requestDto.getTypeLocation())
+//                .typeLocation(requestDto.getTypeLocation())
                 .workingHours(requestDto.getWorkingHours())
                 .workingHoursInArb(requestDto.getWorkingHoursInArb())
                 .build();
@@ -82,7 +82,7 @@ public class AtmServiceImpl implements AtmService {
                 .longitude(entity.getLongitude())
                 .onlineLocation(entity.getOnlineLocation())
                 .timing(entity.getTiming())
-                .typeLocation(entity.getTypeLocation())
+//                .typeLocation(entity.getTypeLocation())
                 .workingHours(entity.getWorkingHours())
                 .workingHoursInArb(entity.getWorkingHoursInArb())
                 .build();

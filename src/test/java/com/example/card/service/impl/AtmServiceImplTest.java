@@ -59,7 +59,7 @@ public class AtmServiceImplTest {
                 .longitude("78.486671")
                 .onlineLocation(true)
                 .timing("08:00 - 20:00")
-                .typeLocation("Indoor")
+//                .typeLocation("Indoor")
                 .workingHours("08:00 to 20:00")
                 .workingHoursInArb(" 20:00  08:00")
                 .build();
@@ -82,7 +82,7 @@ public class AtmServiceImplTest {
                 .longitude("78.486671")
                 .onlineLocation(true)
                 .timing("08:00 - 20:00")
-                .typeLocation("Indoor")
+//                .typeLocation("Indoor")
                 .workingHours("08:00 to 20:00")
                 .workingHoursInArb(" 20:00  08:00")
                 .build();

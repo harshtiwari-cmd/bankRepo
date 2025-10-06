@@ -92,7 +92,7 @@ class LocateUsTest {
                 .longitude("72.8777")
                 .onlineLocation(true)
                 .timing("24/7")
-                .typeLocation("Branch ATM")
+//                .typeLocation("Branch ATM")
                 .workingHours("9 AM - 6 PM")
                 .workingHoursInArb("9 AM - 6 PM")
                 .build();

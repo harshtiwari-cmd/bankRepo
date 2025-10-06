@@ -6,8 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class AtmRequestDto {
 
@@ -49,9 +52,28 @@ public class AtmRequestDto {
 
     private String timing;
 
-    private String typeLocation;
+    @Size(max = 100)
+    private String locatorType; // renamed from typeLocation
 
     private String workingHours;
 
     private String workingHoursInArb;
+
+    private String searchString;
+
+    private String facility;
+
+    private String address;
+
+    private String atmType;
+
+    @Size(max = 50)
+    private String currencySupported;
+
+    @Pattern(regexp = "Y|N", message = "isActive must be 'Y' or 'N'")
+    private String isActive = "Y"; // default value
+
+    private Date installationDate;
+
+    private String maintenanceVendor;
 }
