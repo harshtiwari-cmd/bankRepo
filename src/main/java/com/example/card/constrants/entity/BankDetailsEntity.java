@@ -36,4 +36,17 @@ public class BankDetailsEntity {
     @Column
     private String youTubeUrl;
 
+    @Column
+    private String nameEn;
+    @Column
+    private String nameAr;
+    @Column
+    private String urlEn;
+    @Column
+    private String urlAr;
+    @Column
+    private Integer displayOrder;
+    @Column(columnDefinition = "TEXT")
+    private String followUsJson; // JSON serialized FollowUsItemDto list
+
 }

@@ -4,6 +4,7 @@ import com.example.card.domain.dto.BankDetailsDto;
 import com.example.card.domain.dto.BankDetailsResponseDto;
 import com.example.card.domain.dto.GenericResponse;
 import com.example.card.domain.dto.Status;
+import com.example.card.domain.dto.BankDetailsNewRequestDto;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.adapter.api.services.BankDetailsService;
 import com.example.card.infrastructure.common.AppConstant;
@@ -23,6 +24,24 @@ public class BankDetailsController {
         this.bankDetailsService = bankDetailsService;
     }
 
+    @PostMapping("/save-new")
+    public ResponseEntity<String> saveBankDetailsNew(
+            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
+            @RequestBody BankDetailsNewRequestDto dto) {
+        try {
+            String id = String.valueOf(bankDetailsService.saveBankDetailsNew(dto).getId());
+            return ResponseEntity.ok("Bank detail saved with id: " + id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to save bank details");
+        }
+    }
     @PostMapping("/save")
     public ResponseEntity<String> saveBankDetails(
             @RequestHeader(name = AppConstant.UNIT, required = false) String unit,

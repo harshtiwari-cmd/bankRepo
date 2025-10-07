@@ -2,29 +2,32 @@ package com.example.card.domain.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BankDetailsResponseDto {
+public class BankDetailsNewRequestDto {
 
     @NotNull(message = "name should not be null")
     private String nameEn;
     private String nameAr;
+
     @Email(message = "email should not be empty")
     private String mail;
     @NotNull(message = "contact should not be null")
     private Long contact;
     @NotNull(message = "international number should not be null")
     private String internationalContact;
+
     private String urlEn;
     private String urlAr;
+    private Integer displayOrder;
 
     private List<FollowUsItemDto> followUs;
-
-    private Integer displayOrder;
 }
+
+
