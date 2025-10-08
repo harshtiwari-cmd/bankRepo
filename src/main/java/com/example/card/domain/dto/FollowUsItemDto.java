@@ -28,6 +28,7 @@ public class FollowUsItemDto {
 
     private String displayImage;
     private Integer displayOrder;
+
     private String nameEn;
     private String nameAr;
 }

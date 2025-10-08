@@ -23,8 +23,9 @@ public class BankDetailsResponseDto {
     private String internationalContact;
     private String urlEn;
     private String urlAr;
+    private String displayImage;
+    private Integer displayOrder;
 
     private List<FollowUsItemDto> followUs;
 
-    private Integer displayOrder;
 }

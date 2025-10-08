@@ -25,6 +25,7 @@ public class BankDetailsNewRequestDto {
 
     private String urlEn;
     private String urlAr;
+    private String displayImage;
     private Integer displayOrder;
 
     private List<FollowUsItemDto> followUs;
