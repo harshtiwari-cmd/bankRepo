@@ -2,6 +2,7 @@ package com.example.card.domain.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,17 +13,19 @@ import lombok.NoArgsConstructor;
 public class BankDetailsResponseDto {
 
     @NotNull(message = "name should not be null")
-    private String name;
+    private String nameEn;
+    private String nameAr;
     @Email(message = "email should not be empty")
     private String mail;
     @NotNull(message = "contact should not be null")
     private Long contact;
     @NotNull(message = "international number should not be null")
     private String internationalContact;
-    private String instaUrl;
-    private String twitterUrl;
-    private String fbUrl;
-    private String dukhenBankUrl;
-    private String snapChatUrl;
-    private String youTubeUrl;
+    private String urlEn;
+    private String urlAr;
+    private String displayImage;
+    private Integer displayOrder;
+
+    private List<FollowUsItemDto> followUs;
+
 }

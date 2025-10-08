@@ -16,24 +16,25 @@ public class BankDetailsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     @Column
-    private String name;
-    @Column
     private String mail;
     @Column
     private Long contact;
     @Column
     private String internationalContact;
     @Column
-    private String instaUrl;
+    private String nameEn;
     @Column
-    private String twitterUrl;
+    private String nameAr;
     @Column
-    private String fbUrl;
+    private String urlEn;
     @Column
-    private String dukhenBankUrl;
+    private String urlAr;
+    @Column(columnDefinition = "TEXT")
+    private String displayImage;
     @Column
-    private String snapChatUrl;
-    @Column
-    private String youTubeUrl;
+    private Integer displayOrder;
+
+    @Column(columnDefinition = "TEXT")
+    private String followUsJson; // JSON serialized FollowUsItemDto list
 
 }

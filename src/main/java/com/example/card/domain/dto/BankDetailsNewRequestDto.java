@@ -5,14 +5,16 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BankDetailsDto {
+public class BankDetailsNewRequestDto {
 
     @NotNull(message = "name should not be null")
-    private String name;
+    private String nameEn;
+    private String nameAr;
 
     @Email(message = "email should not be empty")
     private String mail;
@@ -20,11 +22,13 @@ public class BankDetailsDto {
     private Long contact;
     @NotNull(message = "international number should not be null")
     private String internationalContact;
-    private String instaUrl;
-    private String twitterUrl;
-    private String fbUrl;
-    private String dukhenBankUrl;
-    private String snapChatUrl;
-    private String youTubeUrl;
 
+    private String urlEn;
+    private String urlAr;
+    private String displayImage;
+    private Integer displayOrder;
+
+    private List<FollowUsItemDto> followUs;
 }
+
+
