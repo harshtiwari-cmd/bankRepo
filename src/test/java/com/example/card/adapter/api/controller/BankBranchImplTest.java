@@ -1,6 +1,5 @@
-package com.example.card.controller.impl;
+package com.example.card.adapter.api.controller;
 
-import com.example.card.adapter.api.controller.BankBranchController;
 import com.example.card.domain.dto.BankBranchDTO;
 import com.example.card.domain.dto.CreateBankHarshBranchDTO;
 import com.example.card.domain.dto.CoordinatesHarshDTO;

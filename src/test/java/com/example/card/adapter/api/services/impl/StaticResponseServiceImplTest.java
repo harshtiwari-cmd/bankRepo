@@ -1,7 +1,6 @@
-package com.example.card.service.impl;
+package com.example.card.adapter.api.services.impl;
 
 import com.example.card.domain.model.CardResponse;
-import com.example.card.adapter.api.services.impl.StaticResponseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

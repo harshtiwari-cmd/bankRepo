@@ -1,6 +1,5 @@
-package com.example.card.controller.impl;
+package com.example.card.adapter.api.controller;
 
-import com.example.card.adapter.api.controller.CardController;
 import com.example.card.domain.model.CardRequest;
 import com.example.card.domain.model.CardResponse;
 import com.example.card.adapter.api.services.CardValidationService;

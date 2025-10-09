@@ -1,8 +1,7 @@
-package com.example.card.service.impl;
+package com.example.card.adapter.api.services.impl;
 
 import com.example.card.domain.model.CardRequest;
 import com.example.card.exceptions.BusinessException;
-import com.example.card.adapter.api.services.impl.CardValidationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

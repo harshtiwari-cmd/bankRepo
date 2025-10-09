@@ -1,28 +1,20 @@
-package com.example.card.controller.impl;
+package com.example.card.adapter.api.controller;
 
-import com.example.card.adapter.api.controller.ServiceBookingController;
 import com.example.card.adapter.api.services.ServiceBookingService;
 import com.example.card.domain.dto.ServiceBookingRequestDTO;
-import com.example.card.constrants.entity.ServiceBooking;
 import com.example.card.domain.dto.ServiceBookingResponseDTO;
-import com.example.card.repository.ServiceBookingRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
 import java.util.Collections;
 
-import static javax.management.Query.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

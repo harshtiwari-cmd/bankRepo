@@ -1,6 +1,5 @@
-package com.example.card.controller.impl;
+package com.example.card.adapter.api.controller;
 
-import com.example.card.adapter.api.controller.IbNumberGenerationController;
 import com.example.card.adapter.api.services.ReferenceNumberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
