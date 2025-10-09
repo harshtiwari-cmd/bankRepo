@@ -1,9 +1,7 @@
 package com.example.card.adapter.api.controller;
 
 
-import com.example.card.adapter.api.services.impl.AtmServiceImpl;
-import com.example.card.adapter.api.services.impl.BankBranchServiceImpl;
-import com.example.card.adapter.api.services.impl.KioskServiceImpl;
+import com.example.card.adapter.api.services.LocateUsService;
 import com.example.card.domain.dto.*;
 import com.example.card.infrastructure.common.AppConstant;
 import lombok.extern.slf4j.Slf4j;
@@ -24,15 +22,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/locate-us")
 public class LocateUs {
-    private final AtmServiceImpl atmService;
-    private final BankBranchServiceImpl branchService;
-    private final KioskServiceImpl kioskService;
+    private final LocateUsService locateUsService;
 
-    public LocateUs(AtmServiceImpl atmService, BankBranchServiceImpl branchService, KioskServiceImpl kioskService) {
-        this.kioskService = kioskService;
-        this.branchService = branchService;
-        this.atmService = atmService;
-
+    public LocateUs(LocateUsService locateUsService) {
+        this.locateUsService = locateUsService;
     }
 
     @GetMapping
@@ -47,12 +40,12 @@ public class LocateUs {
     ) {
         log.info("GET /locate-us - Received request to fetch all services");
         try {
-            List<BankBranchDTO> branches;
-            List<AtmResponseDto> atms;
-            List<KioskResponseDTO> kiosks;
+            List<LocateUsDTO> branches;
+            List<LocateUsDTO> atms;
+            List<LocateUsDTO> kiosks;
 
             try {
-                branches = branchService.getAllBranchesWithStatus();
+                branches = locateUsService.fetchByType("BRANCH");
             } catch (Exception e) {
                 log.error("Failed to fetch branches: {}", e.getMessage(), e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -60,7 +53,7 @@ public class LocateUs {
             }
 
             try {
-                atms = atmService.getAtm();
+                atms = locateUsService.fetchByType("ATM");
             } catch (Exception e) {
                 log.error("Failed to fetch ATMs: {}", e.getMessage(), e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -68,7 +61,7 @@ public class LocateUs {
             }
 
             try {
-                kiosks = kioskService.getKiosk();
+                kiosks = locateUsService.fetchByType("KIOSK");
             } catch (Exception e) {
                 log.error("Failed to fetch kiosks: {}", e.getMessage(), e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
