@@ -1,4 +1,4 @@
-package com.example.card.service.impl;
+package com.example.card.adapter.api.services.impl;
 
 import com.example.card.constrants.mapper.KioskMapper;
 import com.example.card.domain.model.Kiosk;
@@ -8,7 +8,6 @@ import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocationDTO;
 import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
-import com.example.card.adapter.api.services.impl.KioskServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

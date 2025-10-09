@@ -1,8 +1,7 @@
-package com.example.card.controller.impl;
+package com.example.card.adapter.api.controller;
 
 import com.example.card.domain.dto.ProfitRateRequestDTO;
 import com.example.card.domain.dto.ProfitRateResponseDTO;
-import com.example.card.adapter.api.controller.ProfitRateController;
 import com.example.card.adapter.api.services.ProfitRateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
