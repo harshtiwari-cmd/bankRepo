@@ -11,6 +11,12 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FollowUsItemDto {
 
+    private String nameEn;
+    private String nameAr;
+
+    private String urlEn;
+    private String urlAr;
+
     private String instaUrlEN;
     private String instaUrlAR;
 
@@ -29,8 +35,7 @@ public class FollowUsItemDto {
     private String displayImage;
     private Integer displayOrder;
 
-    private String nameEn;
-    private String nameAr;
+
 }
 
 

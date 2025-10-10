@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -34,30 +35,40 @@ public class BankDetailsImpl implements BankDetailsService {
         BankDetailsEntity entity = repository.findById(1L)
                 .orElseThrow(() -> new ResourceNotFoundException("No bank details found"));
 
-
         BankDetailsResponseDto responseDto = new BankDetailsResponseDto();
 
-        responseDto.setNameEn(entity.getNameEn());
-        responseDto.setNameAr(entity.getNameAr());
+
         responseDto.setMail(entity.getMail());
         responseDto.setContact(entity.getContact());
         responseDto.setInternationalContact(entity.getInternationalContact());
-        responseDto.setUrlEn(entity.getUrlEn());
-        responseDto.setUrlAr(entity.getUrlAr());
-        responseDto.setDisplayImage(entity.getDisplayImage());
-        responseDto.setDisplayOrder(entity.getDisplayOrder());
+
+        List<FollowUsItemDto> followUsItemDtoList = new ArrayList<>();
+
+
+        FollowUsItemDto bankInfo = new FollowUsItemDto();
+        bankInfo.setNameEn(entity.getNameEn());
+        bankInfo.setNameAr(entity.getNameAr());
+        bankInfo.setUrlEn(entity.getUrlEn());
+        bankInfo.setUrlAr(entity.getUrlAr());
+        bankInfo.setDisplayImage(entity.getDisplayImage());
+        bankInfo.setDisplayOrder(entity.getDisplayOrder());
+        followUsItemDtoList.add(bankInfo);
+
 
         String followUsJson = entity.getFollowUsJson();
         try {
-            List<FollowUsItemDto> followUsItemDtoList = objectMapper.readValue(followUsJson, new TypeReference<>() {});
-            responseDto.setFollowUs(followUsItemDtoList);
+            List<FollowUsItemDto> socialLinks = objectMapper.readValue(followUsJson, new TypeReference<>() {});
+            followUsItemDtoList.addAll(socialLinks);
         } catch (JsonProcessingException e) {
             log.error("Failed to parse followUsJson", e);
             throw new RuntimeException("Invalid followUsJson format");
         }
 
+        responseDto.setFollowUs(followUsItemDtoList);
+
         return responseDto;
     }
+
 
     @Override
     public BankDetailsEntity saveBankDetailsNew(BankDetailsNewRequestDto dto) {
@@ -84,5 +95,30 @@ public class BankDetailsImpl implements BankDetailsService {
 
         return repository.save(entity);
     }
+
+    public void filterLanguage(BankDetailsResponseDto dto, String lang) {
+        if ("en".equalsIgnoreCase(lang)) {
+            dto.getFollowUs().forEach(f -> {
+                f.setNameAr(null);
+                f.setUrlAr(null);
+                f.setInstaUrlAR(null);
+                f.setSnapUrlAR(null);
+                f.setYoutubeUrlAR(null);
+                f.setFacebookUrlAR(null);
+                f.setTwitterUrlAR(null);
+            });
+        } else if ("ar".equalsIgnoreCase(lang)) {
+            dto.getFollowUs().forEach(f -> {
+                f.setNameEn(null);
+                f.setUrlEn(null);
+                f.setInstaUrlEN(null);
+                f.setSnapUrlEN(null);
+                f.setYoutubeUrlEN(null);
+                f.setFacebookUrlEN(null);
+                f.setTwitterUrlEN(null);
+            });
+        }
+    }
+
 
 }

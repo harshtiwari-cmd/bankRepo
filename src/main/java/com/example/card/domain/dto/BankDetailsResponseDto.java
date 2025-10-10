@@ -12,20 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BankDetailsResponseDto {
 
-    @NotNull(message = "name should not be null")
-    private String nameEn;
-    private String nameAr;
-    @Email(message = "email should not be empty")
+    @Email(message = "email should be valid")
     private String mail;
+
     @NotNull(message = "contact should not be null")
     private Long contact;
-    @NotNull(message = "international number should not be null")
+
+    @NotNull(message = "internationalContact should not be null")
     private String internationalContact;
-    private String urlEn;
-    private String urlAr;
-    private String displayImage;
-    private Integer displayOrder;
 
     private List<FollowUsItemDto> followUs;
+
 
 }
