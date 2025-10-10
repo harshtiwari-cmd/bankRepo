@@ -1,7 +1,6 @@
 package com.example.card.controller.impl;
 
 
-
 import com.example.card.domain.dto.AtmRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +42,7 @@ public class AtmControllerImplTest {
                 .latitude("17.385044")
                 .longitude("78.486671")
                 .onlineLocation(true)
-                .typeLocation("Indoor")
+//                .typeLocation("Indoor")
                 .workingHours("08:00 to 20:00")
                 .workingHoursInArb("20:00 to 08:00")
                 .build();

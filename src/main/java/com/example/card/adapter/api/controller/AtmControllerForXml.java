@@ -1,63 +1,62 @@
 package com.example.card.adapter.api.controller;
 
-
 import com.example.card.domain.dto.*;
 import com.example.card.utills.XmlUtil;
 import org.springframework.web.bind.annotation.*;
-
 
 @RequestMapping("/atm")
 @RestController
 public class AtmControllerForXml {
 
     @PostMapping("/request")
-    public String getAtmRequestXml()
-    {
+    public String getAtmRequestXml(
+            @RequestHeader("userId") String userId,
+            @RequestHeader("password") String password,
+            @RequestHeader("serviceName") String serviceName,
+            @RequestHeader("serviceType") String serviceType,
+            @RequestHeader("serviceVersion") String serviceVersion,
+            @RequestHeader("client") String client,
+            @RequestHeader("clientChanel") String clientChanel,
+            @RequestHeader("msgChannel") String msgChannel,
+            @RequestHeader("requestorLanguage") String requestorLanguage,
+            @RequestHeader("referenceNum") String referenceNum,
+            @RequestHeader("locatorType") String locatorType,
+            @RequestHeader("requestTime") String requestTime
+    ) {
 
-        Authentication auth=new Authentication();
-        auth.setUserId("userId");
-        auth.setPassword("Password");
+        Authentication auth = new Authentication();
+        auth.setUserId(userId);
+        auth.setPassword(password);
 
-        SecurityInfo securityInfo=new SecurityInfo();
+        SecurityInfo securityInfo = new SecurityInfo();
         securityInfo.setAuthentication(auth);
 
-        EaiHeader header=new EaiHeader();
-        header.setServiceName("ATM.LOCATIONS");
-        header.setServiceType("SYNC");
-        header.setServiceVersion("1");
-        header.setClient("BARW");
-        header.setClientChanel("MOB");
-        header.setMsgChannel("MQ");
-        header.setRequestorLanguage("E");
+        EaiHeader header = new EaiHeader();
+        header.setServiceName(serviceName);
+        header.setServiceType(serviceType);
+        header.setServiceVersion(serviceVersion);
+        header.setClient(client);
+        header.setClientChanel(clientChanel);
+        header.setMsgChannel(msgChannel);
+        header.setRequestorLanguage(requestorLanguage);
         header.setSecurityInfo(securityInfo);
         header.setReturnCode("00000");
 
+        ATMBranchLocationsRequest atmReq = new ATMBranchLocationsRequest();
+        atmReq.setReferenceNum(referenceNum);
+        atmReq.setLocatorType(LocatorType.fromValue(locatorType));
+        atmReq.setRequestTime(requestTime);
 
-        ATMBranchLocationsRequest atmReq=new ATMBranchLocationsRequest();
-        atmReq.setReferenceNum("AB7926262622");
-        atmReq.setLocatorType(LocatorType.fromValue("ATM"));
-        atmReq.setRequestTime("2025-10-02T12:30:00");
-
-
-        EaiRequest eaiRequest=new EaiRequest();
+        EaiRequest eaiRequest = new EaiRequest();
         eaiRequest.setAtmBranchLocationsRequest(atmReq);
 
-        EaiBody body=new EaiBody();
+        EaiBody body = new EaiBody();
         body.setRequest(eaiRequest);
 
-
-
-        EaiMessage message=new EaiMessage();
+        EaiMessage message = new EaiMessage();
         message.setHeader(header);
         message.setBody(body);
 
         return XmlUtil.toXml(message);
-
-
     }
-
-
-
-
-
 }
