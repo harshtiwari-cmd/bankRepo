@@ -10,4 +10,5 @@ public interface BankDetailsService {
     BankDetailsResponseDto getBankDetails() throws JsonProcessingException;
 
     BankDetailsEntity saveBankDetailsNew(BankDetailsNewRequestDto dto);
+    public void filterLanguage(BankDetailsResponseDto dto, String lang);
 }
