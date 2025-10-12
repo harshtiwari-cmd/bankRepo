@@ -3,6 +3,7 @@ package com.example.card.adapter.api.controller;
 
 import com.example.card.domain.dto.*;
 import com.example.card.adapter.api.services.BankDetailsService;
+import com.example.card.domain.model.Deviceinfo;
 import com.example.card.infrastructure.common.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class BankDetailsController {
     }
 
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails(
             @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
             @RequestHeader(name = AppConstant.CHANNEL, required = true) String channel,
@@ -49,8 +50,9 @@ public class BankDetailsController {
             @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
             @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId
-    ) {
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
+            @RequestBody Deviceinfo request
+            ) {
         log.info("Received request to fetch bank details");
 
         try {

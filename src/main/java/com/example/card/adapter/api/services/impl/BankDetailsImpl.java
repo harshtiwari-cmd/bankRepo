@@ -52,16 +52,19 @@ public class BankDetailsImpl implements BankDetailsService {
         bankInfo.setUrlAr(entity.getUrlAr());
         bankInfo.setDisplayImage(entity.getDisplayImage());
         bankInfo.setDisplayOrder(entity.getDisplayOrder());
+
         followUsItemDtoList.add(bankInfo);
 
 
         String followUsJson = entity.getFollowUsJson();
-        try {
-            List<FollowUsItemDto> socialLinks = objectMapper.readValue(followUsJson, new TypeReference<>() {});
-            followUsItemDtoList.addAll(socialLinks);
-        } catch (JsonProcessingException e) {
-            log.error("Failed to parse followUsJson", e);
-            throw new RuntimeException("Invalid followUsJson format");
+        if (followUsJson != null && !followUsJson.isBlank()) {
+            try {
+                List<FollowUsItemDto> socialLinks = objectMapper.readValue(followUsJson, new TypeReference<>() {});
+                followUsItemDtoList.addAll(socialLinks);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to parse followUsJson", e);
+                throw new RuntimeException("Invalid followUsJson format");
+            }
         }
 
         responseDto.setFollowUs(followUsItemDtoList);

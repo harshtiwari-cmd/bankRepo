@@ -1,6 +1,5 @@
-package com.example.card.service.impl;
+package com.example.card.adapter.api.services.impl;
 
-import com.example.card.adapter.api.services.impl.ReferenceNumberServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

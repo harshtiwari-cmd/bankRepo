@@ -1,9 +1,8 @@
-package com.example.card.controller.impl;
+package com.example.card.adapter.api.controller;
 
 import com.example.card.domain.dto.FXRateDto;
 import com.example.card.domain.dto.FXRateResponseDto;
 import com.example.card.domain.dto.GenericResponse;
-import com.example.card.adapter.api.controller.FxRateController;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.adapter.api.services.FXRateService;
 import org.junit.jupiter.api.BeforeEach;

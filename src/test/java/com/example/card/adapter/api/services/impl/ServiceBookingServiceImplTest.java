@@ -1,11 +1,10 @@
-package com.example.card.service.impl;
+package com.example.card.adapter.api.services.impl;
 
 import com.example.card.domain.dto.ServiceBookingRequestDTO;
 import com.example.card.domain.dto.ServiceBookingResponseDTO;
 import com.example.card.constrants.entity.ServiceBooking;
 import com.example.card.constrants.mapper.ServiceMapper;
 import com.example.card.repository.ServiceBookingRepository;
-import com.example.card.adapter.api.services.impl.ServiceBookingServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

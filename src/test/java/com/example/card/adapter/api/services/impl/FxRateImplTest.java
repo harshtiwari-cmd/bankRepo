@@ -1,9 +1,8 @@
-package com.example.card.service.impl;
+package com.example.card.adapter.api.services.impl;
 
 import com.example.card.domain.dto.FXRateDto;
 import com.example.card.domain.dto.FXRateResponseDto;
 import com.example.card.repository.FxRateRepo;
-import com.example.card.adapter.api.services.impl.FxRateImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

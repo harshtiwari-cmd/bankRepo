@@ -1,12 +1,14 @@
 package com.example.card.domain.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LocateUsDTO {
 
     private String locatorType;

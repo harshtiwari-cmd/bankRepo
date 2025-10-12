@@ -3,14 +3,12 @@ package com.example.card.adapter.api.controller;
 
 import com.example.card.adapter.api.services.LocateUsService;
 import com.example.card.domain.dto.*;
+import com.example.card.domain.model.Deviceinfo;
 import com.example.card.infrastructure.common.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class LocateUs {
         this.locateUsService = locateUsService;
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService(
             @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
             @RequestHeader(name = AppConstant.CHANNEL, required = true) String channel,
@@ -36,8 +34,9 @@ public class LocateUs {
             @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
             @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId
-    ) {
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
+            @RequestBody Deviceinfo request
+            ) {
         log.info("GET /locate-us - Received request to fetch all services");
         try {
             List<LocateUsDTO> branches;

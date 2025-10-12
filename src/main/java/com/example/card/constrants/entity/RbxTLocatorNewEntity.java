@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "rbx_t_locator_new")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RbxTLocatorNewEntity {
