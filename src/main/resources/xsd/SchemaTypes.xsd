@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="urn:esbbank.com/gbo/xml/schemas/v1_0/"
+            xmlns:esbbankgbo="urn:esbbank.com/gbo/xml/schemas/v1_0/"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified"
+            version="1.0">
+
+    <!-- Simple string-based reference number -->
+    <xsd:simpleType name="ReferenceNum">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Consumer reference -->
+    <xsd:simpleType name="ReferenceNumConsumer">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Provider reference -->
+    <xsd:simpleType name="ReferenceNumProvider">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Locator type (ATM, Branch, etc.) -->
+    <xsd:simpleType name="LocatorType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ATM"/>
+            <xsd:enumeration value="Branch"/>
+            <xsd:enumeration value="Both"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Timestamp as string -->
+    <xsd:simpleType name="TimeStampStr">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- ATM/Branch location type -->
+    <xsd:complexType name="ATMBranchLocType">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:string"/>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="address" type="xsd:string"/>
+            <xsd:element name="city" type="xsd:string"/>
+            <xsd:element name="postalCode" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="latitude" type="xsd:decimal" minOccurs="0"/>
+            <xsd:element name="longitude" type="xsd:decimal" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Return status -->
+    <xsd:complexType name="ReturnStatus">
+        <xsd:sequence>
+            <xsd:element name="code" type="xsd:string"/>
+            <xsd:element name="message" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Provider-specific status -->
+    <xsd:complexType name="ReturnStatusProvider">
+        <xsd:sequence>
+            <xsd:element name="providerCode" type="xsd:string"/>
+            <xsd:element name="providerMessage" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

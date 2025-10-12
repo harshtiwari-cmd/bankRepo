@@ -23,13 +23,13 @@ public class BankDetailsController {
 
     @PostMapping("/save-new")
     public ResponseEntity<String> saveBankDetailsNew(
-            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
-            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
+            @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
             @RequestBody BankDetailsNewRequestDto dto) {
         try {
             String id = String.valueOf(bankDetailsService.saveBankDetailsNew(dto).getId());
@@ -43,19 +43,20 @@ public class BankDetailsController {
 
     @GetMapping
     public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails(
-            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
-            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+            @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
+            @RequestHeader(name = AppConstant.CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
+            @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId
     ) {
         log.info("Received request to fetch bank details");
 
         try {
             BankDetailsResponseDto data = bankDetailsService.getBankDetails();
             log.info("Bank details fetched successfully for email: {}", data.getMail());
+            bankDetailsService.filterLanguage(data, lang);
 
             GenericResponse<BankDetailsResponseDto> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), data);
