@@ -2,6 +2,7 @@ package com.example.card.adapter.api.controller;
 
 import com.example.card.adapter.api.services.LocateUsService;
 import com.example.card.domain.dto.*;
+import com.example.card.domain.model.Deviceinfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +34,8 @@ class LocateUsTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private Deviceinfo deviceinfo ;
+
     private LocateUsDTO branchDTO;
     private LocateUsDTO kioskDto;
     private LocateUsDTO atmDto;
@@ -40,6 +44,20 @@ class LocateUsTest {
 
     @BeforeEach
     void setUp() throws ParseException {
+
+
+        deviceinfo = Deviceinfo
+                .builder()
+                .deviceId("DEVICE123")
+                .ipAddress("192.168.1.1")
+                .vendorId("VENDOR123")
+                .osVersion("1.1.0")
+                .osType("Android")
+                .appVersion("2.1.0")
+                .endToEndId("E2E123")
+                .build();
+
+
 
         // BRANCH
         branchDTO = LocateUsDTO.builder()
@@ -158,7 +176,7 @@ class LocateUsTest {
         when(locateUsService.fetchByType("KIOSK")).thenReturn(List.of(kioskDto));
 
         mockMvc.perform(
-                get("/locate-us")
+                post("/locate-us")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
@@ -167,6 +185,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
@@ -183,7 +202,7 @@ class LocateUsTest {
         when(locateUsService.fetchKiosks()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(
-                        get("/locate-us")
+                        post("/locate-us")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("unit", "PRD")
                                 .header("channel", "MB")
@@ -192,6 +211,7 @@ class LocateUsTest {
                                 .header("screenId", "SC_01")
                                 .header("moduleId", "MI_01")
                                 .header("subModuleId", "SMI_01")
+                                .content(objectMapper.writeValueAsString(deviceinfo))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000404"))
@@ -206,7 +226,7 @@ class LocateUsTest {
         when(locateUsService.fetchByType("KIOSK")).thenReturn(Collections.emptyList());
         when(locateUsService.fetchByType("BRANCH")).thenReturn(List.of(branchDTO));
 
-        mockMvc.perform(get("/locate-us")
+        mockMvc.perform(post("/locate-us")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
@@ -214,7 +234,9 @@ class LocateUsTest {
                         .header("serviceId", "LOGIN")
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
-                        .header("subModuleId", "SMI_01"))
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
                 .andExpect(jsonPath("$.status.description").value("SUCCESS"))
@@ -232,7 +254,7 @@ class LocateUsTest {
         when(locateUsService.fetchByType("BRANCH")).thenReturn(Collections.emptyList());
 
 
-        mockMvc.perform(get("/locate-us")
+        mockMvc.perform(post("/locate-us")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
@@ -240,7 +262,9 @@ class LocateUsTest {
                         .header("serviceId", "LOGIN")
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
-                        .header("subModuleId", "SMI_01"))
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
                 .andExpect(jsonPath("$.status.description").value("SUCCESS"))
@@ -257,7 +281,7 @@ class LocateUsTest {
         when(locateUsService.fetchByType("BRANCH")).thenReturn(Collections.emptyList());
 
 
-        mockMvc.perform(get("/locate-us")
+        mockMvc.perform(post("/locate-us")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
@@ -265,7 +289,9 @@ class LocateUsTest {
                         .header("serviceId", "LOGIN")
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
-                        .header("subModuleId", "SMI_01"))
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
                 .andExpect(jsonPath("$.status.description").value("SUCCESS"))
@@ -284,15 +310,17 @@ class LocateUsTest {
         when(locateUsService.fetchByType("BRANCH")).thenReturn(Collections.emptyList());
 
 
-        mockMvc.perform(get("/locate-us")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("unit", "PRD")
-                .header("channel", "MB")
-                .header("lang", "English")
-                .header("serviceId", "LOGIN")
-                .header("screenId", "SC_01")
-                .header("moduleId", "MI_01")
-                .header("subModuleId", "SMI_01"))
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("lang", "English")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
+                )
 
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.status.code").value("KIOSK_ERROR"))
@@ -308,7 +336,7 @@ class LocateUsTest {
         when(locateUsService.fetchByType("KIOSK")).thenReturn(Collections.emptyList());
         when(locateUsService.fetchByType("BRANCH")).thenThrow(new RuntimeException("Database Error"));
 
-        mockMvc.perform(get("/locate-us")
+        mockMvc.perform(post("/locate-us")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
@@ -316,7 +344,9 @@ class LocateUsTest {
                         .header("serviceId", "LOGIN")
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
-                        .header("subModuleId", "SMI_01"))
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
+                )
 
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.status.code").value("BRANCH_ERROR"))
@@ -331,7 +361,7 @@ class LocateUsTest {
         when(locateUsService.fetchByType("ATM")).thenThrow(new RuntimeException("Database Error"));
         when(locateUsService.fetchByType("KIOSK")).thenReturn(Collections.emptyList());
         when(locateUsService.fetchByType("BRANCH")).thenReturn(Collections.emptyList());
-        mockMvc.perform(get("/locate-us")
+        mockMvc.perform(post("/locate-us")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
@@ -339,7 +369,9 @@ class LocateUsTest {
                         .header("serviceId", "LOGIN")
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
-                        .header("subModuleId", "SMI_01"))
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(deviceinfo))
+                )
 
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.status.code").value("ATM_ERROR"))

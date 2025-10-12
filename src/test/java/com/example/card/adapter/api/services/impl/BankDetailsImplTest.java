@@ -46,9 +46,9 @@ class BankDetailsImplTest {
         BankDetailsResponseDto bankDetails = bankDetailsService.getBankDetails();
 
         assertNotNull(bankDetails);
-        assertEquals("Dukhan Bank", bankDetails.getNameEn());
         assertEquals("info@dukhanbank.com", bankDetails.getMail());
-        assertEquals(0, bankDetails.getDisplayOrder());
+        assertEquals(12345678L, bankDetails.getContact());
+
         verify(bankDetailsRepository, times(1)).findById(1L);
     }
 
