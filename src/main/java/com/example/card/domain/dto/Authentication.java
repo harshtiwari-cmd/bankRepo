@@ -1,16 +1,16 @@
-package com.example.card.domain.dto;
-
-
-import lombok.Data;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
-@Data
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Authentication {
-
-    private String userId;
-    private String Password;
-
-}
+//package com.example.card.domain.dto;
+//
+//
+//import lombok.Data;
+//
+//import javax.xml.bind.annotation.XmlAccessType;
+//import javax.xml.bind.annotation.XmlAccessorType;
+//
+//@Data
+//@XmlAccessorType(XmlAccessType.FIELD)
+//public class Authentication {
+//
+//    private String userId;
+//    private String Password;
+//
+//}

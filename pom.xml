@@ -176,34 +176,34 @@
             </plugin>
 
 
-            <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.14.0</version>
-                <executions>
-                    <execution>
-                        <id>xsd-to-java</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- Directory where all XSD files are kept -->
-                    <schemaDirectory>src/main/resources/xsd</schemaDirectory>
+<!--            <plugin>-->
+<!--                <groupId>org.jvnet.jaxb2.maven2</groupId>-->
+<!--                <artifactId>maven-jaxb2-plugin</artifactId>-->
+<!--                <version>0.14.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>xsd-to-java</id>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash; Directory where all XSD files are kept &ndash;&gt;-->
+<!--                    <schemaDirectory>src/main/resources/xsd</schemaDirectory>-->
 
-                    <!-- Include pattern for XSDs (can be multiple) -->
-                    <schemaIncludes>
-                        <include>*.xsd</include>
-                    </schemaIncludes>
+<!--                    &lt;!&ndash; Include pattern for XSDs (can be multiple) &ndash;&gt;-->
+<!--                    <schemaIncludes>-->
+<!--                        <include>*.xsd</include>-->
+<!--                    </schemaIncludes>-->
 
-                    <!-- Java package for generated classes -->
-                    <generatePackage>com.example.card.domain.dto</generatePackage>
+<!--                    &lt;!&ndash; Java package for generated classes &ndash;&gt;-->
+<!--                    <generatePackage>com.example.card.domain.dto</generatePackage>-->
 
-                    <!-- No need for outputDirectory: defaults to target/generated-sources/xjc -->
-                    <!-- No need for removeOldOutput: default is true, cleans before regenerating -->
-                </configuration>
-            </plugin>
+<!--                    &lt;!&ndash; No need for outputDirectory: defaults to target/generated-sources/xjc &ndash;&gt;-->
+<!--                    &lt;!&ndash; No need for removeOldOutput: default is true, cleans before regenerating &ndash;&gt;-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
 
 
