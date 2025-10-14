@@ -2,7 +2,8 @@ package com.example.card.adapter.api.controller;
 
 import com.example.card.adapter.api.services.LocateUsService;
 import com.example.card.domain.dto.*;
-import com.example.card.domain.model.Deviceinfo;
+import com.example.card.domain.model.CardBinAllWrapper;
+import com.example.card.domain.model.DeviceInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +34,7 @@ class LocateUsTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Deviceinfo deviceinfo ;
+    private CardBinAllWrapper cardBinAllWrapper;
 
     private LocateUsDTO branchDTO;
     private LocateUsDTO kioskDto;
@@ -46,7 +46,7 @@ class LocateUsTest {
     void setUp() throws ParseException {
 
 
-        deviceinfo = Deviceinfo
+        DeviceInfo  deviceinfo = DeviceInfo
                 .builder()
                 .deviceId("DEVICE123")
                 .ipAddress("192.168.1.1")
@@ -56,6 +56,12 @@ class LocateUsTest {
                 .appVersion("2.1.0")
                 .endToEndId("E2E123")
                 .build();
+
+        cardBinAllWrapper = new CardBinAllWrapper();
+
+        cardBinAllWrapper.setRequestInfo(null);
+        cardBinAllWrapper.setDeviceInfo(deviceinfo);
+
 
 
 
@@ -185,7 +191,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
@@ -211,7 +217,7 @@ class LocateUsTest {
                                 .header("screenId", "SC_01")
                                 .header("moduleId", "MI_01")
                                 .header("subModuleId", "SMI_01")
-                                .content(objectMapper.writeValueAsString(deviceinfo))
+                                .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000404"))
@@ -235,7 +241,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
@@ -263,7 +269,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
@@ -290,7 +296,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
@@ -319,7 +325,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
 
                 .andExpect(status().isInternalServerError())
@@ -345,7 +351,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
 
                 .andExpect(status().isInternalServerError())
@@ -370,7 +376,7 @@ class LocateUsTest {
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")
                         .header("subModuleId", "SMI_01")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
 
                 .andExpect(status().isInternalServerError())

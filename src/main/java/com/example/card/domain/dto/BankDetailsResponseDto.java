@@ -1,5 +1,6 @@
 package com.example.card.domain.dto;
 
+import com.example.card.domain.model.SocialMedia;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
@@ -23,7 +24,7 @@ public class BankDetailsResponseDto {
     @NotNull(message = "internationalContact should not be null")
     private String internationalContact;
 
-    private List<FollowUsItemDto> followUs;
+    private List<SocialMedia> followUs;
 
 
 }

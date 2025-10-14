@@ -4,6 +4,7 @@ import com.example.card.domain.dto.BankDetailsResponseDto;
 import com.example.card.domain.dto.BankDetailsNewRequestDto;
 import com.example.card.domain.dto.FollowUsItemDto;
 import com.example.card.constrants.entity.BankDetailsEntity;
+import com.example.card.domain.model.SocialMedia;
 import com.example.card.exceptions.ResourceNotFoundException;
 import com.example.card.repository.BankDetailsRepository;
 import com.example.card.adapter.api.services.BankDetailsService;
@@ -11,67 +12,90 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class BankDetailsImpl implements BankDetailsService {
 
-    private final BankDetailsRepository repository;
-    private final ObjectMapper objectMapper;
+    @Autowired
+    private BankDetailsRepository repository;
 
-    public BankDetailsImpl(BankDetailsRepository repository, ObjectMapper objectMapper) {
-        this.repository = repository;
-        this.objectMapper = objectMapper;
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
-    public BankDetailsResponseDto getBankDetails() {
+    public BankDetailsResponseDto getBankDetails(String lang) {
         log.info("Fetching latest bank details");
 
         BankDetailsEntity entity = repository.findById(1L)
                 .orElseThrow(() -> new ResourceNotFoundException("No bank details found"));
 
         BankDetailsResponseDto responseDto = new BankDetailsResponseDto();
-
-
         responseDto.setMail(entity.getMail());
         responseDto.setContact(entity.getContact());
         responseDto.setInternationalContact(entity.getInternationalContact());
 
-        List<FollowUsItemDto> followUsItemDtoList = new ArrayList<>();
-
-
-        FollowUsItemDto bankInfo = new FollowUsItemDto();
-        bankInfo.setNameEn(entity.getNameEn());
-        bankInfo.setNameAr(entity.getNameAr());
-        bankInfo.setUrlEn(entity.getUrlEn());
-        bankInfo.setUrlAr(entity.getUrlAr());
-        bankInfo.setDisplayImage(entity.getDisplayImage());
-        bankInfo.setDisplayOrder(entity.getDisplayOrder());
-
-        followUsItemDtoList.add(bankInfo);
-
-
         String followUsJson = entity.getFollowUsJson();
+
         if (followUsJson != null && !followUsJson.isBlank()) {
             try {
-                List<FollowUsItemDto> socialLinks = objectMapper.readValue(followUsJson, new TypeReference<>() {});
-                followUsItemDtoList.addAll(socialLinks);
+                List<FollowUsItemDto> socialLinks = objectMapper.readValue(followUsJson, new TypeReference<>() { });
+
+                List<SocialMedia> socialMedia = mapToSocialMediaList(entity, socialLinks, lang);
+                responseDto.setFollowUs(socialMedia);
+
             } catch (JsonProcessingException e) {
                 log.error("Failed to parse followUsJson", e);
-                throw new RuntimeException("Invalid followUsJson format");
+                throw new RuntimeException("Invalid followUsJson format", e);
             }
         }
-
-        responseDto.setFollowUs(followUsItemDtoList);
-
         return responseDto;
     }
 
+    public List<SocialMedia> mapToSocialMediaList(BankDetailsEntity entity, List<FollowUsItemDto> dtoList, String lang) {
+        List<SocialMedia> list = new ArrayList<>();
+
+        boolean isEnglish = "en".equalsIgnoreCase(lang);
+
+        for (int i = 0; i < dtoList.size(); i++) {
+            FollowUsItemDto dto = dtoList.get(i);
+            SocialMedia sm = new SocialMedia();
+
+            sm.setName(isEnglish ? dto.getNameEn() : dto.getNameAr());
+            sm.setDisplayImage(dto.getDisplayImage());
+            sm.setDisplayOrder(dto.getDisplayOrder());
+
+            // Set URL based on index and language
+            switch (i) {
+                case 0 -> sm.setUrl(isEnglish ? dto.getInstaUrlEN() : dto.getInstaUrlAR());
+                case 1 -> sm.setUrl(isEnglish ? dto.getSnapUrlEN() : dto.getSnapUrlAR());
+                case 2 -> sm.setUrl(isEnglish ? dto.getYoutubeUrlEN() : dto.getYoutubeUrlAR());
+                case 3 -> sm.setUrl(isEnglish ? dto.getFacebookUrlEN() : dto.getFacebookUrlAR());
+                case 4 -> sm.setUrl(isEnglish ? dto.getTwitterUrlEN() : dto.getTwitterUrlAR());
+            }
+
+            list.add(sm);
+        }
+
+        // Add BankDetailsEntity as a SocialMedia item
+        SocialMedia bankMedia = new SocialMedia();
+        bankMedia.setName(isEnglish ? entity.getNameEn() : entity.getNameAr());
+        bankMedia.setUrl(isEnglish ? entity.getUrlEn() : entity.getUrlAr());
+        bankMedia.setDisplayImage(entity.getDisplayImage());
+        bankMedia.setDisplayOrder(entity.getDisplayOrder());
+
+        list.add(bankMedia);
+        list.sort(Comparator.comparingInt(SocialMedia::getDisplayOrder));
+        return list;
+    }
 
     @Override
     public BankDetailsEntity saveBankDetailsNew(BankDetailsNewRequestDto dto) {
@@ -97,30 +121,6 @@ public class BankDetailsImpl implements BankDetailsService {
         }
 
         return repository.save(entity);
-    }
-
-    public void filterLanguage(BankDetailsResponseDto dto, String lang) {
-        if ("en".equalsIgnoreCase(lang)) {
-            dto.getFollowUs().forEach(f -> {
-                f.setNameAr(null);
-                f.setUrlAr(null);
-                f.setInstaUrlAR(null);
-                f.setSnapUrlAR(null);
-                f.setYoutubeUrlAR(null);
-                f.setFacebookUrlAR(null);
-                f.setTwitterUrlAR(null);
-            });
-        } else if ("ar".equalsIgnoreCase(lang)) {
-            dto.getFollowUs().forEach(f -> {
-                f.setNameEn(null);
-                f.setUrlEn(null);
-                f.setInstaUrlEN(null);
-                f.setSnapUrlEN(null);
-                f.setYoutubeUrlEN(null);
-                f.setFacebookUrlEN(null);
-                f.setTwitterUrlEN(null);
-            });
-        }
     }
 
 

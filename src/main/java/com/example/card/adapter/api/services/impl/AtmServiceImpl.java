@@ -6,6 +6,7 @@ import com.example.card.constrants.entity.AtmEntity;
 import com.example.card.repository.Atm_Repo;
 import com.example.card.adapter.api.services.AtmService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class AtmServiceImpl implements AtmService {
 
-    private final Atm_Repo atmRepo;
+    @Autowired
+    private Atm_Repo atmRepo;
 
-    public AtmServiceImpl(Atm_Repo atmRepo) {
-        this.atmRepo = atmRepo;
-    }
 
     @Override
     public AtmResponseDto registerAtm(AtmRequestDto requestDto) {

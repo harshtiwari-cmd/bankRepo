@@ -3,9 +3,11 @@ package com.example.card.adapter.api.controller;
 
 import com.example.card.adapter.api.services.LocateUsService;
 import com.example.card.domain.dto.*;
-import com.example.card.domain.model.Deviceinfo;
+import com.example.card.domain.model.CardBinAllWrapper;
 import com.example.card.infrastructure.common.AppConstant;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +22,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/locate-us")
 public class LocateUs {
-    private final LocateUsService locateUsService;
 
-    public LocateUs(LocateUsService locateUsService) {
-        this.locateUsService = locateUsService;
-    }
+    @Autowired
+    private LocateUsService locateUsService;
 
     @PostMapping
     public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService(
@@ -35,7 +35,7 @@ public class LocateUs {
             @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
             @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
-            @RequestBody Deviceinfo request
+            @Valid @RequestBody(required = true) CardBinAllWrapper wrapper
             ) {
         log.info("GET /locate-us - Received request to fetch all services");
         try {
