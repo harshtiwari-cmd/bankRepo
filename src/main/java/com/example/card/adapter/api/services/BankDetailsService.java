@@ -7,8 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface BankDetailsService {
 
-    BankDetailsResponseDto getBankDetails() throws JsonProcessingException;
+    BankDetailsResponseDto getBankDetails(String lang) throws JsonProcessingException;
 
     BankDetailsEntity saveBankDetailsNew(BankDetailsNewRequestDto dto);
-    public void filterLanguage(BankDetailsResponseDto dto, String lang);
+
 }

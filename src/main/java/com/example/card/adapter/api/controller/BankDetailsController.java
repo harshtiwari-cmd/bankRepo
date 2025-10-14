@@ -3,9 +3,11 @@ package com.example.card.adapter.api.controller;
 
 import com.example.card.domain.dto.*;
 import com.example.card.adapter.api.services.BankDetailsService;
-import com.example.card.domain.model.Deviceinfo;
+import com.example.card.domain.model.CardBinAllWrapper;
 import com.example.card.infrastructure.common.AppConstant;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class BankDetailsController {
 
-    private final BankDetailsService bankDetailsService;
-
-    public BankDetailsController(BankDetailsService bankDetailsService) {
-        this.bankDetailsService = bankDetailsService;
-    }
+    @Autowired
+    private BankDetailsService bankDetailsService;
 
     @PostMapping("/save-new")
     public ResponseEntity<String> saveBankDetailsNew(
@@ -51,19 +50,24 @@ public class BankDetailsController {
             @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
             @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
-            @RequestBody Deviceinfo request
+            @Valid @RequestBody(required = true)CardBinAllWrapper wrapper
             ) {
         log.info("Received request to fetch bank details");
 
         try {
-            BankDetailsResponseDto data = bankDetailsService.getBankDetails();
-            log.info("Bank details fetched successfully for email: {}", data.getMail());
-            bankDetailsService.filterLanguage(data, lang);
+            if ("en".equalsIgnoreCase(lang == null ? "" : lang.trim()) ||    "ar".equalsIgnoreCase(lang == null ? "" : lang.trim()))  {
+                BankDetailsResponseDto data = bankDetailsService.getBankDetails(lang);
+                log.info("Bank details fetched successfully for email: {}", data.getMail());
 
-            GenericResponse<BankDetailsResponseDto> response =
-                    new GenericResponse<>(new Status("000000", "SUCCESS"), data);
+                GenericResponse<BankDetailsResponseDto> response =
+                        new GenericResponse<>(new Status("000000", "SUCCESS"), data);
 
-            return ResponseEntity.ok(response);
+                return ResponseEntity.ok(response);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new GenericResponse<>(new Status("G-00000", "use lang ar or en."), null));
+            }
         } catch (Exception e) {
             log.error("Error fetching bank details: {}", e.getMessage(), e);
 

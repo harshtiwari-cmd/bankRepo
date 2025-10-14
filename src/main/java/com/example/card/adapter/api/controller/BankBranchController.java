@@ -19,12 +19,9 @@ import java.util.List;
 @RequestMapping("/api")
 public class BankBranchController {
 
-
+    @Autowired
     private BankBranchService bankBranchService;
 
-    public BankBranchController(BankBranchService bankBranchService) {
-        this.bankBranchService = bankBranchService;
-    }
 
     @GetMapping("/branches")
     public ResponseEntity<List<BankBranchDTO>> getAllBranches(

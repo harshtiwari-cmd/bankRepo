@@ -9,6 +9,7 @@ import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocateUsDTO;
 import com.example.card.repository.RbxTLocatorNewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -25,10 +26,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class LocateUsServiceImpl implements LocateUsService {
 
-    private final RbxTLocatorNewRepository repository;
+    @Autowired
+    private RbxTLocatorNewRepository repository;
 
     @Override
     public List<BankBranchDTO> fetchBranches() {

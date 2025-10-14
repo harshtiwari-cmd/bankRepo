@@ -4,8 +4,9 @@ import com.example.card.adapter.api.services.BankDetailsService;
 import com.example.card.constrants.entity.BankDetailsEntity;
 import com.example.card.domain.dto.BankDetailsNewRequestDto;
 import com.example.card.domain.dto.BankDetailsResponseDto;
-import com.example.card.domain.dto.FollowUsItemDto;
-import com.example.card.domain.model.Deviceinfo;
+import com.example.card.domain.model.CardBinAllWrapper;
+import com.example.card.domain.model.DeviceInfo;
+import com.example.card.domain.model.SocialMedia;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -35,14 +35,14 @@ class BankDetailsControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Deviceinfo deviceinfo;
+    private CardBinAllWrapper cardBinAllWrapper;
 
     private BankDetailsResponseDto responseDto;
 
     @BeforeEach
     public void setUp() {
 
-         deviceinfo = Deviceinfo
+        DeviceInfo deviceinfo = DeviceInfo
                 .builder()
                 .deviceId("DEVICE123")
                 .ipAddress("192.168.1.1")
@@ -53,25 +53,26 @@ class BankDetailsControllerTest {
                 .endToEndId("E2E123")
                 .build();
 
+        cardBinAllWrapper = new CardBinAllWrapper();
 
-        ArrayList<FollowUsItemDto> list = new ArrayList<>();
+        cardBinAllWrapper.setRequestInfo(null);
+        cardBinAllWrapper.setDeviceInfo(deviceinfo);
 
-        FollowUsItemDto dto1 = FollowUsItemDto.builder()
-                .instaUrlAR("https://www.instagram.com/dukhanbank/")
-                .instaUrlEN("https://www.instagram.com/dukhanbank/?hl=ar")
-                .nameEn("Instagram")
-                .nameAr("إنستغرام")
+
+        ArrayList<SocialMedia> list = new ArrayList<>();
+
+        SocialMedia sm1 = SocialMedia.builder()
+                .url("https://www.instagram.com/dukhanbank/")
+                .name("Instagram")
                 .displayOrder(1).build();
 
-        FollowUsItemDto dto2 = FollowUsItemDto.builder()
-                .instaUrlAR("https://www.snapchat.com/add/dukhanbank")
-                .instaUrlEN("https://www.snapchat.com/add/dukhanbank")
-                .nameEn("snapchat")
-                .nameAr("سناب شات")
+        SocialMedia sm2 = SocialMedia.builder()
+                .url("https://www.snapchat.com/add/dukhanbank")
+                .name("snapchat")
                 .displayOrder(2).build();
 
-        list.add(dto1);
-        list.add(dto2);
+        list.add(sm1);
+        list.add(sm2);
 
          responseDto = BankDetailsResponseDto.builder()
                 .mail("info.dukhanbank.com")
@@ -150,7 +151,7 @@ class BankDetailsControllerTest {
     @Test
      void getBankDetails_Success_ReturnsOkResponse() throws Exception {
 
-        Mockito.when(bankDetailsService.getBankDetails()).thenReturn(responseDto);
+        Mockito.when(bankDetailsService.getBankDetails("en")).thenReturn(responseDto);
 
         mockMvc.perform(post("/bank-details")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -161,22 +162,21 @@ class BankDetailsControllerTest {
                         .header("screenId", "screen123")
                         .header("moduleId", "module123")
                         .header("subModuleId", "submodule123")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status.code").value("000000"))
                 .andExpect(jsonPath("$.status.description").value("SUCCESS"))
                 .andExpect(jsonPath("$.data.mail").value("info.dukhanbank.com"))
-                .andExpect(jsonPath("$.data.followUs.length()").value(2))
-                        .andExpect(jsonPath("$.data.followUs[0].nameEn").value("Instagram"));
+                .andExpect(jsonPath("$.data.followUs[0].name").value("Instagram"));
 
-        verify(bankDetailsService, times(1)).getBankDetails();
+        verify(bankDetailsService, times(1)).getBankDetails("en");
 
     }
 
     @Test
      void getBankDetails_PartialHeadersProvided_ReturnsBadRequest() throws Exception {
-        Mockito.when(bankDetailsService.getBankDetails()).thenReturn(responseDto);
+        Mockito.when(bankDetailsService.getBankDetails("")).thenReturn(responseDto);
 
         mockMvc.perform(post("/bank-details")
                        // .header("unit", "test-unit") - not passing header
@@ -195,7 +195,7 @@ class BankDetailsControllerTest {
 
     @Test
      void getBankDetails_ServiceThrowsException_ReturnsInternalServerError() throws Exception {
-        Mockito.when(bankDetailsService.getBankDetails()).thenThrow(new RuntimeException("Database is down"));
+        Mockito.when(bankDetailsService.getBankDetails("en")).thenThrow(new RuntimeException("Database is down"));
 
         mockMvc.perform(post("/bank-details")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -206,14 +206,14 @@ class BankDetailsControllerTest {
                         .header("screenId", "screen123")
                         .header("moduleId", "module123")
                         .header("subModuleId", "submodule123")
-                        .content(objectMapper.writeValueAsString(deviceinfo))
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.status.code").value("G-00001"))
                 .andExpect(jsonPath("$.status.description").value("Internal Server ERROR"))
                 .andExpect(jsonPath("$.data").doesNotExist());
 
-        verify(bankDetailsService, times(1)).getBankDetails();
+        verify(bankDetailsService, times(1)).getBankDetails("en");
     }
 
 

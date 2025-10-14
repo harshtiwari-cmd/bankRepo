@@ -43,7 +43,7 @@ class BankDetailsImplTest {
 
         when(bankDetailsRepository.findById(1L)).thenReturn(Optional.of(entity));
 
-        BankDetailsResponseDto bankDetails = bankDetailsService.getBankDetails();
+        BankDetailsResponseDto bankDetails = bankDetailsService.getBankDetails("");
 
         assertNotNull(bankDetails);
         assertEquals("info@dukhanbank.com", bankDetails.getMail());
@@ -59,7 +59,7 @@ class BankDetailsImplTest {
                 .thenThrow(new ResourceNotFoundException("No bank details found"));
 
         ResourceNotFoundException foundException = assertThrows(ResourceNotFoundException.class, () -> {
-            bankDetailsService.getBankDetails(); // Make sure this calls findById with a long
+            bankDetailsService.getBankDetails(""); // Make sure this calls findById with a long
         });
 
         assertNotNull(foundException);

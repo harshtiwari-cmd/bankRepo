@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RbxTLocatorNewRepository extends JpaRepository<RbxTLocatorNewEntity, String> {
 
+    @Query("SELECT r FROM RbxTLocatorNewEntity r WHERE LOWER(r.locatorType) = LOWER(:locatorType) AND r.isActive = 'Y'")
     List<RbxTLocatorNewEntity> findByLocatorTypeIgnoreCase(String locatorType);
 
     List<RbxTLocatorNewEntity> findByLocatorTypeIgnoreCaseAndCityIgnoreCase(String locatorType, String city);

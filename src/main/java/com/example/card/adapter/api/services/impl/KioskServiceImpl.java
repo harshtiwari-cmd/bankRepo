@@ -8,6 +8,7 @@ import com.example.card.exceptions.BusinessException;
 import com.example.card.repository.KioskRepository;
 import com.example.card.adapter.api.services.KioskService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,11 @@ import java.util.List;
 @Transactional
 public class KioskServiceImpl implements KioskService {
 
-    private final KioskRepository kioskRepository;
-    private final KioskMapper kioskMapper;
+    @Autowired
+    private  KioskRepository kioskRepository;
 
-    public KioskServiceImpl(KioskRepository kioskRepository, KioskMapper kioskMapper) {
-        this.kioskRepository = kioskRepository;
-        this.kioskMapper = kioskMapper;
-    }
+    @Autowired
+    private  KioskMapper kioskMapper;
 
     @Override
     public KioskResponseDTO createKiosk(KioskRequestDTO dto) {
