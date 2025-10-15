@@ -37,6 +37,9 @@ public class RbxTLocatorNewEntity {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "arabic_name")
     private String arabicName;
 
