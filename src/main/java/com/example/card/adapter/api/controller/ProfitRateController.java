@@ -25,13 +25,13 @@ public class ProfitRateController {
 
     @GetMapping
     public ResponseEntity<List<ProfitRateResponseDTO>> getAllProfitRates(
-            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
-            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+            @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
+            @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
+            @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId
     ) {
         log.info("GET /api/profit-rates - Received Request to get all profit Rates");
         try {
@@ -45,13 +45,13 @@ public class ProfitRateController {
 
     @PostMapping
     public ResponseEntity<ProfitRateResponseDTO> createProfitRate(
-            @RequestHeader(name = AppConstant.UNIT) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID) String screenId,
-            @RequestHeader(name = AppConstant.MODULE_ID) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID) String subModuleId,
+            @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
+            @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
+            @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
             @RequestBody @Valid ProfitRateRequestDTO requestDTO) {
         log.info("POST /api/profit-rates - Received request to create profit rate: {}", requestDTO);
 

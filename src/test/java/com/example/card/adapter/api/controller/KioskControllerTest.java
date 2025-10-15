@@ -65,7 +65,7 @@ public class KioskControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("unit", "PRD")
                         .header("channel", "MB")
-                        .header("lang", "English")
+                        .header("accept-language", "English")
                         .header("serviceId", "LOGIN")
                         .header("screenId", "SC_01")
                         .header("moduleId", "MI_01")

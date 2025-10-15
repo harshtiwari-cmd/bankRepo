@@ -27,13 +27,13 @@ public class FxRateController {
 
     @PostMapping("/save-fx-rates")
     public ResponseEntity<FXRateDto> saveFxRate(
-            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
-            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId,
+            @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
+            @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
+            @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
             @RequestBody FXRateDto dto) throws ResourceNotFoundException {
         log.info("Received request to save FX rate for country code: {}", dto != null ? dto.getCountryCode() : "null");
 
@@ -52,13 +52,13 @@ public class FxRateController {
 
     @GetMapping("/view-fx-rates")
     public ResponseEntity<GenericResponse<List<FXRateResponseDto>>> getService(
-            @RequestHeader(name = AppConstant.UNIT, required = false) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = false) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = false) String lang,
-            @RequestHeader(name = AppConstant.SERVICEID,required = false) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = false) String screenId,
-            @RequestHeader(name = AppConstant.MODULE_ID, required = false) String moduleId,
-            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = false) String subModuleId
+            @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
+            @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
+            @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
+            @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId
     ) {
         log.info("Received request to fetch FX rates");
 

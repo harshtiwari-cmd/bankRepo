@@ -24,10 +24,10 @@ public class BankDetailsController {
     @PostMapping("/save-new")
     public ResponseEntity<String> saveBankDetailsNew(
             @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = true) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
             @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
             @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
             @RequestBody BankDetailsNewRequestDto dto) {
@@ -44,10 +44,10 @@ public class BankDetailsController {
     @PostMapping
     public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails(
             @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
-            @RequestHeader(name = AppConstant.CHANNEL, required = true) String channel,
-            @RequestHeader(name = AppConstant.ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
             @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
-            @RequestHeader(name = AppConstant.SCREENID,required = true) String screenId,
+            @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
             @RequestHeader(name = AppConstant.SUB_MODULE_ID, required = true) String subModuleId,
             @Valid @RequestBody(required = true)CardBinAllWrapper wrapper
