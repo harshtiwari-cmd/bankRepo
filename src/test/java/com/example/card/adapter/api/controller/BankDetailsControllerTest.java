@@ -216,6 +216,25 @@ class BankDetailsControllerTest {
         verify(bankDetailsService, times(1)).getBankDetails("en");
     }
 
+    @Test
+    void getBankDetails_shouldReturnException_whenLangIsNotSupported() throws Exception {
+
+        mockMvc.perform(post("/bank-details")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "hindi") // - trying with hindi
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status.code").value("G-00000"))
+                .andExpect(jsonPath("$.status.description").value("Unsupported language. Use 'ar' or 'en'."))
+                .andExpect(jsonPath("$.data").doesNotExist());
+    }
 
 
 }

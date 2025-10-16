@@ -4,6 +4,7 @@ import com.example.card.domain.dto.AtmResponseDto;
 import com.example.card.domain.dto.BankBranchDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocateUsDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface LocateUsService {
 
     // unified variant
     List<LocateUsDTO> fetchAllUnified();
-    List<LocateUsDTO> fetchByType(String locatorType, String lang);
+    List<LocateUsDTO> fetchByType(String locatorType, String lang) throws JsonProcessingException;
 }
 
 

@@ -10,6 +10,8 @@ import com.example.card.domain.dto.LocateUsDTO;
 import com.example.card.repository.RbxTLocatorNewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -26,6 +28,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@ConditionalOnProperty(name = "mock.enabled", havingValue = "false")
 public class LocateUsServiceImpl implements LocateUsService {
 
     @Autowired
