@@ -5,9 +5,11 @@ import com.example.card.domain.dto.BankDetailsResponseDto;
 import com.example.card.constrants.entity.BankDetailsEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.IOException;
+
 public interface BankDetailsService {
 
-    BankDetailsResponseDto getBankDetails(String lang) throws JsonProcessingException;
+    BankDetailsResponseDto getBankDetails(String lang) throws IOException;
 
     BankDetailsEntity saveBankDetailsNew(BankDetailsNewRequestDto dto);
 
