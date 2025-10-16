@@ -18,26 +18,26 @@ public class LocateUsDTO {
     private CoordinatesDTO coordinates;
 
     private String facility;
-    private String address;
-    private String arabicName;
+//    private String address;
+    private String name;
 
     private Integer cashDeposit; // 0/1
     private Integer cashOut; // 0/1
     private Integer chequeDeposit; // 0/1
 
     private String city;
-    private String cityInArabic;
+
     private String code;
     private String contactDetails;
     private String country;
     private Integer disablePeople; // 0/1
     private String fullAddress;
-    private String fullAddressArb;
+
     private Integer onlineLocation; // 0/1
     private String timing;
     private String typeLocation;
     private String workingHours;
-    private String workingHoursInArb;
+
     private String status; // e.g., OPEN, CLOSED, UNKNOWN
 
     private Date dateCreate;

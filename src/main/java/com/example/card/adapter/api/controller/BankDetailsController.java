@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 
 @Slf4j
 @RequestMapping("/bank-details")
@@ -20,6 +22,9 @@ public class BankDetailsController {
 
     @Autowired
     private BankDetailsService bankDetailsService;
+
+    private static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
+
 
     @PostMapping("/save-new")
     public ResponseEntity<String> saveBankDetailsNew(
@@ -45,7 +50,7 @@ public class BankDetailsController {
     public ResponseEntity<GenericResponse<BankDetailsResponseDto>> getBankDetails(
             @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
             @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
-            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = true) String lang,
+            @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = false) String lang,
             @RequestHeader(name = AppConstant.SERVICEID,required = true) String serviceId,
             @RequestHeader(name = AppConstant.SCREEN_ID,required = true) String screenId,
             @RequestHeader(name = AppConstant.MODULE_ID, required = true) String moduleId,
@@ -54,20 +59,22 @@ public class BankDetailsController {
             ) {
         log.info("Received request to fetch bank details");
 
+        String language = (lang == null || lang.trim().isEmpty()) ? "en" : lang.trim().toLowerCase();
+        if (!SUPPORTED_LANGUAGES.contains(language)) {
+            log.warn("Unsupported language received: {}", lang);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "G-00000", "Unsupported language. Use 'ar' or 'en'."), null));
+        }
+
         try {
-            if ("en".equalsIgnoreCase(lang == null ? "" : lang.trim()) ||    "ar".equalsIgnoreCase(lang == null ? "" : lang.trim()))  {
-                BankDetailsResponseDto data = bankDetailsService.getBankDetails(lang);
+                BankDetailsResponseDto data = bankDetailsService.getBankDetails(language);
                 log.info("Bank details fetched successfully for email: {}", data.getMail());
 
                 GenericResponse<BankDetailsResponseDto> response =
                         new GenericResponse<>(new Status("000000", "SUCCESS"), data);
 
                 return ResponseEntity.ok(response);
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new GenericResponse<>(new Status("G-00000", "use lang ar or en."), null));
-            }
+
+
         } catch (Exception e) {
             log.error("Error fetching bank details: {}", e.getMessage(), e);
 

@@ -64,16 +64,17 @@ public class LocateUsServiceImpl implements LocateUsService {
         if (rows == null || rows.isEmpty()) {
             return Collections.emptyList();
         }
-        return rows.stream().map(this::mapToUnifiedDto).collect(Collectors.toList());
+        return rows.stream().map(entity -> mapToUnifiedDto(entity, "")).collect(Collectors.toList());
     }
 
     @Override
-    public List<LocateUsDTO> fetchByType(String locatorType) {
+    public List<LocateUsDTO> fetchByType(String locatorType, String lang) {
         List<RbxTLocatorNewEntity> rows = repository.findByLocatorTypeIgnoreCase(locatorType);
         if (rows == null || rows.isEmpty()) {
             return Collections.emptyList();
         }
-        return rows.stream().map(this::mapToUnifiedDto).collect(Collectors.toList());
+
+        return rows.stream().map(entity -> mapToUnifiedDto(entity, lang)).toList();
     }
 
     private BankBranchDTO mapToBranchDto(RbxTLocatorNewEntity e) {
@@ -146,45 +147,59 @@ public class LocateUsServiceImpl implements LocateUsService {
         return dto;
     }
 
-    private LocateUsDTO mapToUnifiedDto(RbxTLocatorNewEntity e) {
-        LocateUsDTO dto = new LocateUsDTO();
-        dto.setLocatorType(e.getLocatorType());
-        dto.setSearchString(e.getSearchString());
-        dto.setCoordinates(parseCoordinates(e));
-        dto.setFacility(e.getFacility());
-        dto.setAddress(e.getAddress());
-        dto.setArabicName(e.getArabicName());
-        dto.setCashDeposit(e.getCashDeposit());
-        dto.setCashOut(e.getCashOut());
-        dto.setChequeDeposit(e.getChequeDeposit());
-        dto.setCity(e.getCity());
-        dto.setCityInArabic(e.getCityInArabic());
-        dto.setCode(e.getCode());
-        dto.setContactDetails(e.getContactDetails());
-        dto.setCountry(e.getCountry());
-        dto.setDisablePeople(e.getDisablePeople());
-        dto.setFullAddress(e.getFullAddress());
-        dto.setFullAddressArb(e.getFullAddressArb());
-        dto.setOnlineLocation(e.getOnlineLocation());
-        dto.setTiming(e.getTiming());
-        dto.setTypeLocation(e.getTypeLocation());
-        dto.setWorkingHours(e.getWorkingHours());
-        dto.setWorkingHoursInArb(e.getWorkingHoursInArb());
-        dto.setStatus(calculateStatus(e));
-//        // branch open/close status based on local time window
-//        if ("BRANCH".equalsIgnoreCase(e.getLocatorType())) {
-//            dto.setStatus(calculateStatus(e));
-//        }
-        dto.setDateCreate(e.getDateCreate());
-        dto.setUserCreate(e.getUserCreate());
-        dto.setDateModif(e.getDateModif());
-        dto.setUserModif(e.getUserModif());
-        dto.setMaintenanceVendor(e.getMaintenanceVendor());
-        dto.setAtmType(e.getAtmType());
-        dto.setCurrencySupported(e.getCurrencySupported());
-        dto.setIsActive(e.getIsActive());
-        dto.setInstallationDate(e.getInstallationDate());
-        return dto;
+    private LocateUsDTO mapToUnifiedDto(RbxTLocatorNewEntity e, String lang) {
+
+
+        LocateUsDTO locateUsDTO = LocateUsDTO.builder()
+                .locatorType(e.getLocatorType())
+                .searchString(e.getSearchString())
+                .coordinates(parseCoordinates(e))
+
+                .facility(e.getFacility())
+//                .address(e.getAddress())
+
+                .cashDeposit(e.getCashDeposit())
+                .cashOut(e.getCashOut())
+                .chequeDeposit(e.getChequeDeposit())
+
+
+                .code(e.getCode())
+                .contactDetails(e.getContactDetails())
+                .country(e.getCountry())
+                .disablePeople(e.getDisablePeople())
+                .fullAddress(e.getFullAddress())
+                .onlineLocation(e.getOnlineLocation())
+                .timing(e.getTiming())
+                .typeLocation(e.getTypeLocation())
+
+
+                .status(calculateStatus(e))
+
+                .dateCreate(e.getDateCreate())
+                .userCreate(e.getUserCreate())
+                .dateModif(e.getDateModif())
+                .userModif(e.getUserModif())
+
+                .maintenanceVendor(e.getMaintenanceVendor())
+                .atmType(e.getAtmType())
+                .currencySupported(e.getCurrencySupported())
+                .isActive(e.getIsActive())
+                .installationDate(e.getInstallationDate())
+                .build();
+
+        if ("ar".equalsIgnoreCase(lang)) {
+            locateUsDTO.setName(e.getArabicName());
+            locateUsDTO.setFullAddress(e.getFullAddressArb());
+            locateUsDTO.setCity(e.getCityInArabic());
+            locateUsDTO.setWorkingHours(e.getWorkingHoursInArb());
+        } else {
+            locateUsDTO.setName(e.getName());
+            locateUsDTO.setFullAddress(e.getFullAddress());
+            locateUsDTO.setCity(e.getCity());
+            locateUsDTO.setWorkingHours(e.getWorkingHours());
+        }
+
+        return locateUsDTO;
     }
 
     private CoordinatesDTO parseCoordinates(RbxTLocatorNewEntity e) {

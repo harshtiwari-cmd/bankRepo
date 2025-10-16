@@ -14,7 +14,7 @@ public interface LocateUsService {
 
     // unified variant
     List<LocateUsDTO> fetchAllUnified();
-    List<LocateUsDTO> fetchByType(String locatorType);
+    List<LocateUsDTO> fetchByType(String locatorType, String lang);
 }
 
 
