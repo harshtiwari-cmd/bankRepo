@@ -48,15 +48,12 @@ public class LocateUs {
         }
 
         try {
-            CompletableFuture<List<LocateUsDTO>> branchesFuture = locateUsService.fetchByTypeAsync("BRANCH", language);
-            CompletableFuture<List<LocateUsDTO>> atmsFuture = locateUsService.fetchByTypeAsync("ATM", language);
-            CompletableFuture<List<LocateUsDTO>> kiosksFuture = locateUsService.fetchByTypeAsync("KIOSK", language);
+            CompletableFuture<Map<String, List<LocateUsDTO>>> allTypesFuture = locateUsService.fetchAllTypesAsync(language);
+            Map<String, List<LocateUsDTO>> allTypes = allTypesFuture.get();
 
-            CompletableFuture.allOf(branchesFuture, atmsFuture, kiosksFuture).join();
-
-            List<LocateUsDTO> branches = branchesFuture.get();
-            List<LocateUsDTO> atms = atmsFuture.get();
-            List<LocateUsDTO> kiosks = kiosksFuture.get();
+            List<LocateUsDTO> branches = allTypes.get("branches");
+            List<LocateUsDTO> atms = allTypes.get("atms");
+            List<LocateUsDTO> kiosks = allTypes.get("kiosks");
 
             if (branches.isEmpty() && atms.isEmpty() && kiosks.isEmpty()) {
                 log.warn("Failed to load: no data found");

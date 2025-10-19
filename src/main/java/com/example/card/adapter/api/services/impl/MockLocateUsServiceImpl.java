@@ -14,7 +14,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -48,8 +51,26 @@ public class MockLocateUsServiceImpl implements LocateUsService {
         return List.of();
     }
 
+
+
     @Override
-    public List<LocateUsDTO> fetchByType(String locatorType, String lang) {
+    public CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang) {
+        log.info("Mock fetchAllTypesAsync called for language: {}", lang);
+        
+        // Fetch all types using the existing fetchByType method
+        List<LocateUsDTO> branches = fetchByType("BRANCH", lang);
+        List<LocateUsDTO> atms = fetchByType("ATM", lang);
+        List<LocateUsDTO> kiosks = fetchByType("KIOSK", lang);
+        
+        Map<String, List<LocateUsDTO>> result = new HashMap<>();
+        result.put("branches", branches);
+        result.put("atms", atms);
+        result.put("kiosks", kiosks);
+        
+        return CompletableFuture.completedFuture(result);
+    }
+
+    private List<LocateUsDTO> fetchByType(String locatorType, String lang) {
         String type = locatorType != null ? locatorType.toUpperCase() : "";
         String language = "ar".equalsIgnoreCase(lang) ? "AR" : "EN";
 

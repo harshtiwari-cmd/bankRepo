@@ -8,9 +8,7 @@ import com.example.card.domain.dto.CoordinatesDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocateUsDTO;
 import com.example.card.repository.RbxTLocatorNewRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -74,11 +73,34 @@ public class LocateUsServiceImpl implements LocateUsService {
 
     @Async
     @Override
-    public CompletableFuture<List<LocateUsDTO>> fetchByTypeAsync(String locatorType, String lang) {
-        List<RbxTLocatorNewEntity> rows = repository.findByLocatorTypeIgnoreCase(locatorType);
-        List<LocateUsDTO> result = (rows == null || rows.isEmpty()) ? Collections.emptyList() :
-                rows.stream().map(entity -> mapToUnifiedDto(entity, lang)).toList();
-        return CompletableFuture.completedFuture(result);
+    public CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang) {
+        List<RbxTLocatorNewEntity> allRows = repository.findAll();
+        
+        if (allRows == null || allRows.isEmpty()) {
+            Map<String, List<LocateUsDTO>> emptyResult = new HashMap<>();
+            emptyResult.put("branches", Collections.emptyList());
+            emptyResult.put("atms", Collections.emptyList());
+            emptyResult.put("kiosks", Collections.emptyList());
+            return CompletableFuture.completedFuture(emptyResult);
+        }
+
+        Map<String, List<LocateUsDTO>> result = allRows.stream()
+                .map(entity -> mapToUnifiedDto(entity, lang))
+                .collect(Collectors.groupingBy(
+                    dto -> dto.getLocatorType().toLowerCase(),
+                    Collectors.toList()
+                ));
+
+        result.putIfAbsent("branch", Collections.emptyList());
+        result.putIfAbsent("atm", Collections.emptyList());
+        result.putIfAbsent("kiosk", Collections.emptyList());
+
+        Map<String, List<LocateUsDTO>> finalResult = new HashMap<>();
+        finalResult.put("branches", result.getOrDefault("branch", Collections.emptyList()));
+        finalResult.put("atms", result.getOrDefault("atm", Collections.emptyList()));
+        finalResult.put("kiosks", result.getOrDefault("kiosk", Collections.emptyList()));
+
+        return CompletableFuture.completedFuture(finalResult);
     }
 
     private BankBranchDTO mapToBranchDto(RbxTLocatorNewEntity e) {
