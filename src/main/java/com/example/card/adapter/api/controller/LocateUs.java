@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +30,7 @@ public class LocateUs {
 
 
     @PostMapping
-    public ResponseEntity<GenericResponse<List<Map<String, List<?>>>>> getService(
+    public ResponseEntity<GenericResponse<List<Map<String, List<Object>>>>> getService(
             @RequestHeader(name = AppConstant.UNIT, required = true) String unit,
             @RequestHeader(name = AppConstant.HEADER_CHANNEL, required = true) String channel,
             @RequestHeader(name = AppConstant.HEADER_ACCEPT_LANGUAGE,required = false) String lang,
@@ -60,14 +61,28 @@ public class LocateUs {
                 return ResponseEntity.ok(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
             }
 
-            List<Map<String, List<?>>> data = new ArrayList<>();
-            data.add(Collections.singletonMap("branches", branches));
-            data.add(Collections.singletonMap("atms", atms));
-            data.add(Collections.singletonMap("kiosks", kiosks));
+            List<Map<String, List<Object>>> data = new ArrayList<>();
 
-            GenericResponse<List<Map<String, List<?>>>> response =
+            // Branches list
+            List<Object> branchesList = new ArrayList<>();
+            branchesList.add(Collections.singletonMap("image", locateUsService.getImageForType("BRANCH")));
+            branchesList.addAll(branches);
+            data.add(Collections.singletonMap("branches", branchesList));
+
+            // ATMs list
+            List<Object> atmsList = new ArrayList<>();
+            atmsList.add(Collections.singletonMap("image", locateUsService.getImageForType("ATM")));
+            atmsList.addAll(atms);
+            data.add(Collections.singletonMap("atms", atmsList));
+
+            // Kiosks list
+            List<Object> kiosksList = new ArrayList<>();
+            kiosksList.add(Collections.singletonMap("image", locateUsService.getImageForType("KIOSK")));
+            kiosksList.addAll(kiosks);
+            data.add(Collections.singletonMap("kiosks", kiosksList));
+
+            GenericResponse<List<Map<String, List<Object>>>> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), data);
-
             log.info("Successfully fetched all data");
             return ResponseEntity.ok(response);
 
@@ -83,6 +98,8 @@ public class LocateUs {
             log.error("Thread interrupted", ie);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new GenericResponse<>(new Status("INTERRUPTED_ERROR", "Operation interrupted"), null));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
