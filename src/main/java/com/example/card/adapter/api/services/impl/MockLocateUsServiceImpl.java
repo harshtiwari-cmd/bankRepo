@@ -1,6 +1,7 @@
 package com.example.card.adapter.api.services.impl;
 
 import com.example.card.adapter.api.services.LocateUsService;
+import com.example.card.constrants.entity.LocateUsImages;
 import com.example.card.domain.dto.AtmResponseDto;
 import com.example.card.domain.dto.BankBranchDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
@@ -68,6 +69,33 @@ public class MockLocateUsServiceImpl implements LocateUsService {
         result.put("kiosks", kiosks);
         
         return CompletableFuture.completedFuture(result);
+    }
+
+    @Override
+    public String getImageForType(String locatorType) {
+        if (locatorType == null || locatorType.isEmpty()) {
+            throw new IllegalArgumentException("Locator type must not be null or empty");
+        }
+
+        try {
+            ClassPathResource resource = new ClassPathResource("JSON/locate-us-images.json");
+
+            List<LocateUsImages> usImages = objectMapper.readValue(
+                    resource.getInputStream(),
+                    new TypeReference<List<LocateUsImages>>() {}
+            );
+
+            for (LocateUsImages img : usImages) {
+                if (locatorType.equalsIgnoreCase(img.getLocatorType())) {
+                    return img.getImage();
+                }
+            }
+        } catch (IOException e) {
+            // Log the error or handle it as needed
+            System.err.println("Error reading image data: " + e.getMessage());
+        }
+
+        return ""; // or return a default image path if preferred
     }
 
     private List<LocateUsDTO> fetchByType(String locatorType, String lang) {

@@ -7,6 +7,7 @@ import com.example.card.domain.dto.BankBranchDTO;
 import com.example.card.domain.dto.CoordinatesDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocateUsDTO;
+import com.example.card.repository.LocateUsImagesRepository;
 import com.example.card.repository.RbxTLocatorNewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -34,6 +35,9 @@ public class LocateUsServiceImpl implements LocateUsService {
 
     @Autowired
     private RbxTLocatorNewRepository repository;
+
+    @Autowired
+    private LocateUsImagesRepository imagesRepository;
 
     @Override
     public List<BankBranchDTO> fetchBranches() {
@@ -101,6 +105,22 @@ public class LocateUsServiceImpl implements LocateUsService {
         finalResult.put("kiosks", result.getOrDefault("kiosk", Collections.emptyList()));
 
         return CompletableFuture.completedFuture(finalResult);
+    }
+
+    @Override
+    public String getImageForType(String locatorType) {
+        if (locatorType == null) {
+            throw new IllegalArgumentException("Locator type must not be null");
+        }
+
+        switch (locatorType.toUpperCase()) {
+            case "BRANCH":
+            case "ATM":
+            case "KIOSK":
+                return imagesRepository.findByLocatorType(locatorType).getImage();
+            default:
+                throw new IllegalArgumentException("Unsupported locator type: " + locatorType);
+        }
     }
 
     private BankBranchDTO mapToBranchDto(RbxTLocatorNewEntity e) {
