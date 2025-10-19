@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RestController
@@ -23,7 +25,7 @@ public class LocateUs {
     @Autowired
     private LocateUsService locateUsService;
 
-    private static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
+    private static final Set<String> SUPPORTED_LANGUAGES = AppConstant.SUPPORTED_LANGUAGES;
 
 
     @PostMapping
@@ -46,38 +48,19 @@ public class LocateUs {
         }
 
         try {
-            List<LocateUsDTO> branches;
-            List<LocateUsDTO> atms;
-            List<LocateUsDTO> kiosks;
+            CompletableFuture<List<LocateUsDTO>> branchesFuture = locateUsService.fetchByTypeAsync("BRANCH", language);
+            CompletableFuture<List<LocateUsDTO>> atmsFuture = locateUsService.fetchByTypeAsync("ATM", language);
+            CompletableFuture<List<LocateUsDTO>> kiosksFuture = locateUsService.fetchByTypeAsync("KIOSK", language);
 
-            try {
-                branches = locateUsService.fetchByType("BRANCH", language);
-            } catch (Exception e) {
-                log.error("Failed to fetch branches: {}", e.getMessage(), e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(new GenericResponse<>(new Status("BRANCH_ERROR", "Failed to fetch branches"), null));
-            }
+            CompletableFuture.allOf(branchesFuture, atmsFuture, kiosksFuture).join();
 
-            try {
-                atms = locateUsService.fetchByType("ATM", language);
-            } catch (Exception e) {
-                log.error("Failed to fetch ATMs: {}", e.getMessage(), e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(new GenericResponse<>(new Status("ATM_ERROR", "Failed to fetch ATMs"), null));
-            }
-
-            try {
-                kiosks = locateUsService.fetchByType("KIOSK", language);
-            } catch (Exception e) {
-                log.error("Failed to fetch kiosks: {}", e.getMessage(), e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(new GenericResponse<>(new Status("KIOSK_ERROR", "Failed to fetch kiosks"), null));
-            }
+            List<LocateUsDTO> branches = branchesFuture.get();
+            List<LocateUsDTO> atms = atmsFuture.get();
+            List<LocateUsDTO> kiosks = kiosksFuture.get();
 
             if (branches.isEmpty() && atms.isEmpty() && kiosks.isEmpty()) {
                 log.warn("Failed to load: no data found");
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
+                return ResponseEntity.ok(new GenericResponse<>(new Status("000404", "No Data Found"), new ArrayList<>()));
             }
 
             List<Map<String, List<?>>> data = new ArrayList<>();
@@ -90,10 +73,19 @@ public class LocateUs {
 
             log.info("Successfully fetched all data");
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            log.error("Exception occurred while fetching services: {}", e.getMessage(), e);
+
+        } catch (ExecutionException ee) {
+            Throwable cause = ee.getCause();
+            String errorCode = "G-00001";
+            String errorMessage = "Internal Server ERROR";
+            log.error("Exception occurred while fetching services: {}", cause.getMessage(), cause);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
+                    .body(new GenericResponse<>(new Status(errorCode, errorMessage), null));
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            log.error("Thread interrupted", ie);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new GenericResponse<>(new Status("INTERRUPTED_ERROR", "Operation interrupted"), null));
         }
     }
 }

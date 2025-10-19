@@ -73,7 +73,6 @@ public class BankDetailsImpl implements BankDetailsService {
             sm.setDisplayImage(dto.getDisplayImage());
             sm.setDisplayOrder(dto.getDisplayOrder());
 
-            // Set URL based on index and language
             switch (i) {
                 case 0 -> sm.setUrl(isEnglish ? dto.getInstaUrlEN() : dto.getInstaUrlAR());
                 case 1 -> sm.setUrl(isEnglish ? dto.getSnapUrlEN() : dto.getSnapUrlAR());
@@ -85,7 +84,6 @@ public class BankDetailsImpl implements BankDetailsService {
             list.add(sm);
         }
 
-        // Add BankDetailsEntity as a SocialMedia item
         SocialMedia bankMedia = new SocialMedia();
         bankMedia.setName(isEnglish ? entity.getNameEn() : entity.getNameAr());
         bankMedia.setUrl(isEnglish ? entity.getUrlEn() : entity.getUrlAr());

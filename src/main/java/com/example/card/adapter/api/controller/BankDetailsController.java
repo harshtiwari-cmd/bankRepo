@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -23,7 +24,7 @@ public class BankDetailsController {
     @Autowired
     private BankDetailsService bankDetailsService;
 
-    private static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
+    private static final Set<String> SUPPORTED_LANGUAGES = AppConstant.SUPPORTED_LANGUAGES;
 
 
     @PostMapping("/save-new")
@@ -59,7 +60,7 @@ public class BankDetailsController {
             ) {
         log.info("Received request to fetch bank details");
 
-        String language = (lang == null || lang.trim().isEmpty()) ? "en" : lang.trim().toLowerCase();
+        String language = (Objects.nonNull(lang) && !lang.trim().isEmpty()) ? lang.trim().toLowerCase() : "en";
         if (!SUPPORTED_LANGUAGES.contains(language)) {
             log.warn("Unsupported language received: {}", lang);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "G-00000", "Unsupported language. Use 'ar' or 'en'."), null));

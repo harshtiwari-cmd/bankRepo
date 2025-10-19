@@ -1,5 +1,7 @@
 package com.example.card.infrastructure.common;
 
+import java.util.Set;
+
 public class AppConstant {
 
     public static final String MICROSERVICE_ID = "ACCOUNTS";
@@ -89,6 +91,9 @@ public class AppConstant {
     public static final String STATEMENT_REQ_PATH = "/statement";
     public static final String STATEMENT_ACC_LIST_PATH = "/acc-list";
     public static final String GLOBAL_ACC_SUMMARY = "globalAccSummary";
+
+    public static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
+
     public static final String ACCOUT_PAGE_RES_SCHEMA = """
 				{
 				"status": {

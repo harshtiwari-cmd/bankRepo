@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -25,6 +26,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,14 +72,13 @@ public class LocateUsServiceImpl implements LocateUsService {
         return rows.stream().map(entity -> mapToUnifiedDto(entity, "")).collect(Collectors.toList());
     }
 
+    @Async
     @Override
-    public List<LocateUsDTO> fetchByType(String locatorType, String lang) {
+    public CompletableFuture<List<LocateUsDTO>> fetchByTypeAsync(String locatorType, String lang) {
         List<RbxTLocatorNewEntity> rows = repository.findByLocatorTypeIgnoreCase(locatorType);
-        if (rows == null || rows.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return rows.stream().map(entity -> mapToUnifiedDto(entity, lang)).toList();
+        List<LocateUsDTO> result = (rows == null || rows.isEmpty()) ? Collections.emptyList() :
+                rows.stream().map(entity -> mapToUnifiedDto(entity, lang)).toList();
+        return CompletableFuture.completedFuture(result);
     }
 
     private BankBranchDTO mapToBranchDto(RbxTLocatorNewEntity e) {
