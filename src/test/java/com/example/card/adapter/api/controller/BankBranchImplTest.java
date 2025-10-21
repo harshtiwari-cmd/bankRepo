@@ -230,21 +230,6 @@ class BankBranchImplTest {
     }
 
     @Test
-    @Disabled
-    void addBranch_WithNullCreateDTO_ReturnsInternalServerError() {
-        // Given
-        when(bankBranchService.createBankBranch(null)).thenThrow(new IllegalArgumentException("DTO cannot be null"));
-
-        // When
-        ResponseEntity<BankBranchDTO> response = bankBranchImpl.addBranch("unit1", "channel1", "en", "service1", "screen1", "module1", "subModule1",null);
-
-        // Then
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(bankBranchService, times(1)).createBankBranch(null);
-    }
-
-    @Test
     void addBranch_WithCreateDTOMissingRequiredFields_ReturnsInternalServerError() {
         // Given
         CreateBankHarshBranchDTO incompleteDTO = new CreateBankHarshBranchDTO();

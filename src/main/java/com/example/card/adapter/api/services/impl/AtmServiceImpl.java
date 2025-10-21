@@ -19,7 +19,6 @@ public class AtmServiceImpl implements AtmService {
     @Autowired
     private Atm_Repo atmRepo;
 
-
     @Override
     public AtmResponseDto registerAtm(AtmRequestDto requestDto) {
         log.info("Registering new ATM location with code: {}", requestDto.getCode());
