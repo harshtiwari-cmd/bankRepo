@@ -57,17 +57,17 @@ public class MockLocateUsServiceImpl implements LocateUsService {
     @Override
     public CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang) {
         log.info("Mock fetchAllTypesAsync called for language: {}", lang);
-        
+
         // Fetch all types using the existing fetchByType method
         List<LocateUsDTO> branches = fetchByType("BRANCH", lang);
         List<LocateUsDTO> atms = fetchByType("ATM", lang);
         List<LocateUsDTO> kiosks = fetchByType("KIOSK", lang);
-        
+
         Map<String, List<LocateUsDTO>> result = new HashMap<>();
         result.put("branches", branches);
         result.put("atms", atms);
         result.put("kiosks", kiosks);
-        
+
         return CompletableFuture.completedFuture(result);
     }
 
@@ -91,14 +91,14 @@ public class MockLocateUsServiceImpl implements LocateUsService {
                 }
             }
         } catch (IOException e) {
-            // Log the error or handle it as needed
-            System.err.println("Error reading image data: " + e.getMessage());
+            log.error("Error reading image data: {}", e.getMessage());
+
         }
 
-        return ""; // or return a default image path if preferred
+        return "";
     }
 
-    private List<LocateUsDTO> fetchByType(String locatorType, String lang) {
+    public List<LocateUsDTO> fetchByType(String locatorType, String lang) {
         String type = locatorType != null ? locatorType.toUpperCase() : "";
         String language = "ar".equalsIgnoreCase(lang) ? "AR" : "EN";
 

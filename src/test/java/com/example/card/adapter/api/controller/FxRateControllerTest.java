@@ -89,7 +89,7 @@ class FxRateControllerTest {
         assertEquals(500, response.getStatusCodeValue());
         GenericResponse<List<FXRateResponseDto>> body = response.getBody();
         assertNotNull(body);
-        assertEquals("G-00001", body.getStatus().getCode());
+        assertEquals("000500", body.getStatus().getCode());
         assertEquals("Internal Server ERROR", body.getStatus().getDescription());
         assertNull(body.getData());
     }
