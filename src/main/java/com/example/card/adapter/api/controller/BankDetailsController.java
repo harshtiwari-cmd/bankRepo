@@ -63,7 +63,7 @@ public class BankDetailsController {
         String language = (Objects.nonNull(lang) && !lang.trim().isEmpty()) ? lang.trim().toLowerCase() : "en";
         if (!SUPPORTED_LANGUAGES.contains(language)) {
             log.warn("Unsupported language received: {}", lang);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "G-00000", "Unsupported language. Use 'ar' or 'en'."), null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "000500", "Unsupported language. Use 'ar' or 'en'."), null));
         }
 
         try {
@@ -80,7 +80,7 @@ public class BankDetailsController {
             log.error("Error fetching bank details: {}", e.getMessage(), e);
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
+                    .body(new GenericResponse<>(new Status("000500", "Internal Server ERROR"), null));
         }
     }
 

@@ -209,7 +209,7 @@ class BankDetailsControllerTest {
                         .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.status.code").value("G-00001"))
+                .andExpect(jsonPath("$.status.code").value("000500"))
                 .andExpect(jsonPath("$.status.description").value("Internal Server ERROR"))
                 .andExpect(jsonPath("$.data").doesNotExist());
 
@@ -231,7 +231,7 @@ class BankDetailsControllerTest {
                         .content(objectMapper.writeValueAsString(cardBinAllWrapper))
                 )
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.status.code").value("G-00000"))
+                .andExpect(jsonPath("$.status.code").value("000500"))
                 .andExpect(jsonPath("$.status.description").value("Unsupported language. Use 'ar' or 'en'."))
                 .andExpect(jsonPath("$.data").doesNotExist());
     }

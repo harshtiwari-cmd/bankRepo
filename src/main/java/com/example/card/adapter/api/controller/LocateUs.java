@@ -45,7 +45,7 @@ public class LocateUs {
         String language = (lang == null || lang.trim().isEmpty()) ? "en" : lang.trim().toLowerCase();
         if (!SUPPORTED_LANGUAGES.contains(language)) {
             log.warn("Unsupported language received: {}", lang);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "G-00000", "Unsupported language. Use 'ar' or 'en'."), null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "000500", "Unsupported language. Use 'ar' or 'en'."), null));
         }
 
         try {
@@ -88,7 +88,7 @@ public class LocateUs {
 
         } catch (ExecutionException ee) {
             Throwable cause = ee.getCause();
-            String errorCode = "G-00001";
+            String errorCode = "000500";
             String errorMessage = "Internal Server ERROR";
             log.error("Exception occurred while fetching services: {}", cause.getMessage(), cause);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -97,7 +97,7 @@ public class LocateUs {
             Thread.currentThread().interrupt();
             log.error("Thread interrupted", ie);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse<>(new Status("INTERRUPTED_ERROR", "Operation interrupted"), null));
+                    .body(new GenericResponse<>(new Status("000500", "Operation interrupted"), null));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

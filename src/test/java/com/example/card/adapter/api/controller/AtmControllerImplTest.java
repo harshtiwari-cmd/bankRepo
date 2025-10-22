@@ -177,7 +177,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .header("subModuleId", "submodule123")
                 )
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.status.code").value("ATM_ERROR"))
+                .andExpect(jsonPath("$.status.code").value("000500"))
                 .andExpect(jsonPath("$.status.description").value("Failed to fetch ATMs"))
                 .andExpect(jsonPath("$.data").isEmpty());
 

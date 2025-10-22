@@ -82,7 +82,7 @@ public class FxRateController {
             log.error("Error while fetching FX rates: {}", e.getMessage(), e);
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse<>(new Status("G-00001", "Internal Server ERROR"), null));
+                    .body(new GenericResponse<>(new Status("000500", "Internal Server ERROR"), null));
         }
     }
 }
