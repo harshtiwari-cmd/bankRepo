@@ -6,6 +6,7 @@ import com.example.card.domain.dto.AtmResponseDto;
 import com.example.card.domain.dto.BankBranchDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocateUsDTO;
+import com.example.card.infrastructure.common.AppConstant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -32,14 +33,14 @@ public class MockLocateUsServiceImpl implements LocateUsService {
     public CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang) {
         log.info("Mock fetchAllTypesAsync called for language: {}", lang);
 
-        List<LocateUsDTO> branches = fetchByType("BRANCH", lang);
-        List<LocateUsDTO> atms = fetchByType("ATM", lang);
-        List<LocateUsDTO> kiosks = fetchByType("KIOSK", lang);
+        List<LocateUsDTO> branches = fetchByType(AppConstant.BRANCH, lang);
+        List<LocateUsDTO> atms = fetchByType(AppConstant.ATM, lang);
+        List<LocateUsDTO> kiosks = fetchByType(AppConstant.KIOSK, lang);
 
         Map<String, List<LocateUsDTO>> result = new HashMap<>();
-        result.put("branches", branches);
-        result.put("atms", atms);
-        result.put("kiosks", kiosks);
+        result.put(AppConstant.BRANCHES, branches);
+        result.put(AppConstant.ATMS, atms);
+        result.put(AppConstant.KIOSKS, kiosks);
 
         return CompletableFuture.completedFuture(result);
     }
@@ -72,12 +73,12 @@ public class MockLocateUsServiceImpl implements LocateUsService {
 
     public List<LocateUsDTO> fetchByType(String locatorType, String lang) {
         String type = locatorType != null ? locatorType.toUpperCase() : "";
-        String language = "ar".equalsIgnoreCase(lang) ? "AR" : "EN";
+        String language = AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(lang) ? "AR" : "EN";
 
         String fileName = switch (type) {
-            case "BRANCH" -> "mock-%s-branch.json".formatted(language);
-            case "ATM" -> "mock-%s-atm.json".formatted(language);
-            case "KIOSK" -> "mock-%s-kiosk.json".formatted(language);
+            case AppConstant.BRANCH -> "mock-%s-branch.json".formatted(language);
+            case AppConstant.ATM -> "mock-%s-atm.json".formatted(language);
+            case AppConstant.KIOSK -> "mock-%s-kiosk.json".formatted(language);
             default -> null;
         };
 
