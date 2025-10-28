@@ -73,7 +73,7 @@ public class MockLocateUsServiceImpl implements LocateUsService {
 
     public List<LocateUsDTO> fetchByType(String locatorType, String lang) {
         String type = locatorType != null ? locatorType.toUpperCase() : "";
-        String language = AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(lang) ? "AR" : "EN";
+        String language = AppConstant.LANGUAGE_IN_AR.equalsIgnoreCase(lang) ? "AR" : "EN";
 
         String fileName = switch (type) {
             case AppConstant.BRANCH -> "mock-%s-branch.json".formatted(language);
