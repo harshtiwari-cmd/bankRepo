@@ -160,7 +160,215 @@ class LocateUsTest {
                 .build();
     }
 
+    @Test
+    void getService_ShouldReturnSuccess_WhenDataExists() throws Exception {
 
+        when(locateUsService.fetchByType("BRANCH", "en")).thenReturn(List.of(branchDTO));
+        when(locateUsService.fetchByType("ATM", "en")).thenReturn(List.of(atmDto));
+        when(locateUsService.fetchByType("KIOSK", "en")).thenReturn(List.of(kioskDto));
+
+        mockMvc.perform(
+                post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data[0].branches[0].locatorType").value("BRANCH"))
+                .andExpect(jsonPath("$.data[0].branches[0].city").value("Doha"));
+
+    }
+
+    @Test
+    void getService_ShouldReturnNoData_WhenAllEmpty() throws Exception {
+        when(locateUsService.fetchBranches()).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchAtms()).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchKiosks()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(
+                        post("/locate-us")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("unit", "PRD")
+                                .header("channel", "MB")
+                                .header("accept-language", "en")
+                                .header("serviceId", "LOGIN")
+                                .header("screenId", "SC_01")
+                                .header("moduleId", "MI_01")
+                                .header("subModuleId", "SMI_01")
+                                .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000404"))
+                .andExpect(jsonPath("$.status.description").value("No Data Found"))
+                .andExpect(jsonPath("$.data.length()").value(0));
+
+    }
+
+    @Test
+    void getService_ShouldReturnSuccess_WhenOnlyBranchesExist() throws Exception {
+        when(locateUsService.fetchByType("ATM", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("KIOSK", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("BRANCH", "en")).thenReturn(List.of(branchDTO));
+
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data[0].branches").isArray())
+                .andExpect(jsonPath("$.data[0].branches[0].city").value("Doha"))
+                .andExpect(jsonPath("$.data[0].branches[0].country").value("Qatar"))
+                .andExpect(jsonPath("$.data[0].branches[0].userCreate").value("APPDATA"));
+    }
+
+    @Test
+    void getService_ShouldReturnSuccess_WhenOnlyAtmsExist() throws Exception {
+
+        when(locateUsService.fetchByType("ATM", "en")).thenReturn(List.of(atmDto));
+        when(locateUsService.fetchByType("KIOSK", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("BRANCH", "en")).thenReturn(Collections.emptyList());
+
+
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data[1].atms").isArray())
+                .andExpect(jsonPath("$.data[1].atms[0].locatorType").value("ATM"))
+                .andExpect(jsonPath("$.data[1].atms[0].status").value("OPEN"))
+                .andExpect(jsonPath("$.data[1].atms[0].fullAddress").value("DUKHAN - AMAN HOSPITAL"));
+    }
+
+    @Test
+    void getService_ShouldReturnSuccess_WhenOnlyKiosksExist() throws Exception {
+        when(locateUsService.fetchByType("ATM", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("KIOSK", "en")).thenReturn(List.of(kioskDto));
+        when(locateUsService.fetchByType("BRANCH", "en")).thenReturn(Collections.emptyList());
+
+
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status.code").value("000000"))
+                .andExpect(jsonPath("$.status.description").value("SUCCESS"))
+                .andExpect(jsonPath("$.data[2].kiosks").isArray())
+                .andExpect(jsonPath("$.data[2].kiosks[0].locatorType").value("KIOSK"))
+                .andExpect(jsonPath("$.data[2].kiosks[0].status").value("OPEN"))
+                .andExpect(jsonPath("$.data[2].kiosks[0].workingHours").value("24/7"));
+
+    }
+
+    @Test
+    void getService_ShouldReturnException_WhenFetchingKiosk() throws Exception {
+        when(locateUsService.fetchByType("ATM", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("KIOSK", "en")).thenThrow(new RuntimeException("Database Error"));
+        when(locateUsService.fetchByType("BRANCH", "en")).thenReturn(Collections.emptyList());
+
+
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status.code").value("KIOSK_ERROR"))
+                .andExpect(jsonPath("$.status.description").value("Failed to fetch kiosks"))
+                .andExpect(jsonPath("$.data").doesNotExist());
+
+    }
+
+    @Test
+    void getService_ShouldReturnException_WhenFetchingBranches() throws Exception {
+
+        when(locateUsService.fetchByType("ATM", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("KIOSK", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("BRANCH", "en")).thenThrow(new RuntimeException("Database Error"));
+
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status.code").value("BRANCH_ERROR"))
+                .andExpect(jsonPath("$.status.description").value("Failed to fetch branches"))
+                .andExpect(jsonPath("$.data").doesNotExist());
+    }
+
+
+    @Test
+    void getService_ShouldReturnException_WhenFetchingAtms() throws Exception {
+
+        when(locateUsService.fetchByType("ATM", "en")).thenThrow(new RuntimeException("Database Error"));
+        when(locateUsService.fetchByType("KIOSK", "en")).thenReturn(Collections.emptyList());
+        when(locateUsService.fetchByType("BRANCH", "en")).thenReturn(Collections.emptyList());
+        mockMvc.perform(post("/locate-us")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("unit", "PRD")
+                        .header("channel", "MB")
+                        .header("accept-language", "en")
+                        .header("serviceId", "LOGIN")
+                        .header("screenId", "SC_01")
+                        .header("moduleId", "MI_01")
+                        .header("subModuleId", "SMI_01")
+                        .content(objectMapper.writeValueAsString(cardBinAllWrapper))
+                )
+
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status.code").value("ATM_ERROR"))
+                .andExpect(jsonPath("$.status.description").value("Failed to fetch ATMs"))
+                .andExpect(jsonPath("$.data").doesNotExist());
+    }
 
     @Test
     void getService_shouldReturnException_whenLangIsNotSupported() throws Exception {
