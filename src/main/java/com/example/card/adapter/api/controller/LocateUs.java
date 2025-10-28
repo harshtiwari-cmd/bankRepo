@@ -52,9 +52,9 @@ public class LocateUs {
             CompletableFuture<Map<String, List<LocateUsDTO>>> allTypesFuture = locateUsService.fetchAllTypesAsync(language);
             Map<String, List<LocateUsDTO>> allTypes = allTypesFuture.get();
 
-            List<LocateUsDTO> branches = allTypes.get("branches");
-            List<LocateUsDTO> atms = allTypes.get("atms");
-            List<LocateUsDTO> kiosks = allTypes.get("kiosks");
+            List<LocateUsDTO> branches = allTypes.get(AppConstant.BRANCHES);
+            List<LocateUsDTO> atms = allTypes.get(AppConstant.ATMS);
+            List<LocateUsDTO> kiosks = allTypes.get(AppConstant.KIOSKS);
 
             if (branches.isEmpty() && atms.isEmpty() && kiosks.isEmpty()) {
                 log.warn("Failed to load: no data found");
@@ -63,17 +63,21 @@ public class LocateUs {
 
             List<Map<String, List<Object>>> data = new ArrayList<>();
             List<Object> branchesList = new ArrayList<>();
-            branchesList.add(Collections.singletonMap("image", locateUsService.getImageForType("BRANCH")));
+
+            branchesList.add(Collections.singletonMap(AppConstant.IMAGE, locateUsService.getImageForType("BRANCH")));
             branchesList.addAll(branches);
-            data.add(Collections.singletonMap("branches", branchesList));
+
+            data.add(Collections.singletonMap(AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(language) ? AppConstant.BRANCHES : AppConstant.BRANCHES_IN_AR, branchesList));
             List<Object> atmsList = new ArrayList<>();
-            atmsList.add(Collections.singletonMap("image", locateUsService.getImageForType("ATM")));
+            atmsList.add(Collections.singletonMap(AppConstant.IMAGE, locateUsService.getImageForType("ATM")));
             atmsList.addAll(atms);
-            data.add(Collections.singletonMap("atms", atmsList));
+
+            data.add(Collections.singletonMap(AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(language) ? AppConstant.ATMS : AppConstant.ATMS_IN_AR, atmsList));
             List<Object> kiosksList = new ArrayList<>();
-            kiosksList.add(Collections.singletonMap("image", locateUsService.getImageForType("KIOSK")));
+            kiosksList.add(Collections.singletonMap(AppConstant.IMAGE, locateUsService.getImageForType("KIOSK")));
             kiosksList.addAll(kiosks);
-            data.add(Collections.singletonMap("kiosks", kiosksList));
+
+            data.add(Collections.singletonMap(AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(language) ? AppConstant.KIOSKS : AppConstant.KIOSKS_IN_AR, kiosksList));
             GenericResponse<List<Map<String, List<Object>>>> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), data);
             log.info("Successfully fetched all data");

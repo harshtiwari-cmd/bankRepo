@@ -4,6 +4,22 @@ import java.util.Set;
 
 public class AppConstant {
 
+    public static final String OPEN_IN_EN = "OPEN";
+    public static final String OPEN_IN_AR = "مفتوح";
+
+    public static final String CLOSE_IN_EN = "CLOSED";
+    public static final String CLOSE_IN_AR = "مغلق";
+
+    public static final String UNKNOWN = "UNKNOWN";
+
+    public static final String COUNTRY_IN_AR = "قطر";
+
+    public static final String LANGUAGE_IN_EN = "en";
+    public static final String LANGUAGE_IN_AR = "ar";
+
+    public static final String IMAGE = "image";
+    public static final String ZONE_ID = "Asia/Qatar";
+
     public static final String MODULE_ID = "moduleId";
     public static final String SUB_MODULE_ID = "subModuleId";
     public static final String BRANCH_CODE = "branchCode";
@@ -32,16 +48,25 @@ public class AppConstant {
     public static final String USER_NAME = "userName";
     public static final String CLIENT_SESSION_KEY = "clientSessionKey";
     public static final String SESSION_KEY = "sessionKey";
-    public static final String BRANCH = "BRANCH";
-    public static final String ATM = "ATM";
+
     public static final String VALIDATION_FAILURE_CODE = "000500";
     public static final String INVALID_PIN_BLOCK = "INVALID PIN BLOCK";
 
     public static final String VALIDATION_FAILURE_DESC = "Internal server error";
+
+    public static final String BRANCH = "BRANCH";
+    public static final String ATM = "ATM";
     public static final String KIOSK = "KIOSK";
-    public static final String BRANCHS = "branches";
+
+    public static final String BRANCHES_IN_AR = "فروع";
+    public static final String KIOSKS_IN_AR = "أكشاك";
+    public static final String ATMS_IN_AR = "إيه تي إم إس";
+
+
+    public static final String BRANCHES = "branches";
     public static final String ATMS = "atms";
     public static final String KIOSKS = "kiosks";
+
     public static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
 
     public static final String PUBLIC_URL = "/public";

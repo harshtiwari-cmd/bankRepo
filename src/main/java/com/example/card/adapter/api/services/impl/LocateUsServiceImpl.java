@@ -7,6 +7,7 @@ import com.example.card.domain.dto.BankBranchDTO;
 import com.example.card.domain.dto.CoordinatesDTO;
 import com.example.card.domain.dto.KioskResponseDTO;
 import com.example.card.domain.dto.LocateUsDTO;
+import com.example.card.infrastructure.common.AppConstant;
 import com.example.card.repository.LocateUsImagesRepository;
 import com.example.card.repository.RbxTLocatorNewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,31 +46,23 @@ public class LocateUsServiceImpl implements LocateUsService {
 
         if (allRows == null || allRows.isEmpty()) {
             Map<String, List<LocateUsDTO>> emptyResult = new HashMap<>();
-            emptyResult.put("branches", Collections.emptyList());
-            emptyResult.put("atms", Collections.emptyList());
-            emptyResult.put("kiosks", Collections.emptyList());
+            emptyResult.put(AppConstant.BRANCHES, Collections.emptyList());
+            emptyResult.put(AppConstant.ATMS, Collections.emptyList());
+            emptyResult.put(AppConstant.KIOSKS, Collections.emptyList());
             return CompletableFuture.completedFuture(emptyResult);
         }
 
-        Map<String, List<LocateUsDTO>> result = allRows.stream()
+        Map<String, List<LocateUsDTO>> grouped = allRows.stream()
                 .map(entity -> mapToUnifiedDto(entity, lang))
-                .collect(Collectors.groupingBy(
-                        dto -> dto.getLocatorType().toLowerCase(),
-                        Collectors.toList()
-                ));
-
-        result.putIfAbsent("branch", Collections.emptyList());
-        result.putIfAbsent("atm", Collections.emptyList());
-        result.putIfAbsent("kiosk", Collections.emptyList());
+                .collect(Collectors.groupingBy(dto -> dto.getLocatorType().toLowerCase()));
 
         Map<String, List<LocateUsDTO>> finalResult = new HashMap<>();
-        finalResult.put("branches", result.getOrDefault("branch", Collections.emptyList()));
-        finalResult.put("atms", result.getOrDefault("atm", Collections.emptyList()));
-        finalResult.put("kiosks", result.getOrDefault("kiosk", Collections.emptyList()));
+        finalResult.put(AppConstant.BRANCHES, grouped.getOrDefault("branch", Collections.emptyList()));
+        finalResult.put(AppConstant.ATMS, grouped.getOrDefault("atm", Collections.emptyList()));
+        finalResult.put(AppConstant.KIOSKS, grouped.getOrDefault("kiosk", Collections.emptyList()));
 
         return CompletableFuture.completedFuture(finalResult);
     }
-
     @Override
     public String getImageForType(String locatorType) {
         if (locatorType == null) {
@@ -77,9 +70,9 @@ public class LocateUsServiceImpl implements LocateUsService {
         }
 
         switch (locatorType.toUpperCase()) {
-            case "BRANCH":
-            case "ATM":
-            case "KIOSK":
+            case AppConstant.BRANCH:
+            case AppConstant.ATM:
+            case AppConstant.KIOSK:
                 return imagesRepository.findByLocatorType(locatorType).getImage();
             default:
                 throw new IllegalArgumentException("Unsupported locator type: " + locatorType);
@@ -105,7 +98,7 @@ public class LocateUsServiceImpl implements LocateUsService {
                 .onlineLocation(e.getOnlineLocation())
                 .timing(e.getTiming())
                 .typeLocation(e.getTypeLocation())
-                .status(calculateStatus(e))
+                .status(calculateStatus(e, lang))
                 .dateCreate(e.getDateCreate())
                 .userCreate(e.getUserCreate())
                 .dateModif(e.getDateModif())
@@ -121,6 +114,7 @@ public class LocateUsServiceImpl implements LocateUsService {
             locateUsDTO.setName(e.getArabicName());
             locateUsDTO.setFullAddress(e.getFullAddressArb());
             locateUsDTO.setCity(e.getCityInArabic());
+            locateUsDTO.setCountry(AppConstant.COUNTRY_IN_AR);
             locateUsDTO.setWorkingHours(e.getWorkingHoursInArb());
         } else {
             locateUsDTO.setName(e.getName());
@@ -142,22 +136,23 @@ public class LocateUsServiceImpl implements LocateUsService {
         }
     }
 
-    private String calculateStatus(RbxTLocatorNewEntity e) {
+    private String calculateStatus(RbxTLocatorNewEntity e, String lang) {
         String working = e.getWorkingHours();
         if (working == null || working.isBlank()) {
             working = e.getTiming();
         }
-        if (working == null) return "UNKNOWN";
+        if (working == null) return AppConstant.UNKNOWN;
 
         String normalized = normalizeWorkingHours(working);
         if (normalized.toUpperCase().contains("24/7") || normalized.toUpperCase().contains("24X7") || normalized.toUpperCase().contains("24 X 7")) {
-            return "OPEN";
+            return AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(lang) ? AppConstant.OPEN_IN_EN : AppConstant.OPEN_IN_AR;
+
         }
 
         Map<DayOfWeek, List<TimeWindow>> schedule = parseSchedule(normalized);
-        if (schedule.isEmpty()) return "CLOSED";
+        if (schedule.isEmpty()) return AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(lang) ? AppConstant.CLOSE_IN_EN : AppConstant.CLOSE_IN_AR;
 
-        ZoneId zoneId = ZoneId.of("Asia/Qatar");
+        ZoneId zoneId = ZoneId.of(AppConstant.ZONE_ID);
         Optional<TemporalAccessor> nowOptional = dateTimeProvider.getNow();
         LocalDateTime now = nowOptional
                 .map(LocalDateTime::from)
@@ -173,10 +168,12 @@ public class LocateUsServiceImpl implements LocateUsService {
             } else {
                 open = !current.isBefore(w.start) && !current.isAfter(w.end);
             }
-            if (open) return "OPEN";
+            if (open) return AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(lang) ? AppConstant.OPEN_IN_EN : AppConstant.OPEN_IN_AR;
+
         }
 
-        return "CLOSED";
+         return AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(lang) ? AppConstant.CLOSE_IN_EN : AppConstant.CLOSE_IN_AR;
+
     }
 
 
