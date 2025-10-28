@@ -4,7 +4,45 @@ import java.util.Set;
 
 public class AppConstant {
 
-    public static final String MICROSERVICE_ID = "ACCOUNTS";
+    public static final String MODULE_ID = "moduleId";
+    public static final String SUB_MODULE_ID = "subModuleId";
+    public static final String BRANCH_CODE = "branchCode";
+    public static final String CUSTOMER_NO = "customerNumber";
+    public static final String STATUS_ACT = "ACT";
+    public static final String DEFAULT_LANGUAGE = "en";
+    public static final String LANGUAGE_ERROR = "ACT";
+    public static final String LANGUAGE_ERROR_DESC = "LANGUAGE ERROR";
+    public static final String SCREEN_ID = "screenId";
+    public static final String MICROSERVICE_ID = "COMMON";
+    public static final String DATE_RANGE = "DATE_RANGE";
+    public static final String DATE_FORMATE = "yyyy-MM-dd";
+    public static final String RATE_FORMATE = "0.00";
+    public static final String COUNTRY_CODE = "DOHA";
+
+    public static final String RESULT_CODE = "000000";
+    public static final String RESULT_DESC = "SUCCESS";
+    public static final String ERROR_CODE= "G-00001";
+    public static final String SUCCESS = "Successfully processed";
+    public static final String NODATA = "NO DATA CONTENT";
+    public static final String FAILURECODE = "000001";
+    public static final String GEN_ERROR_CODE = "000500";
+    public static final String GEN_ERROR_DESC = "Unable to process your request,Please contact Customer Care for futher assistance or try again later";
+    public static final String VIEW_RMPROFILE = "VIEW_RMPROFILE";
+    public static final String DEFAULT_USER = "default_user";
+    public static final String USER_NAME = "userName";
+    public static final String CLIENT_SESSION_KEY = "clientSessionKey";
+    public static final String SESSION_KEY = "sessionKey";
+    public static final String BRANCH = "BRANCH";
+    public static final String ATM = "ATM";
+    public static final String VALIDATION_FAILURE_CODE = "000500";
+    public static final String INVALID_PIN_BLOCK = "INVALID PIN BLOCK";
+
+    public static final String VALIDATION_FAILURE_DESC = "Internal server error";
+    public static final String KIOSK = "KIOSK";
+    public static final String BRANCHS = "branches";
+    public static final String ATMS = "atms";
+    public static final String KIOSKS = "kiosks";
+    public static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
 
     public static final String PUBLIC_URL = "/public";
 
@@ -42,7 +80,6 @@ public class AppConstant {
 
     public static final int RSA_KEY_SIZE = 2048;
 
-    public static final String STATUS_ACT = "ACT";
 
     public static final String CHANNEL_MB = "MB";
 
@@ -52,23 +89,55 @@ public class AppConstant {
 
     public static final String LOGIN_SERVICE_ID = "LOGIN";
 
-    public static final String SUCCESS = "SUCCESS";
-    public static final String NODATA = "NO DATA CONTENT";
 
     public static final String ACT = "000000";
 
-    public static final String RESULT_CODE = "000000";
     public static final String NO_DATA_CODE = "000404";
-
+    public static final String ERROR_DATA_CODE = "000400";
+    public static final String USER_BLOCKED = "000411";
+    public static final String USER_BLOCKED_DATA_MSG = "User blocked by bank";
+    public static final String CARD_MESSAGE = "CARD_NOT_VALID_MUST_USE_DEBIT";
+    public static final String BIN_VALIDATE_DATA_MSG = "Incorrect card details";
+    public static final String PIN_ENCRYPT_DATA_MSG = "PIN_ENCRYPTION_FAILED";
+    public static final String RETRY_DATA_CODE = "000419";
+    public static final String RETRY_DATA_MSG = "Retry after 24hrs";
+    public static final String USER_NOT_FOUND_CODE = "000421";
+    public static final String USER_NOT_FOUND_MSG = "Username not available";
+    public static final String OTP_LIMIT= "000413";
+    public static final String OTP_GENERATE= "000414";
+    public static final String INNER_SERVICE= "000503";
+    public static final String OTP_LIMIT_MSG= "OTP blocked for max failure attempts";
+    public static final String INNER_SERVICE_MSG= "Service Unavailable";
+    public static final String OTP_GENERATE_MSG= "OTP Generation failed";
+    public static final String INVALID_ATTAMPTS_CODE = "000418";
+    public static final String INVALID_ATTAMPTS_MSG = "Max invalid attempts reached for card validation";
+    public static final String DCARD_SERVICE = "DCARD.PIN.VERIFICATION";
+    public static final String CARD_NUMBER = "cardNumber";
+    public static final String PIN = "pin";
+    public static final String DEFAULT_UNIT = "DEFAULT";
+    public static final String DEFAULT_CHANNEL = "WEB";
+    public static final String DEFAULT_SERVICEID = "OTP_SERVICE";
+    public static final String DEFAULT_SCREENID = "LOGIN_SCREEN";
+    public static final String DEFAULT_MODULEID = "AUTH_MODULE";
+    public static final String DEFAULT_SUNMODULEID = "OTP_SUBMODULE";
+    public static final String LOCKED = "LOCKED";
+    public static final String BLOCKED = "BLOCKED";
+    public static final String INVALID = "INACTIVE";
+    public static final String OTP_FORGET = "forget";
     public static final String MWRESULT_CODE = "0";
 
     public static final String SOAP_RESULT_CODE = "0";
 
     public static final String ACCOUNT = "0";
 
-    public static final String GEN_ERROR_CODE = "000001";
 
-    public static final String GEN_ERROR_DESC = "Unable to process your request,Please contact Customer Care for futher assistance or try again later";
+
+    public static final String CARD_LENGTH_ERROR_CODE = "000400";
+
+    public static final String CARD_LENGTH_ERROR_DESC = "Card number must be at least 16 digits";
+    public static final String CARD_PIN_LENGTH_ERROR_DESC = "Card pin must be at least 4 digits";
+
+
 
     public static final String GLOBAL_ID = "globalId";
     public static final String GUID = "guid";
@@ -91,9 +160,6 @@ public class AppConstant {
     public static final String STATEMENT_REQ_PATH = "/statement";
     public static final String STATEMENT_ACC_LIST_PATH = "/acc-list";
     public static final String GLOBAL_ACC_SUMMARY = "globalAccSummary";
-
-    public static final Set<String> SUPPORTED_LANGUAGES = Set.of("en", "ar");
-
     public static final String ACCOUT_PAGE_RES_SCHEMA = """
 				{
 				"status": {
@@ -156,7 +222,6 @@ public class AppConstant {
 
     public static final String FUNCTION_ID = "functionId";
 
-    public static final String BRANCH_CODE = "branchCode";
 
     public static final String DATETIME = "dateTime";
 
@@ -197,11 +262,8 @@ public class AppConstant {
 	    }
 	    """;
 
-    public static final String MODULE_ID = "moduleId";
 
-    public static final String SUB_MODULE_ID = "subModuleId";
 
-    public static final String SCREEN_ID = "screenId";
 
     public static final String SUCCESS_CODE = "200";
 
@@ -271,15 +333,10 @@ public class AppConstant {
     public static final String NO_DATA = "no_data";
 
     public static final String NOT_FOUND = "no_found";
-    public static final String CLIENT_SESSION_KEY = "clientSessionKey";
 
-    public static final String SESSION_KEY = "sessionKey";
-
-    public static final String CUSTOMER_NO = "customerNumber";
 
     public static final String ACCOUNT_NUM = "accountNum";
 
-    public static final String USER_NAME = "userName";
 
     public static final String OTP_REF_NO = "otpRefNo";
 
@@ -369,5 +426,20 @@ public class AppConstant {
 
     public static final String EXCLUDE_ACC = "EXCLUDE_ACC";
 
+
+    public static final String NOT_FOUND_CODE = "000404";
+    public static final String NOT_FOUND_DESC = "No Data Found";
+
+    public static final String SERVICE_UNAVAILABLE_CODE = "000503";
+    public static final String SERVICE_UNAVAILABLE_DESC = "Service Unavailable";
+
+    public static final String REQUEST_TIMEOUT_CODE = "000408";
+    public static final String REQUEST_TIMEOUT_DESC = "Request Timeout";
+
+    public static final String DUPLICATE_REQUEST_CODE = "000409";
+    public static final String DUPLICATE_REQUEST_DESC = "Duplicate request";
+
+    public static final String BAD_REQUEST_CODE = "000400";
+    public static final String BAD_REQUEST_DESC = "Bad Request";
 
 }

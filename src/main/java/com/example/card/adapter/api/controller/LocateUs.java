@@ -45,7 +45,7 @@ public class LocateUs {
         String language = (lang == null || lang.trim().isEmpty()) ? "en" : lang.trim().toLowerCase();
         if (!SUPPORTED_LANGUAGES.contains(language)) {
             log.warn("Unsupported language received: {}", lang);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status( "G-00000", "Unsupported language. Use 'ar' or 'en'."), null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponse<>(new Status("G-00000", "Unsupported language. Use 'ar' or 'en'."), null));
         }
 
         try {
@@ -62,25 +62,18 @@ public class LocateUs {
             }
 
             List<Map<String, List<Object>>> data = new ArrayList<>();
-
-            // Branches list
             List<Object> branchesList = new ArrayList<>();
             branchesList.add(Collections.singletonMap("image", locateUsService.getImageForType("BRANCH")));
             branchesList.addAll(branches);
             data.add(Collections.singletonMap("branches", branchesList));
-
-            // ATMs list
             List<Object> atmsList = new ArrayList<>();
             atmsList.add(Collections.singletonMap("image", locateUsService.getImageForType("ATM")));
             atmsList.addAll(atms);
             data.add(Collections.singletonMap("atms", atmsList));
-
-            // Kiosks list
             List<Object> kiosksList = new ArrayList<>();
             kiosksList.add(Collections.singletonMap("image", locateUsService.getImageForType("KIOSK")));
             kiosksList.addAll(kiosks);
             data.add(Collections.singletonMap("kiosks", kiosksList));
-
             GenericResponse<List<Map<String, List<Object>>>> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), data);
             log.info("Successfully fetched all data");

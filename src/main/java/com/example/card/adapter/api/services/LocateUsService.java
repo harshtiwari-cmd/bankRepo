@@ -11,10 +11,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public interface LocateUsService {
-    List<BankBranchDTO> fetchBranches();
-    List<AtmResponseDto> fetchAtms();
-    List<KioskResponseDTO> fetchKiosks();
-    List<LocateUsDTO> fetchAllUnified();
     CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang);
     String getImageForType(String locatorType) throws IOException;
 }

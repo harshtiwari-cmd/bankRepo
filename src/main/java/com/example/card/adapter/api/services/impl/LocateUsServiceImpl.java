@@ -11,6 +11,7 @@ import com.example.card.repository.LocateUsImagesRepository;
 import com.example.card.repository.RbxTLocatorNewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.time.temporal.TemporalAccessor;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -37,49 +33,16 @@ public class LocateUsServiceImpl implements LocateUsService {
     private RbxTLocatorNewRepository repository;
 
     @Autowired
+    private DateTimeProvider dateTimeProvider;
+
+    @Autowired
     private LocateUsImagesRepository imagesRepository;
-
-    @Override
-    public List<BankBranchDTO> fetchBranches() {
-        List<RbxTLocatorNewEntity> rows = repository.findByLocatorTypeIgnoreCase("BRANCH");
-        if (rows == null || rows.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return rows.stream().map(this::mapToBranchDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AtmResponseDto> fetchAtms() {
-        List<RbxTLocatorNewEntity> rows = repository.findByLocatorTypeIgnoreCase("ATM");
-        if (rows == null || rows.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return rows.stream().map(this::mapToAtmDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<KioskResponseDTO> fetchKiosks() {
-        List<RbxTLocatorNewEntity> rows = repository.findByLocatorTypeIgnoreCase("KIOSK");
-        if (rows == null || rows.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return rows.stream().map(this::mapToKioskDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LocateUsDTO> fetchAllUnified() {
-        List<RbxTLocatorNewEntity> rows = repository.findAll();
-        if (rows == null || rows.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return rows.stream().map(entity -> mapToUnifiedDto(entity, "")).collect(Collectors.toList());
-    }
 
     @Async
     @Override
     public CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang) {
         List<RbxTLocatorNewEntity> allRows = repository.findAll();
-        
+
         if (allRows == null || allRows.isEmpty()) {
             Map<String, List<LocateUsDTO>> emptyResult = new HashMap<>();
             emptyResult.put("branches", Collections.emptyList());
@@ -91,8 +54,8 @@ public class LocateUsServiceImpl implements LocateUsService {
         Map<String, List<LocateUsDTO>> result = allRows.stream()
                 .map(entity -> mapToUnifiedDto(entity, lang))
                 .collect(Collectors.groupingBy(
-                    dto -> dto.getLocatorType().toLowerCase(),
-                    Collectors.toList()
+                        dto -> dto.getLocatorType().toLowerCase(),
+                        Collectors.toList()
                 ));
 
         result.putIfAbsent("branch", Collections.emptyList());
@@ -123,76 +86,6 @@ public class LocateUsServiceImpl implements LocateUsService {
         }
     }
 
-    private BankBranchDTO mapToBranchDto(RbxTLocatorNewEntity e) {
-        BankBranchDTO dto = new BankBranchDTO();
-        dto.setId(null);
-        dto.setBankName(null);
-        dto.setBankBranchName(e.getArabicName());
-        dto.setBranchNumber(e.getCode());
-        dto.setDescription(e.getFacility());
-        dto.setBankBranchType(e.getTypeLocation());
-        dto.setCountryName(e.getCountry());
-        dto.setCoordinates(null);
-        dto.setOpenTime(null);
-        dto.setAddress(e.getAddress());
-        dto.setLocation(e.getCity());
-        dto.setContact(e.getContactDetails());
-        dto.setCloseTime(null);
-        dto.setHolidayCalendar(null);
-        dto.setWeeklyHolidays(null);
-        dto.setStatus("ACTIVE");
-        return dto;
-    }
-
-    private AtmResponseDto mapToAtmDto(RbxTLocatorNewEntity e) {
-        return AtmResponseDto.builder()
-                .id(null)
-                .arabicName(e.getArabicName())
-                .cashDeposit(e.getCashDeposit() != null && e.getCashDeposit() == 1)
-                .cashOut(e.getCashOut() != null && e.getCashOut() == 1)
-                .chequeDeposit(e.getChequeDeposit() != null && e.getChequeDeposit() == 1)
-                .city(e.getCity())
-                .cityInArabic(e.getCityInArabic())
-                .code(e.getCode())
-                .contactDetails(e.getContactDetails())
-                .country(e.getCountry())
-                .disablePeople(e.getDisablePeople() != null && e.getDisablePeople() == 1)
-                .fullAddress(e.getFullAddress())
-                .fullAddressArb(e.getFullAddressArb())
-                .latitude(e.getLatitude())
-                .longitude(e.getLongitude())
-                .onlineLocation(e.getOnlineLocation() != null && e.getOnlineLocation() == 1)
-                .timing(e.getTiming())
-                .locatorType(e.getLocatorType())
-                .workingHours(e.getWorkingHours())
-                .workingHoursInArb(e.getWorkingHoursInArb())
-                .searchString(e.getSearchString())
-                .facility(e.getFacility())
-                .address(e.getAddress())
-                .atmType(e.getAtmType())
-                .currencySupported(e.getCurrencySupported())
-                .isActive(e.getIsActive())
-                .installationDate(e.getInstallationDate())
-                .maintenanceVendor(e.getMaintenanceVendor())
-                .build();
-    }
-
-    private KioskResponseDTO mapToKioskDto(RbxTLocatorNewEntity e) {
-        KioskResponseDTO dto = new KioskResponseDTO();
-        dto.setKioskId(e.getCode());
-        dto.setBranchId(null);
-        dto.setName(e.getArabicName());
-        dto.setDescription(e.getFacility());
-        dto.setLocation(null);
-        dto.setCoordinates(parseCoordinates(e));
-        dto.setKioskServices(null);
-        dto.setOpenTime(null);
-        dto.setCloseTime(null);
-        dto.setHolidayCalendar(null);
-        dto.setWeeklyHolidays(null);
-        return dto;
-    }
-
     private LocateUsDTO mapToUnifiedDto(RbxTLocatorNewEntity e, String lang) {
 
 
@@ -200,15 +93,10 @@ public class LocateUsServiceImpl implements LocateUsService {
                 .locatorType(e.getLocatorType())
                 .searchString(e.getSearchString())
                 .coordinates(parseCoordinates(e))
-
                 .facility(e.getFacility())
-//                .address(e.getAddress())
-
                 .cashDeposit(e.getCashDeposit())
                 .cashOut(e.getCashOut())
                 .chequeDeposit(e.getChequeDeposit())
-
-
                 .code(e.getCode())
                 .contactDetails(e.getContactDetails())
                 .country(e.getCountry())
@@ -217,15 +105,11 @@ public class LocateUsServiceImpl implements LocateUsService {
                 .onlineLocation(e.getOnlineLocation())
                 .timing(e.getTiming())
                 .typeLocation(e.getTypeLocation())
-
-
                 .status(calculateStatus(e))
-
                 .dateCreate(e.getDateCreate())
                 .userCreate(e.getUserCreate())
                 .dateModif(e.getDateModif())
                 .userModif(e.getUserModif())
-
                 .maintenanceVendor(e.getMaintenanceVendor())
                 .atmType(e.getAtmType())
                 .currencySupported(e.getCurrencySupported())
@@ -273,8 +157,11 @@ public class LocateUsServiceImpl implements LocateUsService {
         Map<DayOfWeek, List<TimeWindow>> schedule = parseSchedule(normalized);
         if (schedule.isEmpty()) return "CLOSED";
 
-        ZoneId zoneId = ZoneId.of("Asia/Qatar"); // Force Qatar time
-        LocalDateTime now = LocalDateTime.now(zoneId);
+        ZoneId zoneId = ZoneId.of("Asia/Qatar");
+        Optional<TemporalAccessor> nowOptional = dateTimeProvider.getNow();
+        LocalDateTime now = nowOptional
+                .map(LocalDateTime::from)
+                .orElse(LocalDateTime.now(zoneId));
         LocalTime current = now.toLocalTime();
         DayOfWeek today = now.getDayOfWeek();
 
@@ -292,12 +179,12 @@ public class LocateUsServiceImpl implements LocateUsService {
         return "CLOSED";
     }
 
-// --- Helper classes & methods ---
 
     private static class TimeWindow {
         final LocalTime start;
         final LocalTime end;
         final boolean crossesMidnight;
+
         TimeWindow(LocalTime start, LocalTime end, boolean crossesMidnight) {
             this.start = start;
             this.end = end;
@@ -433,7 +320,8 @@ public class LocateUsServiceImpl implements LocateUsService {
         for (DateTimeFormatter f : formatters) {
             try {
                 return LocalTime.parse(normalized, f);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
         return null;
     }
