@@ -110,7 +110,7 @@ public class LocateUsServiceImpl implements LocateUsService {
                 .installationDate(e.getInstallationDate())
                 .build();
 
-        if ("ar".equalsIgnoreCase(lang)) {
+        if (AppConstant.LANGUAGE_IN_AR.equalsIgnoreCase(lang)) {
             locateUsDTO.setName(e.getArabicName());
             locateUsDTO.setFullAddress(e.getFullAddressArb());
             locateUsDTO.setCity(e.getCityInArabic());
