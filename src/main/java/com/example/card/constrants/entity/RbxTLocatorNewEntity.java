@@ -118,6 +118,7 @@ public class RbxTLocatorNewEntity {
 
     @Column(name = "installation_date")
     private Date installationDate;
+
 }
 
 

@@ -67,17 +67,17 @@ public class LocateUs {
             branchesList.add(Collections.singletonMap(AppConstant.IMAGE, locateUsService.getImageForType("BRANCH")));
             branchesList.addAll(branches);
 
-            data.add(Collections.singletonMap(AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(language) ? AppConstant.BRANCHES : AppConstant.BRANCHES_IN_AR, branchesList));
+            data.add(Collections.singletonMap(AppConstant.BRANCHES, branchesList));
             List<Object> atmsList = new ArrayList<>();
             atmsList.add(Collections.singletonMap(AppConstant.IMAGE, locateUsService.getImageForType("ATM")));
             atmsList.addAll(atms);
 
-            data.add(Collections.singletonMap(AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(language) ? AppConstant.ATMS : AppConstant.ATMS_IN_AR, atmsList));
+            data.add(Collections.singletonMap(AppConstant.ATMS, atmsList));
             List<Object> kiosksList = new ArrayList<>();
             kiosksList.add(Collections.singletonMap(AppConstant.IMAGE, locateUsService.getImageForType("KIOSK")));
             kiosksList.addAll(kiosks);
 
-            data.add(Collections.singletonMap(AppConstant.DEFAULT_LANGUAGE.equalsIgnoreCase(language) ? AppConstant.KIOSKS : AppConstant.KIOSKS_IN_AR, kiosksList));
+            data.add(Collections.singletonMap(AppConstant.KIOSKS, kiosksList));
             GenericResponse<List<Map<String, List<Object>>>> response =
                     new GenericResponse<>(new Status("000000", "SUCCESS"), data);
             log.info("Successfully fetched all data");

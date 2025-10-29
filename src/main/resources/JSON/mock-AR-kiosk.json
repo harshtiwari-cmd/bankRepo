@@ -1,6 +1,6 @@
 [
   {
-    "locatorType": "KIOSK",
+    "locatorType": "كيوسك",
     "searchString": null,
     "coordinates": {
       "latitude": 25.28461111,
@@ -27,7 +27,7 @@
     "dateModif": "2025-06-01T04:45:00.000+00:00",
     "userModif": "APPDATA",
     "maintenanceVendor": null,
-    "atmType": "KIOSK",
+    "atmType": "كيوسك",
     "currencySupported": null,
     "isActive": "Y",
     "installationDate": null
