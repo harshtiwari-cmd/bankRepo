@@ -1,5 +1,6 @@
 package com.example.card.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.Date;
@@ -51,6 +52,7 @@ public class LocateUsDTO {
     private String isActive; // 'Y' or 'N'
     private Date installationDate;
 
+    @JsonIgnore
     private String originalLocatorType;
 }
 
