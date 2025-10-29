@@ -50,6 +50,8 @@ public class LocateUsDTO {
     private String currencySupported;
     private String isActive; // 'Y' or 'N'
     private Date installationDate;
+
+    private String originalLocatorType;
 }
 
 

@@ -61,9 +61,10 @@ public class AppConstant {
     public static final String ATM = "ATM";
     public static final String KIOSK = "KIOSK";
 
-    public static final String BRANCHES_IN_AR = "فروع";
-    public static final String KIOSKS_IN_AR = "أكشاك";
-    public static final String ATMS_IN_AR = "إيه تي إم إس";
+    public static final String BRANCHES_IN_AR = "فرع";
+    public static final String ATMS_IN_AR = "ايه تي إم";
+    public static final String KIOSKS_IN_AR = "كيوسك";
+
 
 
     public static final String BRANCHES = "branches";

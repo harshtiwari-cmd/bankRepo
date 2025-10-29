@@ -71,7 +71,7 @@ public class AtmController {
         } catch (Exception e) {
             log.error("Failed to fetch ATMs: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse<>(new Status("ATM_ERROR", "Failed to fetch ATMs"), null));
+                    .body(new GenericResponse<>(new Status("000500", "Failed to fetch ATMs"), null));
 
         }
 

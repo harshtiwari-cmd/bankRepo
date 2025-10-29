@@ -1,6 +1,6 @@
 [
   {
-    "locatorType": "BRANCH",
+    "locatorType": "فرع",
     "searchString": null,
     "coordinates": {
       "latitude": 25.28461111,
@@ -27,7 +27,7 @@
     "dateModif": null,
     "userModif": null,
     "maintenanceVendor": null,
-    "atmType": "BRANCH",
+    "atmType": "فرع",
     "currencySupported": null,
     "isActive": "Y",
     "installationDate": null

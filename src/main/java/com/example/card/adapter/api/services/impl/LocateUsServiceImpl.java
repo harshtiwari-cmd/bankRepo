@@ -44,25 +44,19 @@ public class LocateUsServiceImpl implements LocateUsService {
     public CompletableFuture<Map<String, List<LocateUsDTO>>> fetchAllTypesAsync(String lang) {
         List<RbxTLocatorNewEntity> allRows = repository.findAll();
 
-        if (allRows == null || allRows.isEmpty()) {
-            Map<String, List<LocateUsDTO>> emptyResult = new HashMap<>();
-            emptyResult.put(AppConstant.BRANCHES, Collections.emptyList());
-            emptyResult.put(AppConstant.ATMS, Collections.emptyList());
-            emptyResult.put(AppConstant.KIOSKS, Collections.emptyList());
-            return CompletableFuture.completedFuture(emptyResult);
-        }
-
         Map<String, List<LocateUsDTO>> grouped = allRows.stream()
                 .map(entity -> mapToUnifiedDto(entity, lang))
-                .collect(Collectors.groupingBy(dto -> dto.getLocatorType().toLowerCase()));
+                .collect(Collectors.groupingBy(dto -> dto.getOriginalLocatorType().toLowerCase()));
 
-        Map<String, List<LocateUsDTO>> finalResult = new HashMap<>();
-        finalResult.put(AppConstant.BRANCHES, grouped.getOrDefault("branch", Collections.emptyList()));
-        finalResult.put(AppConstant.ATMS, grouped.getOrDefault("atm", Collections.emptyList()));
-        finalResult.put(AppConstant.KIOSKS, grouped.getOrDefault("kiosk", Collections.emptyList()));
+        Map<String, List<LocateUsDTO>> result = new HashMap<>();
+        result.put(AppConstant.BRANCHES, grouped.getOrDefault("branch", Collections.emptyList()));
+        result.put(AppConstant.ATMS, grouped.getOrDefault("atm", Collections.emptyList()));
+        result.put(AppConstant.KIOSKS, grouped.getOrDefault("kiosk", Collections.emptyList()));
 
-        return CompletableFuture.completedFuture(finalResult);
+        return CompletableFuture.completedFuture(result);
     }
+
+
     @Override
     public String getImageForType(String locatorType) {
         if (locatorType == null) {
@@ -84,6 +78,7 @@ public class LocateUsServiceImpl implements LocateUsService {
 
         LocateUsDTO locateUsDTO = LocateUsDTO.builder()
                 .locatorType(e.getLocatorType())
+                .originalLocatorType(e.getLocatorType())
                 .searchString(e.getSearchString())
                 .coordinates(parseCoordinates(e))
                 .facility(e.getFacility())
@@ -110,7 +105,26 @@ public class LocateUsServiceImpl implements LocateUsService {
                 .installationDate(e.getInstallationDate())
                 .build();
 
+
+
         if (AppConstant.LANGUAGE_IN_AR.equalsIgnoreCase(lang)) {
+
+            switch (e.getLocatorType()) {
+                case AppConstant.BRANCH:
+                    locateUsDTO.setLocatorType(AppConstant.BRANCHES_IN_AR);
+                    locateUsDTO.setAtmType(AppConstant.BRANCHES_IN_AR);
+                    break;
+                case AppConstant.ATM:
+                    locateUsDTO.setLocatorType(AppConstant.ATMS_IN_AR);
+                    locateUsDTO.setAtmType(AppConstant.ATMS_IN_AR);
+                    break;
+                case AppConstant.KIOSK:
+                    locateUsDTO.setLocatorType(AppConstant.KIOSKS_IN_AR);
+                    locateUsDTO.setAtmType(AppConstant.KIOSKS_IN_AR);
+                    break;
+            }
+
+
             locateUsDTO.setName(e.getArabicName());
             locateUsDTO.setFullAddress(e.getFullAddressArb());
             locateUsDTO.setCity(e.getCityInArabic());
