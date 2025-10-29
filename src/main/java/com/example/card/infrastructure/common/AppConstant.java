@@ -13,6 +13,9 @@ public class AppConstant {
     public static final String UNKNOWN = "UNKNOWN";
 
     public static final String COUNTRY_IN_AR = "قطر";
+    public static final String ATM_IN_AR = "قطر";
+    public static final String BRANCH_IN_AR = "قطر";
+    public static final String KIOSK_IN_AR = "قطر";
 
     public static final String LANGUAGE_IN_EN = "en";
     public static final String LANGUAGE_IN_AR = "ar";
