@@ -1,0 +1,29 @@
+{
+  "bankName": "Sample Bank",
+  "bankBranchName": "Main Branch",
+  "branchNumber": "123456789",
+  "description": "Main branch for city center operations",
+  "bankBranchType": "SWIFT",
+  "countryName": "India",
+  "coordinates": {
+    "latitude": 17.6868,
+    "longitude": 83.2185
+  },
+  "openTime": "09:30",
+  "closeTime": "17:30",
+  "holidayCalendar": [
+    {
+      "date": "2025-01-01",
+      "name": "New Year's Day",
+      "type": "public"
+    },
+    {
+      "date": "2025-03-29",
+      "name": "Local Bank Holiday",
+      "type": "bank"
+    }
+  ],
+  "weeklyHolidays": [
+    "Sunday"
+  ]
+}

@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BankBranchMethodsImplementation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.BankBranches.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: BankBranchMethodsImplementation (com.example.BankBranches.Services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BankBranchMethodsImplementation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BankBranchMethodsImplementation$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.BankBranches.Services;
+&nbsp;
+&nbsp;import com.example.BankBranches.DTO.BankBranchDTO;
+&nbsp;import com.example.BankBranches.DTO.Coordinates;
+&nbsp;import com.example.BankBranches.DTO.Holiday;
+&nbsp;import com.example.BankBranches.Entities.BankBranch;
+&nbsp;import com.example.BankBranches.Repositories.BankBranchRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;@Service
+<b class="fc">&nbsp;public class BankBranchMethodsImplementation implements BankBranchMethods</b>
+&nbsp;{
+&nbsp;    @Autowired
+&nbsp;    private BankBranchRepository bankBranchRepository;
+&nbsp;    @Override
+&nbsp;    @Transactional
+&nbsp;    public BankBranch saveBankBranch(BankBranchDTO branch)
+&nbsp;    {
+&nbsp;
+<b class="fc">&nbsp;        BankBranch bankBranch=new BankBranch();</b>
+<b class="fc">&nbsp;        bankBranch.setBankName(branch.getBankName());</b>
+<b class="fc">&nbsp;        bankBranch.setBankBranchName(branch.getBankBranchName());</b>
+<b class="fc">&nbsp;        bankBranch.setBranchNumber(branch.getBranchNumber());</b>
+<b class="fc">&nbsp;        bankBranch.setBankBranchType(branch.getBankBranchType());</b>
+<b class="fc">&nbsp;        bankBranch.setDescription(branch.getDescription());</b>
+<b class="fc">&nbsp;        bankBranch.setCountryName(branch.getCountryName());</b>
+<b class="fc">&nbsp;        bankBranch.setOpenTime(branch.getOpenTime());</b>
+<b class="fc">&nbsp;        bankBranch.setCloseTime(branch.getCloseTime());</b>
+&nbsp;
+<b class="fc">&nbsp;        if(branch.getCoordinates()!=null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            Coordinates coo = new Coordinates();</b>
+<b class="fc">&nbsp;            coo.setLatitude(branch.getCoordinates().getLatitude());</b>
+<b class="fc">&nbsp;            coo.setLongitude(branch.getCoordinates().getLongitude());</b>
+<b class="fc">&nbsp;            bankBranch.setCoordinates(coo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(branch.getHolidayCalendar() != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            bankBranch.setHolidayCalendar(</b>
+<b class="fc">&nbsp;                    branch.getHolidayCalendar().stream()</b>
+<b class="fc">&nbsp;                            .map(h-&gt; new Holiday(h.getDate(),h.getName(),h.getType()))</b>
+<b class="fc">&nbsp;                            .collect(Collectors.toList())</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if(branch.getWeeklyHolidays()!=null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            bankBranch.setWeeklyHolidayList(branch.getWeeklyHolidays());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return bankBranchRepository.save(bankBranch);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-09-14 11:51</div>
+</div>
+</body>
+</html>
